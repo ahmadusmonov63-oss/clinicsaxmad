@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DentaCare - Stomatologiya CRM | Boshqaruv Paneli</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Layout Container -->
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-tooth"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h3>DentaCare</h3>
+                        <span>Stomatologiya CRM</span>
+                    </div>
+                </div>
+                <button class="btn-close-sidebar" id="btnCloseSidebar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Doctor Profile Card in Sidebar -->
+            <div class="sidebar-profile">
+                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"
+                    alt="Doctor" class="profile-avatar">
+                <div class="profile-info">
+                    <h4 id="sidebarDoctorName">Dr. Ahmadbek</h4>
+                    <span class="role-badge">Bosh shifokor</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">ASOSIY MENYU</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#dashboard" class="nav-link active" data-tab="dashboard">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Boshqaruv Paneli</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#patients" class="nav-link" data-tab="patients">
+                            <i class="fa-solid fa-users"></i>
+                            <span>Bemorlar (Mijozlar)</span>
+                            <span class="badge-count" id="navPatientsCount">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#tooth-chart" class="nav-link" data-tab="tooth-chart">
+                            <i class="fa-solid fa-teeth-open"></i>
+                            <span>Tishlar Xaritasi</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#services" class="nav-link" data-tab="services">
+                            <i class="fa-solid fa-notes-medical"></i>
+                            <span>Xizmatlar & Narxlar</span>
+                            <span class="badge-count" id="navServicesCount">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#doctors" class="nav-link" data-tab="doctors">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            <span>Ishchilar & Shifokorlar</span>
+                            <span class="badge-count" id="navDoctorsCount">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#reports" class="nav-link" data-tab="reports">
+                            <i class="fa-solid fa-file-invoice-dollar"></i>
+                            <span>Oylik Hisobotlar</span>
+                            <span class="badge-count badge-live" id="navReportsCount">2026</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="clinic-shift is-247">
+                    <div class="live-pulse-container">
+                        <span class="live-pulse-dot"></span>
+                    </div>
+                    <div>
+                        <small style="display: flex; align-items: center; gap: 5px; color: #94a3b8;">
+                            <i class="fa-solid fa-clock"></i> Ish tartibi (Rejim):
+                        </small>
+                        <p style="color: #38bdf8; font-weight: 700; letter-spacing: 0.3px;">24/7 (Kechayu-kunduz ochiq)
+                        </p>
+                    </div>
+                </div>
+                <button class="btn-logout" id="btnLogout">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Chiqish</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header Bar -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="btn-toggle-sidebar" id="btnToggleSidebar">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="header-title">
+                        <h2 id="headerPageTitle">Stomatologiya Boshqaruv Markazi</h2>
+                        <p id="headerCurrentDate">Yuklanmoqda...</p>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- 24/7 Rejim Belgisi -->
+                    <div class="header-247-badge" title="Klinika 24/7 tun-u kun uzluksiz ishlaydi">
+                        <span class="pulse-indicator-dot"></span>
+                        <div class="badge-247-text">
+                            <strong>24/7</strong>
+                            <small>Tun-u kun ochiq</small>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" id="btnOpenAddPatientModal">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Yangi Bemor Qo'shish</span>
+                    </button>
+
+                    <div class="user-pill">
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"
+                            alt="Avatar">
+                        <div class="user-pill-text">
+                            <span class="user-pill-name" id="topHeaderUser">ahmad</span>
+                            <span class="user-pill-role">Boshqaruvchi</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content Container -->
+            <div class="content-body">
+
+                <!-- Section 1: Dashboard Overview Tab -->
+                <div class="tab-pane active" id="tab-dashboard">
+                    <!-- Stats Cards Grid -->
+                    <section class="stats-grid">
+                        <div class="stat-card stat-blue">
+                            <div class="stat-content">
+                                <span>Jami Ro'yxatdagi Bemorlar</span>
+                                <h3 id="statTotalPatients">0</h3>
+                                <p class="stat-meta"><i class="fa-solid fa-arrow-trend-up"></i> Bazadagi barcha mijozlar
+                                </p>
+                            </div>
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-hospital-user"></i>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-emerald">
+                            <div class="stat-content">
+                                <span>Bugungi Qabullar</span>
+                                <h3 id="statTodayVisits">0</h3>
+                                <p class="stat-meta"><i class="fa-solid fa-calendar-check"></i> Bugungi belgilangan
+                                    vaqtlar</p>
+                            </div>
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-calendar-day"></i>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-amber">
+                            <div class="stat-content">
+                                <span>Davolanishdagi Bemorlar</span>
+                                <h3 id="statInTreatment">0</h3>
+                                <p class="stat-meta"><i class="fa-solid fa-teeth"></i> Faol muolaja jarayonida</p>
+                            </div>
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-syringe"></i>
+                            </div>
+                        </div>
+
+                        <div class="stat-card stat-purple">
+                            <div class="stat-content">
+                                <span>Jami Xizmat Tushumi</span>
+                                <h3 id="statTotalRevenue">0 so'm</h3>
+                                <p class="stat-meta"><i class="fa-solid fa-coins"></i> Bemorlar to'lagan mablag'</p>
+                            </div>
+                            <div class="stat-icon-wrapper">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Monthly Highlight Banner -->
+                    <div class="month-highlight-banner" id="dashMonthBanner">
+                        <div class="banner-left-info">
+                            <div class="banner-pill-tag"><i class="fa-solid fa-calendar-check"></i> OYLIK HISOBOT
+                                KO'RSATKICHI</div>
+                            <h4 id="dashMonthBannerTitle">2026-yil Sentabr Oyi</h4>
+                            <p id="dashMonthBannerDesc">Shu oyda jami: <strong id="dashMonthPatientsCount">0 ta
+                                    bemor</strong> qabul qilindi &bull; Tushgan tushum: <strong
+                                    id="dashMonthRevenueSum">0 so'm</strong></p>
+                        </div>
+                        <div class="banner-right-action">
+                            <button type="button" class="btn-banner-link" id="btnDashToReports">
+                                <i class="fa-solid fa-file-invoice-dollar"></i>
+                                <span>Oylik To'liq Hisobotni Ko'rish</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Patients Table Section -->
+                    <section class="patients-section">
+                        <div class="section-card">
+                            <div class="section-card-header">
+                                <div class="header-titles">
+                                    <h3>Bemorlar va Mijozlar Ro'yxati</h3>
+                                    <p>JavaScript Object (JSON) ko'rinishida saqlanuvchi stomatologiya mijozlari</p>
+                                </div>
+                                <div class="table-actions">
+                                    <div class="search-box">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input type="text" id="patientSearchInput"
+                                            placeholder="Ism, telefon yoki tashxis bo'yicha qidiruv...">
+                                        <button class="clear-search d-none" id="btnClearSearch"><i
+                                                class="fa-solid fa-xmark"></i></button>
+                                    </div>
+
+                                    <div class="filter-select-group">
+                                        <select id="statusFilter" class="form-select-sm">
+                                            <option value="all">Barcha holatlar</option>
+                                            <option value="Davolanmoqda">Davolanmoqda</option>
+                                            <option value="Tugatildi">Tugatildi</option>
+                                            <option value="Kutilmoqda">Kutilmoqda</option>
+                                            <option value="Bekor qilindi">Bekor qilindi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Table -->
+                            <div class="table-responsive">
+                                <table class="custom-table" id="patientsTable">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Bemor F.I.Sh</th>
+                                            <th>Bog'lanish</th>
+                                            <th>Tashxis & Tish raqami</th>
+                                            <th>Xizmat turi</th>
+                                            <th>Mas'ul Shifokor</th>
+                                            <th>Qabul vaqti</th>
+                                            <th>To'lov</th>
+                                            <th>Holat</th>
+                                            <th class="text-center">Amallar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="patientsTableBody">
+                                        <!-- Javascript orqali to'ldiriladi -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Table Footer / Summary -->
+                            <div class="table-footer">
+                                <div class="table-info" id="tableRecordInfo">
+                                    Ko'rsatilmoqda: 0 ta bemor
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Section 2: Tooth Chart Tab (Tishlar xaritasi) -->
+                <div class="tab-pane" id="tab-tooth-chart">
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div>
+                                <h3>Interaktiv Tishlar Xaritasi (FDI Dental Chart)</h3>
+                                <p>Tish raqamlari xalqaro FDI standarti (11-48) bo'yicha. Tishni bosib unga tegishli
+                                    bemorlarni ko'rishingiz mumkin.</p>
+                            </div>
+                        </div>
+                        <div class="tooth-chart-container">
+                            <div class="tooth-jaw-section">
+                                <h4 class="jaw-title"><i class="fa-solid fa-arrow-up"></i> Yuqori Jag' (Maxilla)</h4>
+                                <div class="teeth-row" id="upperTeethRow">
+                                    <!-- Populated via JS -->
+                                </div>
+                            </div>
+
+                            <div class="chart-divider">
+                                <span>MARKAZIY CHIZIQ</span>
+                            </div>
+
+                            <div class="tooth-jaw-section">
+                                <h4 class="jaw-title"><i class="fa-solid fa-arrow-down"></i> Pastki Jag' (Mandible)</h4>
+                                <div class="teeth-row" id="lowerTeethRow">
+                                    <!-- Populated via JS -->
+                                </div>
+                            </div>
+
+                            <div class="tooth-legend">
+                                <div class="legend-item"><span class="legend-color healthy"></span> Sog'lom</div>
+                                <div class="legend-item"><span class="legend-color treatment"></span> Davolanmoqda</div>
+                                <div class="legend-item"><span class="legend-color done"></span> Plombalangan /
+                                    Tugatilgan</div>
+                                <div class="legend-item"><span class="legend-color crown"></span> Tojburchak / Implant
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Services & Pricing Tab -->
+                <div class="tab-pane" id="tab-services">
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="header-titles">
+                                <h3>Klinika Xizmat Turlari va Narxnomasi</h3>
+                                <p>Mavjud xizmatlar ro'yxati va yangi xizmat turlarini qo'shish paneli</p>
+                            </div>
+                            <div>
+                                <button class="btn-primary" id="btnOpenAddServiceModal">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span>Yangi Xizmat Qo'shish</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="services-grid" id="servicesGrid">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 4: Doctors & Staff Tab -->
+                <div class="tab-pane" id="tab-doctors">
+                    <!-- 24/7 Ish Rejimi Eslatmasi -->
+                    <div class="shift-banner-notice">
+                        <div class="notice-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <div class="notice-text">
+                            <h4>24/7 Tun-u Kun Uzluksiz Navbatchilik Tizimi</h4>
+                            <p>Klinikamiz uzluksiz 24/7 rejimida faoliyat yuritadi. Shifokorlar va assistentlar 1-smena
+                                (kunduzgi) va 2-smena (tungi tezkor stomatologik yordam) asosida bemorlarni qabul
+                                qilishadi.</p>
+                        </div>
+                        <span class="badge-active-status"><span class="pulse-indicator-dot"></span> Rejim: 24/7
+                            Faol</span>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="header-titles">
+                                <h3>Ishchilar va Shifokorlar Jamoasi</h3>
+                                <p>Klinikamiz mutaxassislari, shifokorlar va yangi xodimlarni ro'yxatga olish</p>
+                            </div>
+                            <div>
+                                <button class="btn-primary" id="btnOpenAddDoctorModal">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    <span>Yangi Ishchi Qo'shish</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="doctors-grid" id="doctorsGrid">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 5: Monthly Reports Tab (Oylik Hisobotlar) -->
+                <div class="tab-pane" id="tab-reports">
+                    <!-- Print-only Header -->
+                    <div class="print-only-header">
+                        <h2>DENTACARE STOMATOLOGIYA KLINIKASI</h2>
+                        <p style="font-size: 13px; color: #475569;">24/7 Uzluksiz Tibbiy Xizmat &bull; Rasmiy Oylik
+                            Moliyaviy va Qabullar Hisoboti</p>
+                        <h3 id="printReportTitle" style="margin-top: 8px; font-size: 18px; color: #0284c7;">2026-yil
+                            Sentabr Oyi Hisoboti</h3>
+                    </div>
+
+                    <!-- Top Report Controls Card -->
+                    <div class="section-card report-header-card">
+                        <div class="report-header-top">
+                            <div class="header-titles">
+                                <div class="report-top-badge">
+                                    <i class="fa-solid fa-file-invoice-dollar"></i> OYLIK MOLIYAVIY VA QABULLAR HISOBOTI
+                                </div>
+                                <h3 id="reportMainHeading">2026-yil Sentabr Oyi Hisoboti</h3>
+                                <p>Oy oxirida ishchilar hisobotlar bilan qiynalmasligi uchun avtomatlashtirilgan oylik
+                                    tushumlar va bemorlar tahlili</p>
+                            </div>
+                            <div class="report-actions-group">
+                                <button class="btn-action-outline" id="btnExportReportCSV"
+                                    title="Excel (CSV) formatida hisobotni yuklab olish">
+                                    <i class="fa-solid fa-file-excel" style="color: #10b981;"></i>
+                                    <span>Excel (CSV) Yuklab Olish</span>
+                                </button>
+                                <button class="btn-action-primary" id="btnPrintReport"
+                                    title="Chop etish yoki PDF ko'rinishida saqlash">
+                                    <i class="fa-solid fa-print"></i>
+                                    <span>Chop Etish (PDF)</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Report Filter Toolbar -->
+                        <div class="report-filters-bar">
+                            <div class="report-filter-item">
+                                <label for="reportMonthSelect"><i class="fa-regular fa-calendar"></i> Hisobot
+                                    Oyi:</label>
+                                <select id="reportMonthSelect" class="form-select-styled">
+                                    <!-- Populated via JS -->
+                                </select>
+                            </div>
+
+                            <div class="report-filter-item">
+                                <label for="reportDoctorSelect"><i class="fa-solid fa-user-doctor"></i> Shifokor /
+                                    Ishchi:</label>
+                                <select id="reportDoctorSelect" class="form-select-styled">
+                                    <option value="all">Barcha Xodimlar (Umumiy hisobot)</option>
+                                    <!-- Populated via JS -->
+                                </select>
+                            </div>
+
+                            <div class="report-filter-item">
+                                <label for="reportStatusSelect"><i class="fa-solid fa-filter"></i> Muolaja
+                                    Holati:</label>
+                                <select id="reportStatusSelect" class="form-select-styled">
+                                    <option value="all">Barcha Holatlar</option>
+                                    <option value="Tugatildi">Faqat Tugatilganlar</option>
+                                    <option value="Davolanmoqda">Davolanmoqda</option>
+                                    <option value="Kutilmoqda">Kutilmoqda</option>
+                                </select>
+                            </div>
+
+                            <div class="report-filter-item report-btn-item">
+                                <button class="btn-refresh-styled" id="btnRefreshReport"
+                                    title="Hisobotni qayta hisoblash">
+                                    <i class="fa-solid fa-rotate"></i>
+                                    <span>Yangilash</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Selected Month Key KPI Cards -->
+                    <div class="report-kpi-grid">
+                        <div class="report-kpi-card card-kpi-blue">
+                            <div class="kpi-icon-box"><i class="fa-solid fa-users"></i></div>
+                            <div class="kpi-info-box">
+                                <span class="kpi-label">Shu Oydagi Bemorlar</span>
+                                <h3 id="kpiMonthPatients">0 ta</h3>
+                                <p class="kpi-sub" id="kpiMonthPatientsSub"><i class="fa-solid fa-arrow-trend-up"></i>
+                                    Qabul qilingan mijozlar</p>
+                            </div>
+                        </div>
+
+                        <div class="report-kpi-card card-kpi-green">
+                            <div class="kpi-icon-box"><i class="fa-solid fa-sack-dollar"></i></div>
+                            <div class="kpi-info-box">
+                                <span class="kpi-label">Kassaga Tushgan Summa</span>
+                                <h3 id="kpiMonthRevenue">0 so'm</h3>
+                                <p class="kpi-sub text-success"><i class="fa-solid fa-circle-check"></i> Undirilgan
+                                    haqiqiy tushum</p>
+                            </div>
+                        </div>
+
+                        <div class="report-kpi-card card-kpi-indigo">
+                            <div class="kpi-icon-box"><i class="fa-solid fa-file-invoice"></i></div>
+                            <div class="kpi-info-box">
+                                <span class="kpi-label">Umumiy Xizmat Qiymati</span>
+                                <h3 id="kpiMonthTotal">0 so'm</h3>
+                                <p class="kpi-sub"><i class="fa-solid fa-calculator"></i> Barcha muolajalar summasi</p>
+                            </div>
+                        </div>
+
+                        <div class="report-kpi-card card-kpi-amber">
+                            <div class="kpi-icon-box"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <div class="kpi-info-box">
+                                <span class="kpi-label">Qoldiq / Qarz Summasi</span>
+                                <h3 id="kpiMonthDebt">0 so'm</h3>
+                                <p class="kpi-sub text-warning"><i class="fa-solid fa-triangle-exclamation"></i>
+                                    Kutilayotgan to'lovlar</p>
+                            </div>
+                        </div>
+
+                        <div class="report-kpi-card card-kpi-teal">
+                            <div class="kpi-icon-box"><i class="fa-solid fa-tooth"></i></div>
+                            <div class="kpi-info-box">
+                                <span class="kpi-label">Tugatilgan Muolajalar</span>
+                                <h3 id="kpiMonthCompleted">0 ta</h3>
+                                <p class="kpi-sub"><i class="fa-solid fa-check-double"></i> Muvaffaqiyatli yakunlandi
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="report-kpi-card card-kpi-purple">
+                            <div class="kpi-icon-box"><i class="fa-solid fa-chart-pie"></i></div>
+                            <div class="kpi-info-box">
+                                <span class="kpi-label">O'rtacha Chek (Tushum)</span>
+                                <h3 id="kpiMonthAvg">0 so'm</h3>
+                                <p class="kpi-sub"><i class="fa-solid fa-user-tag"></i> Bitta bemor hisobiga</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Ishchilar va Shifokorlar Oylik Hisoboti -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="header-titles">
+                                <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary);"></i> Ishchilar &
+                                    Shifokorlar Kesimidagi Oylik Natijalar</h3>
+                                <p>Xodimlar oy oxirida o'z hisobotlarini ko'rishlari, topshirishlari va maosh/ulush
+                                    hisoblashlari uchun qulay jadval</p>
+                            </div>
+                            <div class="badge-pill-soft" id="doctorTableMonthLabel">2026-yil Sentabr</div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="custom-table" id="doctorMonthlyTable">
+                                <thead>
+                                    <tr>
+                                        <th>Shifokor / Ishchi</th>
+                                        <th>Mutaxassisligi</th>
+                                        <th>Qabul Qilingan Bemorlar</th>
+                                        <th>Xizmatlar Hajmi</th>
+                                        <th>Tushgan Tushum</th>
+                                        <th>Qoldiq (Qarz)</th>
+                                        <th>To'lov Foizi</th>
+                                        <th class="text-center">Amal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="doctorMonthlyTableBody">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section: Oylar Bo'yicha Tushumlar va Bemorlar Soni Dinamikasi -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="header-titles">
+                                <h3><i class="fa-solid fa-chart-column" style="color: var(--secondary);"></i> Oylar
+                                    Bo'yicha Tushumlar va Bemorlar Dinamikasi</h3>
+                                <p>Har oyda tushgan summalar va bemorlar soni tarixi (har bir oydagi umumiy tushum
+                                    avtomatik yangilanadi)</p>
+                            </div>
+                            <div>
+                                <span class="badge-history"><i class="fa-solid fa-clock-rotate-left"></i> Oylik
+                                    Dinamika</span>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="custom-table" id="monthlyHistoryTable">
+                                <thead>
+                                    <tr>
+                                        <th>Hisobot Oyi</th>
+                                        <th>Bemorlar Soni</th>
+                                        <th>Tugatilgan Muolajalar</th>
+                                        <th>Umumiy Xizmat Qiymati</th>
+                                        <th>Kassaga Tushgan Summa</th>
+                                        <th>Qoldiq (Qarz)</th>
+                                        <th>O'rtacha Tushum</th>
+                                        <th class="text-center">Ushbu Oyni Ochish</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="monthlyHistoryTableBody">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section: Xizmat Turlari Bo'yicha Oylik Tushum Taqsimoti -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="header-titles">
+                                <h3><i class="fa-solid fa-stethoscope" style="color: var(--primary);"></i> Xizmat
+                                    Turlari Bo'yicha Oylik Tushum Taqsimoti</h3>
+                                <p>Tanlangan oyda eng ko'p talab qilingan stomatologik amaliyotlar va tushumlar</p>
+                            </div>
+                        </div>
+                        <div class="services-report-grid" id="servicesReportGrid">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Section: Tanlangan Oydagi Bemorlar Ro'yxati -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="header-titles">
+                                <h3><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Tanlangan
+                                    Davrdagi Bemorlar Ro'yxati (Reestr)</h3>
+                                <p id="reportListDesc">Ushbu oyda xizmat ko'rsatilgan bemorlarning to'liq reestri</p>
+                            </div>
+                            <div class="table-info" id="reportPatientsCountInfo">Ko'rsatilmoqda: 0 ta bemor</div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="custom-table" id="reportPatientsListTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Sana & Vaqt</th>
+                                        <th>Bemor F.I.Sh</th>
+                                        <th>Telefon</th>
+                                        <th>Mas'ul Shifokor</th>
+                                        <th>Xizmat Turi</th>
+                                        <th>Umumiy Narx</th>
+                                        <th>Tushgan Summa</th>
+                                        <th>To'lov Holati</th>
+                                        <th>Muolaja Holati</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reportPatientsListTableBody">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Print-only Signatures -->
+                    <div class="print-signatures">
+                        <div style="text-align: left;">
+                            <p><strong>Hisobot topshirdi (Mas'ul xodim):</strong></p>
+                            <p style="margin-top: 30px; border-bottom: 1px solid #000; width: 220px;"></p>
+                            <small>Imzo va F.I.Sh</small>
+                        </div>
+                        <div style="text-align: center;">
+                            <p><strong>Klinika Muhri (M.P.):</strong></p>
+                            <div
+                                style="width: 75px; height: 75px; border: 1px dashed #94a3b8; border-radius: 50%; margin: 10px auto; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #94a3b8;">
+                                MUHR
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <p><strong>Tasdiqladi (Bosh Shifokor):</strong></p>
+                            <p
+                                style="margin-top: 30px; border-bottom: 1px solid #000; width: 220px; margin-left: auto;">
+                            </p>
+                            <small>Dr. Ahmadbek Karimov</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL 1: Bemor Qo'shish va Tahrirlash Modali -->
+    <div class="modal-overlay d-none" id="patientModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon">
+                        <i class="fa-solid fa-user-plus" id="patientModalIcon"></i>
+                    </div>
+                    <div>
+                        <h3 id="patientModalTitle">Yangi Bemor Qo'shish</h3>
+                        <p>Bemor ma'lumotlarini to'ldiring (Object sifatida saqlanadi)</p>
+                    </div>
+                </div>
+                <button class="btn-modal-close" id="btnClosePatientModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="patientForm" class="modal-form">
+                <input type="hidden" id="patientEditId">
+
+                <div class="form-row">
+                    <div class="form-group col-8">
+                        <label for="pFullName">F.I.Sh (To'liq ism) <span class="required">*</span></label>
+                        <input type="text" id="pFullName" placeholder="Masalan: Sardor Aliyev" required>
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="pAge">Yoshi <span class="required">*</span></label>
+                        <input type="number" id="pAge" min="1" max="120" placeholder="28" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="pPhone">Telefon raqam <span class="required">*</span></label>
+                        <input type="text" id="pPhone" placeholder="+998 90 123 45 67" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="pGender">Jinsi</label>
+                        <select id="pGender">
+                            <option value="Erkak">Erkak</option>
+                            <option value="Ayol">Ayol</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="pDoctor">Mas'ul Shifokor / Ishchi <span class="required">*</span></label>
+                        <select id="pDoctor" required>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="pService">Xizmat turi <span class="required">*</span></label>
+                        <select id="pService" required>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="pToothNumber">Tish raqami (FDI)</label>
+                        <input type="text" id="pToothNumber" placeholder="Masalan: 16, 26, 47">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="pAppointmentDate">Qabul vaqti <span class="required">*</span></label>
+                        <input type="datetime-local" id="pAppointmentDate" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pDiagnosis">Tashxis <span class="required">*</span></label>
+                    <input type="text" id="pDiagnosis" placeholder="Karies, pulpit, tosh tozalash va h.k." required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="pTotalAmount">Umumiy xizmat narxi (so'm)</label>
+                        <input type="number" id="pTotalAmount" placeholder="450000" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="pPaidAmount">To'langan summa (so'm)</label>
+                        <input type="number" id="pPaidAmount" placeholder="450000" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="pStatus">Muolaja Holati</label>
+                        <select id="pStatus">
+                            <option value="Davolanmoqda">Davolanmoqda</option>
+                            <option value="Tugatildi">Tugatildi</option>
+                            <option value="Kutilmoqda">Kutilmoqda</option>
+                            <option value="Bekor qilindi">Bekor qilindi</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="pPaymentStatus">To'lov holati</label>
+                        <select id="pPaymentStatus">
+                            <option value="To'langan">To'langan</option>
+                            <option value="Qisman to'langan">Qisman to'langan</option>
+                            <option value="To'lanmagan">To'lanmagan</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pNotes">Qo'shimcha izoh va eslatmalar</label>
+                    <textarea id="pNotes" rows="2"
+                        placeholder="Anesteziya turi, dori vositalari yoki keyingi tashrif..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btnCancelPatient">Bekor qilish</button>
+                    <button type="submit" class="btn-primary" id="btnSavePatient">
+                        <i class="fa-solid fa-floppy-disk"></i> Saqlash
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Bemor Ma'lumotlarini Ko'rish Modali (Client Object Card) -->
+    <div class="modal-overlay d-none" id="viewPatientModal">
+        <div class="modal-dialog modal-dialog-lg">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon icon-view">
+                        <i class="fa-solid fa-address-card"></i>
+                    </div>
+                    <div>
+                        <h3 id="viewModalPatientName">Bemor Kartochkasi</h3>
+                        <p id="viewModalPatientId">ID: DENT-000</p>
+                    </div>
+                </div>
+                <button class="btn-modal-close" id="btnCloseViewModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-body-scroll" id="viewPatientContent">
+                <!-- Javascript orqali render bo'ladi -->
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" id="btnCloseViewBtn">Yopish</button>
+                <button type="button" class="btn-primary" id="btnEditFromView">
+                    <i class="fa-solid fa-pen-to-square"></i> Tahrirlash
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Yangi Xizmat Qo'shish Modali -->
+    <div class="modal-overlay d-none" id="serviceModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon">
+                        <i class="fa-solid fa-notes-medical"></i>
+                    </div>
+                    <div>
+                        <h3>Yangi Xizmat Turini Qo'shish</h3>
+                        <p>Stomatologiya xizmatini ro'yxatga kiritish</p>
+                    </div>
+                </div>
+                <button class="btn-modal-close" id="btnCloseServiceModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="serviceForm" class="modal-form">
+                <div class="form-group">
+                    <label for="serviceNameInput">Xizmat nomi <span class="required">*</span></label>
+                    <input type="text" id="serviceNameInput" placeholder="Masalan: Tishlarni lazer bilan oqartirish"
+                        required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="servicePriceInput">Narxi (so'm) <span class="required">*</span></label>
+                        <input type="number" id="servicePriceInput" placeholder="500000" min="0" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="serviceDurationInput">Davomiyligi <span class="required">*</span></label>
+                        <input type="text" id="serviceDurationInput" placeholder="45 daqiqa" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btnCancelService">Bekor qilish</button>
+                    <button type="submit" class="btn-primary" id="btnSaveService">
+                        <i class="fa-solid fa-plus"></i> Xizmatni Qo'shish
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: Yangi Ishchi / Shifokor Qo'shish Modali -->
+    <div class="modal-overlay d-none" id="doctorModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon">
+                        <i class="fa-solid fa-user-doctor"></i>
+                    </div>
+                    <div>
+                        <h3>Yangi Ishchi / Shifokor Qo'shish</h3>
+                        <p>Klinika xodimini ro'yxatga kiritish</p>
+                    </div>
+                </div>
+                <button class="btn-modal-close" id="btnCloseDoctorModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="doctorForm" class="modal-form">
+                <div class="form-group">
+                    <label for="doctorNameInput">F.I.Sh (To'liq ism) <span class="required">*</span></label>
+                    <input type="text" id="doctorNameInput" placeholder="Masalan: Dr. Jasur Mansurov" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="doctorSpecialtyInput">Lavozimi / Mutaxassisligi <span
+                                class="required">*</span></label>
+                        <input type="text" id="doctorSpecialtyInput" placeholder="Masalan: Terapevt, Jarroh, Hamshira"
+                            required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="doctorExpInput">Ish tajribasi <span class="required">*</span></label>
+                        <input type="text" id="doctorExpInput" placeholder="Masalan: 5 yil" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="doctorPhoneInput">Telefon raqami <span class="required">*</span></label>
+                        <input type="text" id="doctorPhoneInput" placeholder="+998 90 123 45 67" required>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="doctorAvatarSelect">Avatar rasmi</label>
+                        <select id="doctorAvatarSelect">
+                            <option
+                                value="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80">
+                                Erkak Shifokor 1</option>
+                            <option
+                                value="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&auto=format&fit=crop&q=80">
+                                Erkak Shifokor 2</option>
+                            <option
+                                value="https://images.unsplash.com/photo-1594824813589-9d54a2618991?w=150&auto=format&fit=crop&q=80">
+                                Ayol Shifokor 1</option>
+                            <option
+                                value="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&auto=format&fit=crop&q=80">
+                                Ayol Shifokor 2</option>
+                            <option
+                                value="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=150&auto=format&fit=crop&q=80">
+                                Hamshira / Assistent</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btnCancelDoctor">Bekor qilish</button>
+                    <button type="submit" class="btn-primary" id="btnSaveDoctor">
+                        <i class="fa-solid fa-user-plus"></i> Ishchini Qo'shish
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+
+   <!-- FIREBASE REAL-TIME BULUTLI BAZA -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBTsomiWJsJPlAnRkJ3pTqwrC9MGhmnvwM",
+    authDomain: "ahmadclinic-d8708.firebaseapp.com",
+    projectId: "ahmadclinic-d8708",
+    storageBucket: "ahmadclinic-d8708.firebasestorage.app",
+    messagingSenderId: "302983492402",
+    appId: "1:302983492402:web:ef9c6ae8c14b22dd095d2b",
+    measurementId: "G-1EQ53NX976"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const docPatients = doc(db, "clinic_data", "patients");
+  const docServices = doc(db, "clinic_data", "services");
+  const docDoctors = doc(db, "clinic_data", "doctors");
+
+  // 1. Yangi qo'shilgan ma'lumotlarni Firebase bulutiga yuborish
+  window.savePatientsToFirebase = async (data) => {
+    try { await setDoc(docPatients, { list: data }); } catch(e) { console.error(e); }
+  };
+  window.saveServicesToFirebase = async (data) => {
+    try { await setDoc(docServices, { list: data }); } catch(e) { console.error(e); }
+  };
+  window.saveDoctorsToFirebase = async (data) => {
+    try { await setDoc(docDoctors, { list: data }); } catch(e) { console.error(e); }
+  };
+
+  // 2. Real-time eshituvchi: Boshqa qurilmadan o'zgarish bo'lsa, darhol yangilaydi
+  let isInitialLoad = true;
+  onSnapshot(docPatients, (snap) => {
+    if (snap.exists()) {
+      const cloudList = snap.data().list;
+      const localStr = localStorage.getItem("dentacare_patients_data");
+      if (JSON.stringify(cloudList) !== localStr) {
+        localStorage.setItem("dentacare_patients_data", JSON.stringify(cloudList));
+        if (!isInitialLoad) window.location.reload();
+      }
+    } else {
+      // Birinchi marta: bazada ma'lumot bo'lmasa, dastlabki bemorlarni yuklaymiz
+      const current = typeof getPatientsFromStorage === "function" ? getPatientsFromStorage() : [];
+      window.savePatientsToFirebase(current);
+    }
+    isInitialLoad = false;
+  });
+
+  onSnapshot(docServices, (snap) => {
+    if (snap.exists()) {
+      localStorage.setItem("dentacare_services_data", JSON.stringify(snap.data().list));
+    } else {
+      const current = typeof getServicesFromStorage === "function" ? getServicesFromStorage() : [];
+      window.saveServicesToFirebase(current);
+    }
+  });
+
+  onSnapshot(docDoctors, (snap) => {
+    if (snap.exists()) {
+      localStorage.setItem("dentacare_doctors_data", JSON.stringify(snap.data().list));
+    } else {
+      const current = typeof getDoctorsFromStorage === "function" ? getDoctorsFromStorage() : [];
+      window.saveDoctorsToFirebase(current);
+    }
+  });
+
+  console.log("DentaCare Firebase Realtime sinxronizatsiyasi ishga tushdi!");
+</script>
+</body>
+
+</html>
