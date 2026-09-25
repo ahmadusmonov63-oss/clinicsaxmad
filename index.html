@@ -771,9 +771,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="pPrescription"><i class="fa-solid fa-pills" style="color: #0284c7;"></i> Belgilangan Dorilar & Retsept (Doza va ichish tartibi)</label>
+                    <textarea id="pPrescription" rows="3"
+                        placeholder="Masalan:&#10;1. Amoksitsillin 500mg — 1 kunda 3 mahal ovqatdan so'ng (5 kun)&#10;2. Nimesil — qattiq og'riq bo'lsa 1 paket&#10;3. Xlorgeksidin 0.05% — ovqatdan keyin chayish"></textarea>
+                </div>
+
+                <div class="form-group">
                     <label for="pNotes">Qo'shimcha izoh va eslatmalar</label>
                     <textarea id="pNotes" rows="2"
-                        placeholder="Anesteziya turi, dori vositalari yoki keyingi tashrif..."></textarea>
+                        placeholder="Anesteziya turi yoki keyingi tashrif..."></textarea>
                 </div>
 
                 <div class="modal-footer">
@@ -813,6 +819,59 @@
                 <button type="button" class="btn-primary" id="btnEditFromView">
                     <i class="fa-solid fa-pen-to-square"></i> Tahrirlash
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TELEGRAM: Bemorni Telegram Botga Ulash (QR-kod va Link) -->
+    <div class="modal-overlay d-none" id="telegramConnectModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon" style="background: #e0f2fe; color: #0284c7;">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                    <div>
+                        <h3>Bemorni Telegram Botga Ulash</h3>
+                        <p id="tgModalPatientTitle">Bemor retseptlarni Telegramda olishi uchun</p>
+                    </div>
+                </div>
+                <button class="btn-modal-close" id="btnCloseTgModal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div style="padding: 24px; text-align: center;">
+                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 18px; margin-bottom: 20px; display: inline-block;">
+                    <img id="tgQrCodeImg" src="" alt="Telegram Bot QR Code" style="width: 200px; height: 200px; display: block; border-radius: 8px;">
+                </div>
+
+                <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                    1. Bemor telefon kamerasi bilan ushbu QR-kodni skaner qilsin
+                </h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                    Bot ochilgach, pastdagi <b>"Start"</b> tugmasini bosishi kifoya. Tizim uni avtomatik taniydi!
+                </p>
+
+                <div style="background: #e0f2fe; border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; font-size: 13px; color: #0369a1; word-break: break-all;" id="tgBotLinkBox">
+                    https://t.me/ahmad_dentacare_bot?start=...
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button type="button" class="btn-primary" id="btnCopyTgLink" style="background: #0284c7;">
+                        <i class="fa-solid fa-copy"></i> Linkdan nusxa olish
+                    </button>
+                    <a href="#" target="_blank" class="btn-primary" id="btnShareTgDirect" style="background: #22c55e; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fa-brands fa-telegram"></i> Telegramda yuborish
+                    </a>
+                </div>
+            </div>
+
+            <div class="modal-footer" style="justify-content: space-between;">
+                <span id="tgConnectionStatusText" style="font-size: 13px; color: #64748b;">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Bemor ulanishi kutilmoqda...
+                </span>
+                <button type="button" class="btn-secondary" id="btnCloseTgBtn">Yopish</button>
             </div>
         </div>
     </div>

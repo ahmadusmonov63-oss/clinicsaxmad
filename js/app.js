@@ -361,6 +361,9 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("pPaidAmount").value = price || 450000;
         }
 
+        const pPrescription = document.getElementById("pPrescription");
+        if (pPrescription) pPrescription.value = "";
+
         patientModal.classList.remove("d-none");
     }
 
@@ -385,6 +388,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("pStatus").value = patient.status || "Davolanmoqda";
         document.getElementById("pPaymentStatus").value = patient.paymentStatus || "To'langan";
         document.getElementById("pNotes").value = patient.notes || "";
+
+        const pPrescription = document.getElementById("pPrescription");
+        if (pPrescription) pPrescription.value = patient.prescription || "";
 
         if (patient.appointmentDate) {
             document.getElementById("pAppointmentDate").value = patient.appointmentDate.replace(" ", "T");
@@ -420,6 +426,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 paymentStatus = "To'lanmagan";
             }
 
+            const prescriptionVal = document.getElementById("pPrescription") ? document.getElementById("pPrescription").value.trim() : "";
+
             if (isEdit) {
                 const index = patients.findIndex(p => p.id === patientEditId.value);
                 if (index !== -1) {
@@ -438,6 +446,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         paidAmount: paidAmount,
                         status: document.getElementById("pStatus").value,
                         paymentStatus: paymentStatus,
+                        prescription: prescriptionVal,
                         notes: document.getElementById("pNotes").value.trim()
                     };
                     showToast("Bemor ma'lumotlari muvaffaqiyatli yangilandi!", "success");
@@ -459,7 +468,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     paidAmount: paidAmount,
                     status: document.getElementById("pStatus").value,
                     paymentStatus: paymentStatus,
+                    prescription: prescriptionVal,
                     notes: document.getElementById("pNotes").value.trim(),
+                    telegramChatId: null,
                     createdAt: new Date().toISOString().split("T")[0]
                 };
 
@@ -573,6 +584,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
 
+            <!-- Retsept va Dorilar Bo'limi -->
+            <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-md); padding: 18px; margin-bottom: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <h4 style="font-size: 14px; font-weight: 700; color: #166534; margin: 0; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-pills" style="font-size: 16px; color: #15803d;"></i> Belgilangan Dorilar & Retsept
+                    </h4>
+                    <div>
+                        ${patient.telegramChatId ? `
+                            <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 4px 10px; background: #dcfce7; color: #15803d; border-radius: 999px; border: 1px solid #86efac;">
+                                <i class="fa-brands fa-telegram"></i> Telegram Ulangan (${patient.telegramUsername || 'ID: ' + patient.telegramChatId})
+                            </span>
+                        ` : `
+                            <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 4px 10px; background: #fef3c7; color: #b45309; border-radius: 999px; border: 1px solid #fde68a;">
+                                <i class="fa-brands fa-telegram"></i> Telegram Ulanmagan
+                            </span>
+                        `}
+                    </div>
+                </div>
+
+                <div style="background: #ffffff; border: 1px solid #dcfce7; border-radius: 8px; padding: 14px; font-size: 13.5px; color: #1e293b; white-space: pre-wrap; line-height: 1.6; margin-bottom: 14px;">${escapeHtml(patient.prescription || "Ushbu bemorga hali dorilar yoki retsept yozilmagan. 'Tahrirlash' tugmasini bosib dorilarni kiritishingiz mumkin.")}</div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    ${patient.telegramChatId ? `
+                        <button type="button" class="btn-primary" id="btnSendPrescriptionTg" style="background: #0284c7; font-size: 13px; padding: 9px 16px;">
+                            <i class="fa-brands fa-telegram"></i> Retseptni bemorning Telegramiga yuborish
+                        </button>
+                    ` : `
+                        <button type="button" class="btn-primary" id="btnConnectPatientTg" style="background: #0284c7; font-size: 13px; padding: 9px 16px;">
+                            <i class="fa-solid fa-qrcode"></i> Bemorni botga ulash (QR-kod)
+                        </button>
+                    `}
+                </div>
+            </div>
+
             ${patient.notes ? `
                 <div class="view-notes-box">
                     <h4><i class="fa-regular fa-comment-dots"></i> Shifokor Eslatmasi va Muolaja Tavsifi:</h4>
@@ -580,6 +625,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             ` : ''}
         `;
+
+        const btnSendPrescriptionTg = document.getElementById("btnSendPrescriptionTg");
+        if (btnSendPrescriptionTg) {
+            btnSendPrescriptionTg.onclick = () => {
+                sendPrescriptionToPatient(patient);
+            };
+        }
+
+        const btnConnectPatientTg = document.getElementById("btnConnectPatientTg");
+        if (btnConnectPatientTg) {
+            btnConnectPatientTg.onclick = () => {
+                openTelegramConnectModal(patient);
+            };
+        }
 
         viewPatientModal.classList.remove("d-none");
     }
@@ -601,6 +660,188 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // ==========================================================
+    // TELEGRAM BOT TIZIMI (@ahmad_dentacare_bot)
+    // ==========================================================
+    const TELEGRAM_BOT_TOKEN = "8875532205:AAFHaFvr7Nof23j11qkFlHJLBlYJ9YkT7HU";
+    const TELEGRAM_BOT_USERNAME = "ahmad_dentacare_bot";
+    let tgLastUpdateId = 0;
+
+    // Telegramga xabar yuborish
+    async function sendTelegramMessage(chatId, htmlText) {
+        try {
+            const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: htmlText,
+                    parse_mode: "HTML"
+                })
+            });
+            return await res.json();
+        } catch (e) {
+            console.error("Telegram send error:", e);
+            return { ok: false, description: e.message };
+        }
+    }
+
+    // Bemorga retseptni bot orqali yuborish
+    async function sendPrescriptionToPatient(patient) {
+        if (!patient.telegramChatId) {
+            showToast("Bemor hali Telegram botga ulanmagan!", "warning");
+            openTelegramConnectModal(patient);
+            return;
+        }
+
+        if (!patient.prescription) {
+            showToast("Avval bemorga dorilar yoki retsept yozing!", "warning");
+            return;
+        }
+
+        const message = `🏥 <b>DentaCare Stomatologiya Klinikasi</b>
+📋 <b>BEMORGA BELGILANGAN RETSEPT VA DORILAR</b>
+
+👤 <b>Bemor:</b> ${patient.fullName} (${patient.age} yosh)
+👨‍⚕️ <b>Mas'ul shifokor:</b> ${patient.doctor}
+🦷 <b>Tashxis:</b> ${patient.diagnosis || "Ko'rik"} ${patient.toothNumber ? `(Tish #${patient.toothNumber})` : ''}
+📅 <b>Qabul vaqti:</b> ${formatDateTime(patient.appointmentDate)}
+
+💊 <b>DORILAR VA QABUL QILISH TARTIBI:</b>
+━━━━━━━━━━━━━━━━━━━━━━
+${patient.prescription}
+━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ <i>Eslatma: Iltimos, barcha dori vositalarini shifokor ko'rsatmasi bo'yicha o'z vaqtida va belgilangan dozada qabul qiling!</i>
+
+📞 Savollar bo'lsa: +998 90 777 01 01
+✨ <i>DentaCare — Sog'lom va chiroyli tabassum garovi!</i>`;
+
+        showToast("Retsept Telegramga yuborilmoqda...", "info");
+        const res = await sendTelegramMessage(patient.telegramChatId, message);
+
+        if (res.ok) {
+            showToast(`Retsept ${patient.fullName}ning Telegramiga muvaffaqiyatli yuborildi! 🚀`, "success");
+        } else {
+            showToast(`Yuborishda xatolik: ${res.description || 'Xatolik yuz berdi'}`, "danger");
+        }
+    }
+
+    // Bemorni botga ulash modali (QR-kod va link)
+    const telegramConnectModal = document.getElementById("telegramConnectModal");
+    const btnCloseTgModal = document.getElementById("btnCloseTgModal");
+    const btnCloseTgBtn = document.getElementById("btnCloseTgBtn");
+    const tgQrCodeImg = document.getElementById("tgQrCodeImg");
+    const tgBotLinkBox = document.getElementById("tgBotLinkBox");
+    const btnCopyTgLink = document.getElementById("btnCopyTgLink");
+    const btnShareTgDirect = document.getElementById("btnShareTgDirect");
+    const tgConnectionStatusText = document.getElementById("tgConnectionStatusText");
+    const tgModalPatientTitle = document.getElementById("tgModalPatientTitle");
+
+    function openTelegramConnectModal(patient) {
+        if (!telegramConnectModal) return;
+
+        const deepLink = `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${patient.id}`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(deepLink)}`;
+
+        if (tgQrCodeImg) tgQrCodeImg.src = qrUrl;
+        if (tgBotLinkBox) tgBotLinkBox.textContent = deepLink;
+        if (tgModalPatientTitle) tgModalPatientTitle.textContent = `${patient.fullName} (ID: ${patient.id})`;
+
+        if (btnShareTgDirect) {
+            const shareText = `Assalomu alaykum, ${patient.fullName}! DentaCare klinikasidan retseptlaringizni olish uchun botimizni oching va Start tugmasini bosing:`;
+            btnShareTgDirect.href = `https://t.me/share/url?url=${encodeURIComponent(deepLink)}&text=${encodeURIComponent(shareText)}`;
+        }
+
+        if (btnCopyTgLink) {
+            btnCopyTgLink.onclick = () => {
+                navigator.clipboard.writeText(deepLink);
+                showToast("Telegram bot linki nusxalandi!", "info");
+            };
+        }
+
+        if (tgConnectionStatusText) {
+            tgConnectionStatusText.innerHTML = patient.telegramChatId 
+                ? `<span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Bemor ulangan!</span>`
+                : `<i class="fa-solid fa-spinner fa-spin"></i> Bemor "Start" bosishi kutilmoqda...`;
+        }
+
+        telegramConnectModal.classList.remove("d-none");
+    }
+
+    function closeTelegramConnectModal() {
+        if (telegramConnectModal) telegramConnectModal.classList.add("d-none");
+    }
+
+    if (btnCloseTgModal) btnCloseTgModal.addEventListener("click", closeTelegramConnectModal);
+    if (btnCloseTgBtn) btnCloseTgBtn.addEventListener("click", closeTelegramConnectModal);
+
+    // Botdan yangi Start bosgan bemorlarni avtomatik aniqlash (Polling)
+    async function checkTelegramUpdates() {
+        try {
+            const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?offset=${tgLastUpdateId + 1}`);
+            const data = await res.json();
+            if (data.ok && data.result && data.result.length > 0) {
+                let hasChanges = false;
+                for (const upd of data.result) {
+                    tgLastUpdateId = upd.update_id;
+                    const msg = upd.message;
+                    if (!msg) continue;
+
+                    const text = (msg.text || '').trim();
+                    const chatId = msg.from.id;
+                    const uName = msg.from.username ? `@${msg.from.username}` : `${msg.from.first_name || ''}`;
+
+                    let matchedId = null;
+                    if (text.startsWith("/start ")) {
+                        matchedId = text.replace("/start ", "").trim().toUpperCase();
+                    } else if (text.toUpperCase().startsWith("DENT-")) {
+                        matchedId = text.trim().toUpperCase();
+                    }
+
+                    let patient = matchedId ? patients.find(p => p.id.toUpperCase() === matchedId) : null;
+
+                    // Agar telefon raqam orqali mos kelishi
+                    if (!patient && msg.contact && msg.contact.phone_number) {
+                        const cleanPhone = msg.contact.phone_number.replace(/\D/g, "");
+                        patient = patients.find(p => (p.phone || "").replace(/\D/g, "").includes(cleanPhone.slice(-9)));
+                    }
+
+                    if (patient) {
+                        if (patient.telegramChatId !== chatId) {
+                            patient.telegramChatId = chatId;
+                            patient.telegramUsername = uName;
+                            hasChanges = true;
+
+                            const welcome = `🏥 <b>DentaCare Stomatologiya Klinikasi</b>\n\nAssalomu alaykum, hurmatli <b>${patient.fullName}</b>!\nSiz klinikamizning rasmiy botiga muvaffaqiyatli ulandingiz. ✅\n\n👨‍⚕️ Mas'ul shifokoringiz: <b>${patient.doctor || 'Dr. Ahmadbek'}</b>\n\n🩺 Shifokoringiz belgilagan barcha dorilar, retseptlar va qabul eslatmalari to'g'ridan-to'g'ri shu yerga yuboriladi.\n\n📞 Klinika: +998 90 777 01 01\n<i>Sog'ligingiz biz uchun muhim!</i> ✨`;
+                            sendTelegramMessage(chatId, welcome);
+                            showToast(`${patient.fullName} Telegram botga ulandi!`, "success");
+                        }
+                    } else if (text === "/start") {
+                        sendTelegramMessage(chatId, `Assalomu alaykum! 🏥 <b>DentaCare Stomatologiya</b> rasmiy botiga xush kelibsiz.\n\nRetseptlaringizni olish uchun, shifokor bergan <b>Bemor ID</b> raqamingizni yuboring (Masalan: <code>DENT-101</code>) yoki shifokoringiz taqdim etgan QR-kodni skaner qiling.`);
+                    }
+                }
+
+                if (hasChanges) {
+                    savePatientsToStorage(patients);
+                    renderPatientsTable();
+                    if (activeViewingPatientId) {
+                        openPatientViewModal(activeViewingPatientId);
+                    }
+                    if (tgConnectionStatusText) {
+                        tgConnectionStatusText.innerHTML = `<span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Bemor muvaffaqiyatli ulandi!</span>`;
+                    }
+                }
+            }
+        } catch (e) {
+            // Jim xatolik
+        }
+    }
+
+    // Har 4 soniyada botni tekshirib turish
+    setInterval(checkTelegramUpdates, 4000);
+    setTimeout(checkTelegramUpdates, 1000);
 
     // ==========================================================
     // YANGI XIZMAT TURINI QO'SHISH & BOSHQARISH
@@ -1458,21 +1699,31 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // CSV Header with UTF-8 BOM
+        // CSV Header with UTF-8 BOM and semicolon delimiter for Excel
         let csvContent = "\uFEFF";
-        csvContent += "T/r,Bemor ID,Qabul Sanasi,Bemor F.I.Sh,Telefon,Mas'ul Shifokor,Xizmat Turi,Tashxis,Umumiy Narx (so'm),To'langan Summa (so'm),Qoldiq Qarz (so'm),To'lov Holati,Muolaja Holati\n";
+        csvContent += "sep=;\n";
+        csvContent += "T/r;Bemor ID;Qabul Sanasi;Bemor F.I.Sh;Telefon;Mas'ul Shifokor;Xizmat Turi;Tashxis;Umumiy Narx (so'm);To'langan Summa (so'm);Qoldiq Qarz (so'm);To'lov Holati;Muolaja Holati\n";
 
         filtered.forEach((p, idx) => {
             const total = Number(p.totalAmount) || 0;
             const paid = Number(p.paidAmount) || 0;
             const debt = Math.max(0, total - paid);
 
+            // Telefon raqamini chiroyli formatlash (Excel eksponensial qilib yubormasligi uchun)
+            let phoneStr = (p.phone || '').trim();
+            const cleanDigits = phoneStr.replace(/\D/g, '');
+            if (cleanDigits.length === 12 && cleanDigits.startsWith('998')) {
+                phoneStr = `+998 ${cleanDigits.slice(3, 5)} ${cleanDigits.slice(5, 8)} ${cleanDigits.slice(8, 10)} ${cleanDigits.slice(10, 12)}`;
+            } else if (!phoneStr.includes(' ') && phoneStr.length > 9) {
+                phoneStr = `'${phoneStr}`;
+            }
+
             const row = [
                 idx + 1,
                 `"${p.id}"`,
                 `"${p.appointmentDate || p.createdAt || ''}"`,
                 `"${(p.fullName || '').replace(/"/g, '""')}"`,
-                `"${p.phone || ''}"`,
+                `"${phoneStr}"`,
                 `"${(p.doctor || '').replace(/"/g, '""')}"`,
                 `"${(p.serviceName || '').replace(/"/g, '""')}"`,
                 `"${(p.diagnosis || '').replace(/"/g, '""')}"`,
@@ -1482,7 +1733,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 `"${p.paymentStatus || ''}"`,
                 `"${p.status || ''}"`
             ];
-            csvContent += row.join(",") + "\n";
+            csvContent += row.join(";") + "\n";
         });
 
         const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
