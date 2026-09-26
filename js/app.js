@@ -1102,6 +1102,7 @@ ${patient.prescription}
         const btnToggleSidebar = document.getElementById("btnToggleSidebar");
         const btnCloseSidebar = document.getElementById("btnCloseSidebar");
         const sidebar = document.getElementById("sidebar");
+        const sidebarOverlay = document.getElementById("sidebarOverlay");
 
         navLinks.forEach(link => {
             link.addEventListener("click", (e) => {
@@ -1111,6 +1112,7 @@ ${patient.prescription}
 
                 if (window.innerWidth <= 1024 && sidebar) {
                     sidebar.classList.remove("open");
+                    if (sidebarOverlay) sidebarOverlay.classList.remove("active");
                 }
             });
         });
@@ -1118,12 +1120,21 @@ ${patient.prescription}
         if (btnToggleSidebar && sidebar) {
             btnToggleSidebar.addEventListener("click", () => {
                 sidebar.classList.toggle("open");
+                if (sidebarOverlay) sidebarOverlay.classList.toggle("active");
             });
         }
 
         if (btnCloseSidebar && sidebar) {
             btnCloseSidebar.addEventListener("click", () => {
                 sidebar.classList.remove("open");
+                if (sidebarOverlay) sidebarOverlay.classList.remove("active");
+            });
+        }
+
+        if (sidebarOverlay && sidebar) {
+            sidebarOverlay.addEventListener("click", () => {
+                sidebar.classList.remove("open");
+                sidebarOverlay.classList.remove("active");
             });
         }
 

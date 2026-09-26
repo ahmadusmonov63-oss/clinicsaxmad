@@ -1463,64 +1463,25 @@ button, input, select, textarea {
 }
 
 /* ==========================================================
-   10. RESPONSIVE DESIGN
+   10. MOBILE BACKDROP OVERLAY
    ========================================================== */
-@media (max-width: 1024px) {
-    .sidebar {
-        position: fixed;
-        left: -280px;
-        top: 0;
-        bottom: 0;
-    }
-
-    .sidebar.open {
-        left: 0;
-        box-shadow: 10px 0 30px rgba(0,0,0,0.3);
-    }
-
-    .btn-close-sidebar {
-        display: block;
-    }
-
-    .btn-toggle-sidebar {
-        display: block;
-    }
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 95;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
-    .content-body {
-        padding: 16px;
-    }
-
-    .top-header {
-        padding: 14px 16px;
-    }
-
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-
-    .view-card-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .header-right .user-pill-text {
-        display: none;
-    }
-
-    .header-247-badge .badge-247-text small {
-        display: none;
-    }
-
-    .report-filters-bar {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .report-kpi-grid {
-        grid-template-columns: 1fr;
-    }
+.sidebar-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* ==========================================================
@@ -2069,7 +2030,510 @@ button, input, select, textarea {
 }
 
 /* ==========================================================
-   14. PRINT STYLES (@media print)
+   14. RESPONSIVE DESIGN (TABLET & SMARTPHONES)
+   ========================================================== */
+
+/* Tablet & Kichik noutbuklar (max-width: 1024px) */
+@media (max-width: 1024px) {
+    .dashboard-body, .app-layout {
+        overflow-x: hidden;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: -290px;
+        top: 0;
+        bottom: 0;
+        height: 100dvh;
+        z-index: 100;
+        box-shadow: none;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar.open {
+        left: 0;
+        box-shadow: 12px 0 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .btn-close-sidebar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-toggle-sidebar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content-body {
+        padding: 18px;
+    }
+}
+
+/* Telefonlar va Smartfonlar (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Yuqori panel (Header) */
+    .top-header {
+        padding: 10px 14px;
+        gap: 8px;
+    }
+
+    .header-left {
+        gap: 8px;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .btn-toggle-sidebar {
+        padding: 8px 10px;
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    .header-title h2 {
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.2;
+    }
+
+    .header-title p {
+        display: none;
+    }
+
+    .header-right {
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .header-247-badge {
+        padding: 4px 8px;
+        font-size: 11.5px;
+        gap: 4px;
+    }
+
+    .header-247-badge .badge-247-text small {
+        display: none;
+    }
+
+    /* "Yangi Bemor" tugmasi: faqat plyus iconi qoladi, joy tejash uchun */
+    #btnOpenAddPatientModal {
+        padding: 8px 12px;
+        border-radius: var(--radius-md);
+        font-size: 14px;
+    }
+
+    #btnOpenAddPatientModal span {
+        display: none;
+    }
+
+    .user-pill {
+        padding: 4px;
+        gap: 0;
+        background: transparent;
+    }
+
+    .user-pill img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .user-pill-text {
+        display: none;
+    }
+
+    /* Asosiy kontent maydoni */
+    .content-body {
+        padding: 12px;
+    }
+
+    /* Statistika kartalari (2 tadan 2 qatorda) */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .stat-card {
+        padding: 12px;
+        border-radius: var(--radius-md);
+        position: relative;
+    }
+
+    .stat-content span {
+        font-size: 11px;
+        line-height: 1.2;
+        display: block;
+    }
+
+    .stat-content h3 {
+        font-size: 17px;
+        margin: 4px 0 2px;
+    }
+
+    .stat-meta {
+        font-size: 9.5px;
+    }
+
+    .stat-icon-wrapper {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        opacity: 0.85;
+    }
+
+    /* Oylik banner */
+    .month-highlight-banner {
+        padding: 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .banner-left-info h4 {
+        font-size: 15px;
+    }
+
+    .banner-left-info p {
+        font-size: 12px;
+    }
+
+    .btn-banner-link {
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    /* Bemorlar jadvali va qidiruv */
+    .section-card {
+        margin-bottom: 16px;
+        border-radius: var(--radius-md);
+    }
+
+    .section-card-header {
+        padding: 14px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .header-titles h3 {
+        font-size: 16px;
+    }
+
+    .header-titles p {
+        font-size: 12px;
+    }
+
+    .table-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        width: 100%;
+        min-width: 0;
+        font-size: 13px;
+    }
+
+    .form-select-sm {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .custom-table th, .custom-table td {
+        padding: 10px 12px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .table-footer {
+        padding: 10px 14px;
+        font-size: 12px;
+    }
+
+    /* Tishlar xaritasi (Tooth Chart) */
+    .tooth-chart-container {
+        padding: 12px;
+        margin: 6px 0;
+        border-radius: var(--radius-md);
+    }
+
+    .tooth-jaw-section {
+        padding: 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .teeth-row {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+    }
+
+    .tooth-item {
+        min-width: 50px;
+        max-width: 50px;
+        padding: 6px 3px;
+        flex-shrink: 0;
+    }
+
+    .tooth-item i {
+        font-size: 16px;
+        margin-bottom: 2px;
+    }
+
+    .tooth-num {
+        font-size: 11px;
+    }
+
+    .tooth-state-tag {
+        font-size: 8.5px;
+    }
+
+    .tooth-legend {
+        gap: 8px;
+        font-size: 11px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    /* Xizmatlar & Ishchilar paneli */
+    .services-grid, .doctors-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    .service-card, .doctor-card {
+        padding: 14px;
+        border-radius: var(--radius-md);
+    }
+
+    .shift-banner-notice {
+        padding: 12px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    /* Oylik hisobotlar (Reports) */
+    .report-header-card {
+        padding: 14px;
+        margin-bottom: 16px;
+    }
+
+    .report-header-top {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 14px;
+        padding-bottom: 12px;
+    }
+
+    .report-header-top h3 {
+        font-size: 16px;
+    }
+
+    .report-actions-group {
+        width: 100%;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-action-outline, .btn-action-primary {
+        width: 100%;
+        justify-content: center;
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .report-filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .report-filter-item {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .report-btn-item {
+        width: 100%;
+    }
+
+    .btn-refresh-styled {
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .report-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .report-kpi-card {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .kpi-icon-box {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+    }
+
+    .kpi-label {
+        font-size: 10.5px;
+    }
+
+    .kpi-info-box h3 {
+        font-size: 15px;
+    }
+
+    .kpi-sub {
+        font-size: 9.5px;
+    }
+
+    .services-report-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    /* Modallar (Pastdan chiqadigan qulay oyna - Bottom Sheet) */
+    .modal-overlay {
+        padding: 8px;
+        align-items: flex-end;
+    }
+
+    .modal-dialog {
+        max-height: 92dvh;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        width: 100%;
+        margin: 0;
+    }
+
+    .modal-header {
+        padding: 14px 16px;
+    }
+
+    .modal-title-wrap h3 {
+        font-size: 15px;
+    }
+
+    .modal-form {
+        padding: 14px 16px;
+        max-height: calc(92dvh - 120px);
+    }
+
+    .modal-body-scroll {
+        padding: 14px 16px;
+        max-height: calc(92dvh - 120px);
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+        margin-bottom: 0;
+    }
+
+    .col-4, .col-6, .col-8 {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group input, 
+    .form-group select, 
+    .form-group textarea {
+        padding: 9px 12px;
+        font-size: 13.5px;
+    }
+
+    .modal-footer {
+        padding: 12px 16px;
+        flex-direction: column-reverse;
+        gap: 8px;
+    }
+
+    .modal-footer button {
+        width: 100%;
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .view-card-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    /* Bildirishnomalar (Toast) */
+    .toast-container {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        width: auto;
+    }
+
+    .toast {
+        min-width: 0;
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+}
+
+/* Kichik telefonlar (max-width: 480px) */
+@media (max-width: 480px) {
+    .header-247-badge {
+        display: none;
+    }
+
+    .header-title h2 {
+        font-size: 13.5px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-kpi-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================
+   15. PRINT STYLES (@media print)
    ========================================================== */
 @media print {
     body, .dashboard-body, .main-content {
