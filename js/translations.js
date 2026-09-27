@@ -20,6 +20,7 @@ const translations = {
         btnAddPatient: "Yangi Bemor Qo'shish",
         roleAdmin: "Boshqaruvchi",
         roleHeadDoctor: "Bosh shifokor",
+        sidebarRoleHeadDoctor: "Bosh shifokor",
 
         // Dashboard Stats
         statTotalPatients: "Jami Ro'yxatdagi Bemorlar",
@@ -34,7 +35,7 @@ const translations = {
         // Month banner
         bannerTag: "OYLIK HISOBOT KO'RSATKICHI",
         bannerLink: "Oylik To'liq Hisobotni Ko'rish",
-        bannerDesc: (patientsCount, revenueSum) => `Shu oyda jami: <strong>${patientsCount} ta bemor</strong> qabul qilindi &bull; Tushgan tushum: <strong>${revenueSum}</strong>`,
+        bannerDesc: (patientsCount, revenueSum) => `Shu oyda jami: <strong id="dashMonthPatientsCount">${patientsCount} ta bemor</strong> qabul qilindi &bull; Tushgan tushum: <strong id="dashMonthRevenueSum">${revenueSum}</strong>`,
 
         // Patients Section
         patientsTitle: "Bemorlar va Mijozlar Ro'yxati",
@@ -78,13 +79,21 @@ const translations = {
         legendTreatment: "Davolanmoqda",
         legendDone: "Plombalangan / Tugatilgan",
         legendCrown: "Tojburchak / Implant",
+        toothHealthy: "Sog'lom",
+        toothTreatment: "Muolajada",
+        toothDone: "Davolangan",
+        toothCrown: "Implant/Toj",
+        toothTitleFmt: (num, tag) => `${num}-tish: ${tag}`,
+        toothSearchToast: (num) => `${num}-raqamli tish bo'yicha bemorlar qidirildi`,
 
         // Services Tab
         servicesTitle: "Klinika Xizmat Turlari va Narxnomasi",
         servicesSubtitle: "Mavjud xizmatlar ro'yxati va yangi xizmat turlarini qo'shish paneli",
         btnAddService: "Yangi Xizmat Qo'shish",
         noServices: "Xizmatlar mavjud emas",
-        durationLabel: "Davomiyligi",
+        serviceDurationPrefix: "Davomiyligi:",
+        servicePricePrefix: "Standart narx:",
+        serviceDeleteTooltip: "Xizmatni o'chirish",
 
         // Doctors Tab
         shiftBannerTitle: "24/7 Tun-u Kun Uzluksiz Navbatchilik Tizimi",
@@ -93,7 +102,9 @@ const translations = {
         doctorsTitle: "Ishchilar va Shifokorlar Jamoasi",
         doctorsSubtitle: "Klinikamiz mutaxassislari, shifokorlar va yangi xodimlarni ro'yxatga olish",
         btnAddDoctor: "Yangi Ishchi Qo'shish",
-        expLabel: "Tajriba",
+        doctorExpPrefix: "Tajriba:",
+        doctorDeleteTooltip: "Ishchini o'chirish",
+        doctorEmpty: "Xodimlar mavjud emas",
 
         // Reports Tab
         reportTopBadge: "OYLIK MOLIYAVIY VA QABULLAR HISOBOTI",
@@ -105,23 +116,92 @@ const translations = {
         lblReportStatus: "Muolaja Holati:",
         allDoctorsOption: "Barcha Xodimlar (Umumiy hisobot)",
         allStatusesOption: "Barcha Holatlar",
+        statusOnlyDone: "Faqat Tugatilganlar",
+        statusTreatingOpt: "Davolanmoqda",
+        statusWaitingOpt: "Kutilmoqda",
         btnRefresh: "Yangilash",
+        btnRefreshTooltip: "Hisobotni qayta hisoblash",
+        reportMainTitleFmt: (mName, dName) => `${mName}${dName} Hisoboti`,
+
+        // KPI cards
         kpiPatients: "Shu Oydagi Bemorlar",
         kpiPatientsSub: "Qabul qilingan mijozlar",
         kpiRevenue: "Kassaga Tushgan Summa",
-        kpiRevenueSub: "Faqat to'langan naqd/karta",
-        kpiPending: "Kutilayotgan Qoldiq Qarz",
-        kpiPendingSub: "Bemorlar to'lashi kerak bo'lgan",
-        kpiAvg: "O'rtacha Bemor Cheki",
-        kpiAvgSub: "1 bemorga to'g'ri kelgan tushum",
-        tabTitleDoctors: "Shifokorlar / Ishchilar Oylik Ish Rejalari va Natijalari",
-        tabTitleHistory: "Oylar Bo'yicha Bemorlar va Moliyaviy Dinamika",
-        tabTitleServices: "Xizmat Turlari Bo'yicha Oylik Tushumlar",
-        tabTitleList: "Shu Oydagi Bemorlar va To'lovlar Ro'yxati",
+        kpiRevenueSub: "Undirilgan haqiqiy tushum",
+        kpiTotal: "Umumiy Xizmat Qiymati",
+        kpiTotalSub: "Barcha muolajalar summasi",
+        kpiDebt: "Qoldiq / Qarz Summasi",
+        kpiDebtSub: "Kutilayotgan to'lovlar",
+        kpiCompleted: "Tugatilgan Muolajalar",
+        kpiCompletedSub: "Muvaffaqiyatli yakunlandi",
+        kpiAvg: "O'rtacha Chek (Tushum)",
+        kpiAvgSub: "Bitta bemor hisobiga",
+        kpiPatientsValFmt: (cnt) => `${cnt} ta`,
+        kpiCompletedValFmt: (cnt) => `${cnt} ta`,
+
+        // Doctor Breakdown Table
+        docTableTitle: "Ishchilar & Shifokorlar Kesimidagi Oylik Natijalar",
+        docTableSub: "Xodimlar oy oxirida o'z hisobotlarini ko'rishlari, topshirishlari va maosh/ulush hisoblashlari uchun qulay jadval",
+        docThName: "Shifokor / Ishchi",
+        docThSpec: "Mutaxassisligi",
+        docThPatients: "Qabul Qilingan Bemorlar",
+        docThServices: "Xizmatlar Hajmi",
+        docThRevenue: "Tushgan Tushum",
+        docThDebt: "Qoldiq (Qarz)",
+        docThRate: "To'lov Foizi",
+        docThAction: "Amal",
+        docColLabel: "Undirish:",
+        btnFilterDoc: "Filtrlash",
+        btnFilterDocSelected: "Tanlangan",
+        btnFilterDocTitle: "Faqat ushbu xodim hisobotini ko'rish",
+        docTableEmpty: "Ishchilar ro'yxati bo'sh",
+        docBadgePatientsFmt: (cnt) => `${cnt} ta bemor`,
+
+        // Monthly Dynamic History Table
+        histTableTitle: "Oylar Bo'yicha Tushumlar va Bemorlar Dinamikasi",
+        histTableSub: "Har oyda tushgan summalar va bemorlar soni tarixi (har bir oydagi umumiy tushum avtomatik yangilanadi)",
+        histBadgeDynamic: "Oylik Dinamika",
+        histThMonth: "Hisobot Oyi",
+        histThPatients: "Bemorlar Soni",
+        histThCompleted: "Tugatilgan Muolajalar",
+        histThTotal: "Umumiy Xizmat Qiymati",
+        histThRevenue: "Kassaga Tushgan Summa",
+        histThDebt: "Qoldiq (Qarz)",
+        histThAvg: "O'rtacha Tushum",
+        histThAction: "Ushbu Oyni Ochish",
+        histBadgeCurrentMonth: "Joriy oy",
+        histCompletedFmt: (cnt) => `${cnt} ta yakunlangan`,
+        btnOpenMonthReport: "Hisobotni Ochish",
+        btnViewingMonthReport: "Ko'rilmoqda",
+        toastMonthSelected: (m) => `${m} oyi hisoboti tanlandi`,
+
+        // Services Monthly Distribution
+        servicesReportTitle: "Xizmat Turlari Bo'yicha Oylik Tushum Taqsimoti",
+        servicesReportSub: "Tanlangan oyda eng ko'p talab qilingan stomatologik amaliyotlar va tushumlar",
+        servicesReportEmpty: "Ushbu davrda xizmatlar mavjud emas",
+        serviceReportRevenueLabel: "Oylik Tushum:",
+        serviceReportCountFmt: (cnt) => `${cnt} ta bemor`,
+
+        // Patient Registry Table
+        reportListTitle: "Tanlangan Davrdagi Bemorlar Ro'yxati (Reestr)",
+        reportListSub: "Ushbu oyda xizmat ko'rsatilgan bemorlarning to'liq reestri",
+        reportPatientsEmpty: "Ushbu oy va tanlangan shartlar bo'yicha bemorlar topilmadi",
+        reportListCountFmt: (cnt) => `Ko'rsatilmoqda: ${cnt} ta bemor`,
+        thRegId: "ID",
+        thRegDateTime: "Sana & Vaqt",
+        thRegPatient: "Bemor F.I.Sh",
+        thRegPhone: "Telefon",
+        thRegDoctor: "Mas'ul Shifokor",
+        thRegService: "Xizmat Turi",
+        thRegTotal: "Umumiy Narx",
+        thRegPaid: "Tushgan Summa",
+        thRegPayStatus: "To'lov Holati",
+        thRegStatus: "Muolaja Holati",
 
         // Modals - Patient Modal
         modalAddPatientTitle: "Yangi Bemor Qo'shish",
         modalEditPatientTitle: "Bemor Ma'lumotlarini Tahrirlash",
+        modalAddPatientSub: "Bemor ma'lumotlarini to'ldiring (Object sifatida saqlanadi)",
         lblFullName: "F.I.Sh (Ism Familiya)",
         lblPhone: "Telefon raqami",
         lblAge: "Yoshi",
@@ -165,6 +245,7 @@ const translations = {
         viewDoctorNotes: "Shifokor Eslatmasi va Muolaja Tavsifi:",
         btnClose: "Yopish",
         btnEdit: "Tahrirlash",
+        registeredDateLabel: "Ro'yxatga olingan:",
 
         // Telegram Modal
         tgModalTitle: "Bemorni Telegram Botga Ulash",
@@ -186,13 +267,21 @@ const translations = {
 
         // Doctor Modal
         modalAddDoctorTitle: "Yangi Ishchi / Shifokor Qo'shish",
+        modalEditDoctorTitle: "Xodim Ma'lumotlarini Tahrirlash",
         modalAddDoctorSub: "Klinika xodimini ro'yxatga kiritish",
         lblDoctorName: "F.I.Sh (To'liq ism)",
         lblDoctorSpecialty: "Lavozimi / Mutaxassisligi",
         lblDoctorExp: "Ish tajribasi",
         lblDoctorPhone: "Telefon raqami",
-        lblDoctorAvatar: "Avatar rasmi",
+        lblDoctorAvatar: "Shifokor / Xodim rasmi",
+        btnUploadDoctorPhotoText: "O'z rasmingizni yuklash",
+        btnResetDoctorPhotoText: "Tozalash",
+        lblDoctorAvatarHelp: "Kompyuter yoki telefoningizdagi istalgan rasmni tanlang (avtomatik moslashtiriladi)",
+        lblOrChoosePreset: "Yoki tayyor shablon rasmlardan birini tanlang:",
         btnAddDoctorSubmit: "Ishchini Qo'shish",
+        btnSaveDoctorEdit: "O'zgarishlarni Saqlash",
+        toastPhotoUploaded: "Rasm muvaffaqiyatli yuklandi!",
+        toastDoctorUpdated: (name) => `Xodim ("${name}") ma'lumotlari yangilandi!`,
 
         // Toasts & Alerts
         toastSaved: "Bemor ma'lumotlari saqlandi!",
@@ -234,6 +323,7 @@ const translations = {
         btnAddPatient: "Добавить пациента",
         roleAdmin: "Администратор",
         roleHeadDoctor: "Главный врач",
+        sidebarRoleHeadDoctor: "Главный врач",
 
         // Dashboard Stats
         statTotalPatients: "Всего пациентов в базе",
@@ -248,7 +338,7 @@ const translations = {
         // Month banner
         bannerTag: "ПОКАЗАТЕЛИ ЗА МЕСЯЦ",
         bannerLink: "Посмотреть полный отчёт за месяц",
-        bannerDesc: (patientsCount, revenueSum) => `В этом месяце принято: <strong>${patientsCount} пациентов</strong> &bull; Доход: <strong>${revenueSum}</strong>`,
+        bannerDesc: (patientsCount, revenueSum) => `В этом месяце: принято <strong id="dashMonthPatientsCount">${patientsCount} пациентов</strong> &bull; Поступления: <strong id="dashMonthRevenueSum">${revenueSum}</strong>`,
 
         // Patients Section
         patientsTitle: "Список пациентов и клиентов",
@@ -292,13 +382,21 @@ const translations = {
         legendTreatment: "На лечении",
         legendDone: "Пломбирован / Завершён",
         legendCrown: "Коронка / Имплант",
+        toothHealthy: "Здоровый",
+        toothTreatment: "На лечении",
+        toothDone: "Вылечен",
+        toothCrown: "Имплант",
+        toothTitleFmt: (num, tag) => `${num}-зуб: ${tag}`,
+        toothSearchToast: (num) => `Поиск пациентов по зубу #${num}`,
 
         // Services Tab
         servicesTitle: "Услуги и прейскурант клиники",
         servicesSubtitle: "Список оказываемых услуг и панель добавления новых",
         btnAddService: "Добавить услугу",
         noServices: "Услуги отсутствуют",
-        durationLabel: "Длительность",
+        serviceDurationPrefix: "Длительность:",
+        servicePricePrefix: "Стандартная цена:",
+        serviceDeleteTooltip: "Удалить услугу",
 
         // Doctors Tab
         shiftBannerTitle: "24/7 Круглосуточная система дежурств",
@@ -307,7 +405,9 @@ const translations = {
         doctorsTitle: "Команда врачей и персонала",
         doctorsSubtitle: "Специалисты клиники, лечащие врачи и регистрация новых сотрудников",
         btnAddDoctor: "Добавить сотрудника",
-        expLabel: "Опыт работы",
+        doctorExpPrefix: "Опыт:",
+        doctorDeleteTooltip: "Удалить сотрудника",
+        doctorEmpty: "Сотрудники отсутствуют",
 
         // Reports Tab
         reportTopBadge: "ЕЖЕМЕСЯЧНЫЙ ФИНАНСОВЫЙ И ПРИЁМНЫЙ ОТЧЁТ",
@@ -319,23 +419,92 @@ const translations = {
         lblReportStatus: "Статус лечения:",
         allDoctorsOption: "Все сотрудники (Общий отчёт)",
         allStatusesOption: "Все статусы",
+        statusOnlyDone: "Только завершённые",
+        statusTreatingOpt: "На лечении",
+        statusWaitingOpt: "Ожидает",
         btnRefresh: "Обновить",
+        btnRefreshTooltip: "Пересчитать отчёт",
+        reportMainTitleFmt: (mName, dName) => `Отчёт за ${mName}${dName}`,
+
+        // KPI cards
         kpiPatients: "Пациентов за месяц",
         kpiPatientsSub: "Принятые клиенты",
         kpiRevenue: "Поступило в кассу",
-        kpiRevenueSub: "Только оплаченные средства",
-        kpiPending: "Ожидаемый остаток долга",
-        kpiPendingSub: "Подлежит оплате пациентами",
-        kpiAvg: "Средний чек пациента",
-        kpiAvgSub: "Доход на 1 пациента",
-        tabTitleDoctors: "Планы и результаты работы врачей за месяц",
-        tabTitleHistory: "Динамика пациентов и финансов по месяцам",
-        tabTitleServices: "Доходы по видам стоматологических услуг",
-        tabTitleList: "Список пациентов и платежей за выбранный месяц",
+        kpiRevenueSub: "Фактически полученный доход",
+        kpiTotal: "Общая стоимость услуг",
+        kpiTotalSub: "Сумма всех процедур",
+        kpiDebt: "Остаток / Задолженность",
+        kpiDebtSub: "Ожидаемые платежи",
+        kpiCompleted: "Завершённые процедуры",
+        kpiCompletedSub: "Успешно завершено",
+        kpiAvg: "Средний чек (Доход)",
+        kpiAvgSub: "На одного пациента",
+        kpiPatientsValFmt: (cnt) => `${cnt} чел.`,
+        kpiCompletedValFmt: (cnt) => `${cnt} проц.`,
+
+        // Doctor Breakdown Table
+        docTableTitle: "Ежемесячные результаты по сотрудникам и врачам",
+        docTableSub: "Удобная таблица для просмотра отчётов сотрудников, сдачи отчётности и расчёта доли/зарплаты в конце месяца",
+        docThName: "Врач / Сотрудник",
+        docThSpec: "Специальность",
+        docThPatients: "Принято пациентов",
+        docThServices: "Объём услуг",
+        docThRevenue: "Поступления",
+        docThDebt: "Остаток (Долг)",
+        docThRate: "% Оплаты",
+        docThAction: "Действие",
+        docColLabel: "Сбор:",
+        btnFilterDoc: "Фильтр",
+        btnFilterDocSelected: "Выбрано",
+        btnFilterDocTitle: "Показать отчёт только этого сотрудника",
+        docTableEmpty: "Список сотрудников пуст",
+        docBadgePatientsFmt: (cnt) => `${cnt} пац.`,
+
+        // Monthly Dynamic History Table
+        histTableTitle: "Динамика поступлений и пациентов по месяцам",
+        histTableSub: "История ежемесячных поступлений и количества пациентов (общие поступления обновляются автоматически)",
+        histBadgeDynamic: "Ежемесячная динамика",
+        histThMonth: "Месяц отчёта",
+        histThPatients: "Кол-во пациентов",
+        histThCompleted: "Завершённые процедуры",
+        histThTotal: "Общая стоимость услуг",
+        histThRevenue: "Поступило в кассу",
+        histThDebt: "Остаток (Долг)",
+        histThAvg: "Средний чек",
+        histThAction: "Открыть этот месяц",
+        histBadgeCurrentMonth: "Текущий месяц",
+        histCompletedFmt: (cnt) => `${cnt} завершено`,
+        btnOpenMonthReport: "Открыть отчёт",
+        btnViewingMonthReport: "Просматривается",
+        toastMonthSelected: (m) => `Выбран отчёт за ${m}`,
+
+        // Services Monthly Distribution
+        servicesReportTitle: "Распределение ежемесячного дохода по видам услуг",
+        servicesReportSub: "Наиболее востребованные стоматологические процедуры и доходы за выбранный месяц",
+        servicesReportEmpty: "За этот период услуги отсутствуют",
+        serviceReportRevenueLabel: "Доход за месяц:",
+        serviceReportCountFmt: (cnt) => `${cnt} пациентов`,
+
+        // Patient Registry Table
+        reportListTitle: "Реестр пациентов за выбранный период",
+        reportListSub: "Полный реестр пациентов, обслуженных за этот месяц",
+        reportPatientsEmpty: "По выбранным параметрам пациентов не найдено",
+        reportListCountFmt: (cnt) => `Показано: ${cnt} пациентов`,
+        thRegId: "ID",
+        thRegDateTime: "Дата и время",
+        thRegPatient: "Ф.И.О Пациента",
+        thRegPhone: "Телефон",
+        thRegDoctor: "Лечащий врач",
+        thRegService: "Вид услуги",
+        thRegTotal: "Общая стоимость",
+        thRegPaid: "Оплачено",
+        thRegPayStatus: "Статус оплаты",
+        thRegStatus: "Статус лечения",
 
         // Modals - Patient Modal
         modalAddPatientTitle: "Добавить нового пациента",
         modalEditPatientTitle: "Редактировать данные пациента",
+        modalAddPatientSub: "Заполните данные пациента (сохраняются в базе)",
         lblFullName: "Ф.И.О (Полное имя)",
         lblPhone: "Номер телефона",
         lblAge: "Возраст",
@@ -379,6 +548,7 @@ const translations = {
         viewDoctorNotes: "Заметки врача и описание лечения:",
         btnClose: "Закрыть",
         btnEdit: "Редактировать",
+        registeredDateLabel: "Зарегистрирован:",
 
         // Telegram Modal
         tgModalTitle: "Подключение пациента к Telegram боту",
@@ -400,13 +570,21 @@ const translations = {
 
         // Doctor Modal
         modalAddDoctorTitle: "Добавить нового сотрудника / врача",
+        modalEditDoctorTitle: "Редактировать данные сотрудника",
         modalAddDoctorSub: "Регистрация сотрудника клиники",
         lblDoctorName: "Ф.И.О (Полное имя)",
         lblDoctorSpecialty: "Должность / Специальность",
         lblDoctorExp: "Опыт работы",
         lblDoctorPhone: "Номер телефона",
-        lblDoctorAvatar: "Фотография аватара",
+        lblDoctorAvatar: "Фотография сотрудника / врача",
+        btnUploadDoctorPhotoText: "Загрузить своё фото",
+        btnResetDoctorPhotoText: "Сбросить",
+        lblDoctorAvatarHelp: "Выберите любое фото с компьютера или телефона (автоматически подгоняется)",
+        lblOrChoosePreset: "Или выберите готовый шаблон аватара:",
         btnAddDoctorSubmit: "Добавить сотрудника",
+        btnSaveDoctorEdit: "Сохранить изменения",
+        toastPhotoUploaded: "Фотография успешно загружена!",
+        toastDoctorUpdated: (name) => `Данные сотрудника ("${name}") обновлены!`,
 
         // Toasts & Alerts
         toastSaved: "Данные пациента сохранены!",
@@ -434,7 +612,7 @@ let currentAppLang = localStorage.getItem("dentacare_app_lang") || "uz";
 
 function t(key, ...args) {
     const dict = translations[currentAppLang] || translations.uz;
-    const val = dict[key] || translations.uz[key] || key;
+    const val = dict[key] !== undefined ? dict[key] : (translations.uz[key] !== undefined ? translations.uz[key] : key);
     if (typeof val === "function") {
         return val(...args);
     }

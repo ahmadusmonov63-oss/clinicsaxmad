@@ -117,13 +117,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnLogoutSpan = document.querySelector("#btnLogout span");
         if (btnLogoutSpan) btnLogoutSpan.textContent = t("navLogout");
 
-        // Header
+        // Header & Sidebar
         const badgeShiftText = document.getElementById("badgeShiftText");
         if (badgeShiftText) badgeShiftText.textContent = t("headerBadge247");
         const btnAddPatientText = document.getElementById("btnAddPatientText");
         if (btnAddPatientText) btnAddPatientText.textContent = t("btnAddPatient");
         const topHeaderRole = document.getElementById("topHeaderRole");
         if (topHeaderRole) topHeaderRole.textContent = t("roleAdmin");
+        const sidebarRoleBadge = document.getElementById("sidebarRoleBadge");
+        if (sidebarRoleBadge) sidebarRoleBadge.textContent = t("sidebarRoleHeadDoctor");
 
         // Stats Cards labels
         const statCards = document.querySelectorAll(".stat-card");
@@ -173,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
             statusFilter.options[4].text = t("filterCancelled");
         }
 
-        // Table headers
+        // Patients Table headers
         const thList = document.querySelectorAll("#patientsTable thead th");
         if (thList.length >= 10) {
             thList[0].textContent = t("thId");
@@ -204,6 +206,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const cLine = document.querySelector(".chart-divider span");
         if (cLine) cLine.textContent = t("centerLine");
 
+        // Tooth Legend items
+        const legH = document.getElementById("legendHealthy");
+        if (legH) legH.innerHTML = `<span class="legend-color healthy"></span> ${t("legendHealthy")}`;
+        const legT = document.getElementById("legendTreatment");
+        if (legT) legT.innerHTML = `<span class="legend-color treatment"></span> ${t("legendTreatment")}`;
+        const legD = document.getElementById("legendDone");
+        if (legD) legD.innerHTML = `<span class="legend-color done"></span> ${t("legendDone")}`;
+        const legC = document.getElementById("legendCrown");
+        if (legC) legC.innerHTML = `<span class="legend-color crown"></span> ${t("legendCrown")}`;
+
         // Services Tab
         const srvTitles = document.querySelector("#tab-services .section-card-header .header-titles");
         if (srvTitles) {
@@ -223,6 +235,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if (h4) h4.textContent = t("shiftBannerTitle");
             if (p) p.textContent = t("shiftBannerText");
         }
+        const badgeActiveShift = document.getElementById("badgeActiveShift");
+        if (badgeActiveShift) badgeActiveShift.innerHTML = `<span class="pulse-indicator-dot"></span> ${t("shiftBannerBadge")}`;
+
         const docTitles = document.querySelector("#tab-doctors .section-card-header .header-titles");
         if (docTitles) {
             const h3 = docTitles.querySelector("h3");
@@ -233,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnAddDocSpan = document.querySelector("#btnOpenAddDoctorModal span");
         if (btnAddDocSpan) btnAddDocSpan.textContent = t("btnAddDoctor");
 
-        // Reports Tab
+        // Reports Tab - Header & Actions
         const repBadge = document.querySelector(".report-top-badge");
         if (repBadge) repBadge.innerHTML = `<i class="fa-solid fa-file-invoice-dollar"></i> ${t("reportTopBadge")}`;
         const repDesc = document.querySelector(".report-header-top .header-titles p");
@@ -242,16 +257,252 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btnCsvSpan) btnCsvSpan.textContent = t("btnExportCSV");
         const btnPrintSpan = document.querySelector("#btnPrintReport span");
         if (btnPrintSpan) btnPrintSpan.textContent = t("btnPrint");
-        const btnRefreshSpan = document.querySelector("#btnRefreshReport span");
-        if (btnRefreshSpan) btnRefreshSpan.textContent = t("btnRefresh");
+
+        // Reports Tab - Filters Toolbar
+        const lblReportMonth = document.getElementById("lblReportMonth");
+        if (lblReportMonth) lblReportMonth.innerHTML = `<i class="fa-regular fa-calendar"></i> ${t("lblReportMonth")}`;
+        const lblReportDoctor = document.getElementById("lblReportDoctor");
+        if (lblReportDoctor) lblReportDoctor.innerHTML = `<i class="fa-solid fa-user-doctor"></i> ${t("lblReportDoctor")}`;
+        const lblReportStatus = document.getElementById("lblReportStatus");
+        if (lblReportStatus) lblReportStatus.innerHTML = `<i class="fa-solid fa-filter"></i> ${t("lblReportStatus")}`;
+        const btnRefreshReportSpan = document.querySelector("#btnRefreshReport span");
+        if (btnRefreshReportSpan) btnRefreshReportSpan.textContent = t("btnRefresh");
+        const btnRefreshReport = document.getElementById("btnRefreshReport");
+        if (btnRefreshReport) btnRefreshReport.title = t("btnRefreshTooltip");
+
+        const reportStatusSelect = document.getElementById("reportStatusSelect");
+        if (reportStatusSelect && reportStatusSelect.options.length >= 4) {
+            reportStatusSelect.options[0].text = t("allStatusesOption");
+            reportStatusSelect.options[1].text = t("statusOnlyDone");
+            reportStatusSelect.options[2].text = t("statusTreatingOpt");
+            reportStatusSelect.options[3].text = t("statusWaitingOpt");
+        }
+
+        // Reports Tab - KPI Cards Labels
+        const lblKpiPatients = document.getElementById("lblKpiPatients");
+        if (lblKpiPatients) lblKpiPatients.textContent = t("kpiPatients");
+        const kpiMonthPatientsSub = document.getElementById("kpiMonthPatientsSub");
+        if (kpiMonthPatientsSub) kpiMonthPatientsSub.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${t("kpiPatientsSub")}`;
+
+        const lblKpiRevenue = document.getElementById("lblKpiRevenue");
+        if (lblKpiRevenue) lblKpiRevenue.textContent = t("kpiRevenue");
+        const kpiMonthRevenueSub = document.getElementById("kpiMonthRevenueSub");
+        if (kpiMonthRevenueSub) kpiMonthRevenueSub.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${t("kpiRevenueSub")}`;
+
+        const lblKpiTotal = document.getElementById("lblKpiTotal");
+        if (lblKpiTotal) lblKpiTotal.textContent = t("kpiTotal");
+        const kpiMonthTotalSub = document.getElementById("kpiMonthTotalSub");
+        if (kpiMonthTotalSub) kpiMonthTotalSub.innerHTML = `<i class="fa-solid fa-calculator"></i> ${t("kpiTotalSub")}`;
+
+        const lblKpiDebt = document.getElementById("lblKpiDebt");
+        if (lblKpiDebt) lblKpiDebt.textContent = t("kpiDebt");
+        const kpiMonthDebtSub = document.getElementById("kpiMonthDebtSub");
+        if (kpiMonthDebtSub) kpiMonthDebtSub.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${t("kpiDebtSub")}`;
+
+        const lblKpiCompleted = document.getElementById("lblKpiCompleted");
+        if (lblKpiCompleted) lblKpiCompleted.textContent = t("kpiCompleted");
+        const kpiMonthCompletedSub = document.getElementById("kpiMonthCompletedSub");
+        if (kpiMonthCompletedSub) kpiMonthCompletedSub.innerHTML = `<i class="fa-solid fa-check-double"></i> ${t("kpiCompletedSub")}`;
+
+        const lblKpiAvg = document.getElementById("lblKpiAvg");
+        if (lblKpiAvg) lblKpiAvg.textContent = t("kpiAvg");
+        const kpiMonthAvgSub = document.getElementById("kpiMonthAvgSub");
+        if (kpiMonthAvgSub) kpiMonthAvgSub.innerHTML = `<i class="fa-solid fa-user-tag"></i> ${t("kpiAvgSub")}`;
+
+        // Reports Tab - Doctor Breakdown Table Headers
+        const docTableTitle = document.getElementById("doctorTableTitle");
+        if (docTableTitle) docTableTitle.innerHTML = `<i class="fa-solid fa-user-doctor" style="color: var(--primary);"></i> ${t("docTableTitle")}`;
+        const docTableSub = document.getElementById("doctorTableSub");
+        if (docTableSub) docTableSub.textContent = t("docTableSub");
+
+        const docThs = document.querySelectorAll("#doctorMonthlyTable thead th");
+        if (docThs.length >= 8) {
+            docThs[0].textContent = t("docThName");
+            docThs[1].textContent = t("docThSpec");
+            docThs[2].textContent = t("docThPatients");
+            docThs[3].textContent = t("docThServices");
+            docThs[4].textContent = t("docThRevenue");
+            docThs[5].textContent = t("docThDebt");
+            docThs[6].textContent = t("docThRate");
+            docThs[7].textContent = t("docThAction");
+        }
+
+        // Reports Tab - Monthly History Table Headers
+        const histTableTitle = document.getElementById("historyTableTitle");
+        if (histTableTitle) histTableTitle.innerHTML = `<i class="fa-solid fa-chart-column" style="color: var(--secondary);"></i> ${t("histTableTitle")}`;
+        const historyTableSub = document.getElementById("historyTableSub");
+        if (historyTableSub) historyTableSub.textContent = t("histTableSub");
+        const badgeHistory = document.getElementById("badgeHistory");
+        if (badgeHistory) badgeHistory.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i> ${t("histBadgeDynamic")}`;
+
+        const histThs = document.querySelectorAll("#monthlyHistoryTable thead th");
+        if (histThs.length >= 8) {
+            histThs[0].textContent = t("histThMonth");
+            histThs[1].textContent = t("histThPatients");
+            histThs[2].textContent = t("histThCompleted");
+            histThs[3].textContent = t("histThTotal");
+            histThs[4].textContent = t("histThRevenue");
+            histThs[5].textContent = t("histThDebt");
+            histThs[6].textContent = t("histThAvg");
+            histThs[7].textContent = t("histThAction");
+        }
+
+        // Reports Tab - Services Distribution
+        const servicesReportTitle = document.getElementById("servicesReportTitle");
+        if (servicesReportTitle) servicesReportTitle.innerHTML = `<i class="fa-solid fa-stethoscope" style="color: var(--primary);"></i> ${t("servicesReportTitle")}`;
+        const servicesReportSub = document.getElementById("servicesReportSub");
+        if (servicesReportSub) servicesReportSub.textContent = t("servicesReportSub");
+
+        // Reports Tab - Patient Registry
+        const reportListTitle = document.getElementById("reportListTitle");
+        if (reportListTitle) reportListTitle.innerHTML = `<i class="fa-solid fa-list-check" style="color: var(--primary);"></i> ${t("reportListTitle")}`;
+        const reportListDesc = document.getElementById("reportListDesc");
+        if (reportListDesc) reportListDesc.textContent = t("reportListSub");
+
+        const regThs = document.querySelectorAll("#reportPatientsListTable thead th");
+        if (regThs.length >= 10) {
+            regThs[0].textContent = t("thRegId");
+            regThs[1].textContent = t("thRegDateTime");
+            regThs[2].textContent = t("thRegPatient");
+            regThs[3].textContent = t("thRegPhone");
+            regThs[4].textContent = t("thRegDoctor");
+            regThs[5].textContent = t("thRegService");
+            regThs[6].textContent = t("thRegTotal");
+            regThs[7].textContent = t("thRegPaid");
+            regThs[8].textContent = t("thRegPayStatus");
+            regThs[9].textContent = t("thRegStatus");
+        }
 
         // Patient Modal
         const pModalTitle = document.getElementById("patientModalTitle");
         if (pModalTitle) pModalTitle.textContent = (patientEditId && patientEditId.value) ? t("modalEditPatientTitle") : t("modalAddPatientTitle");
+        const patientModalSub = document.getElementById("patientModalSub");
+        if (patientModalSub) patientModalSub.textContent = t("modalAddPatientSub");
+        const lblPFullName = document.getElementById("lblPFullName");
+        if (lblPFullName) lblPFullName.innerHTML = `${t("lblFullName")} <span class="required">*</span>`;
+        const lblPAge = document.getElementById("lblPAge");
+        if (lblPAge) lblPAge.innerHTML = `${t("lblAge")} <span class="required">*</span>`;
+        const lblPPhone = document.getElementById("lblPPhone");
+        if (lblPPhone) lblPPhone.innerHTML = `${t("lblPhone")} <span class="required">*</span>`;
+        const lblPGender = document.getElementById("lblPGender");
+        if (lblPGender) lblPGender.textContent = t("lblGender");
+        const pGender = document.getElementById("pGender");
+        if (pGender && pGender.options.length >= 2) {
+            pGender.options[0].text = t("genderMale");
+            pGender.options[1].text = t("genderFemale");
+        }
+        const lblPDoctor = document.getElementById("lblPDoctor");
+        if (lblPDoctor) lblPDoctor.innerHTML = `${t("lblDoctor")} <span class="required">*</span>`;
+        const lblPService = document.getElementById("lblPService");
+        if (lblPService) lblPService.innerHTML = `${t("lblService")} <span class="required">*</span>`;
+        const lblPTooth = document.getElementById("lblPTooth");
+        if (lblPTooth) lblPTooth.textContent = t("lblToothNumber");
+        const lblPDate = document.getElementById("lblPDate");
+        if (lblPDate) lblPDate.innerHTML = `${t("lblAppointmentDate")} <span class="required">*</span>`;
+        const lblPDiag = document.getElementById("lblPDiag");
+        if (lblPDiag) lblPDiag.innerHTML = `${t("lblDiagnosis")} <span class="required">*</span>`;
+        const lblPTotal = document.getElementById("lblPTotal");
+        if (lblPTotal) lblPTotal.textContent = t("lblTotalAmount");
+        const lblPPaid = document.getElementById("lblPPaid");
+        if (lblPPaid) lblPPaid.textContent = t("lblPaidAmount");
+        const lblPStatus = document.getElementById("lblPStatus");
+        if (lblPStatus) lblPStatus.textContent = t("lblStatus");
+        const pStatus = document.getElementById("pStatus");
+        if (pStatus && pStatus.options.length >= 4) {
+            pStatus.options[0].text = t("statusTreating");
+            pStatus.options[1].text = t("statusDone");
+            pStatus.options[2].text = t("statusWaiting");
+            pStatus.options[3].text = t("statusCancelled");
+        }
+        const lblPPayStatus = document.getElementById("lblPPayStatus");
+        if (lblPPayStatus) lblPPayStatus.textContent = t("lblPaymentStatus");
+        const pPaymentStatus = document.getElementById("pPaymentStatus");
+        if (pPaymentStatus && pPaymentStatus.options.length >= 3) {
+            pPaymentStatus.options[0].text = t("payPaid");
+            pPaymentStatus.options[1].text = t("payPartial");
+            pPaymentStatus.options[2].text = t("payUnpaid");
+        }
+        const lblPPrescription = document.getElementById("lblPPrescription");
+        if (lblPPrescription) lblPPrescription.innerHTML = `<i class="fa-solid fa-pills" style="color: #0284c7;"></i> ${t("lblPrescription")}`;
+        const lblPNotes = document.getElementById("lblPNotes");
+        if (lblPNotes) lblPNotes.textContent = t("lblNotes");
         const btnCancelPatient = document.getElementById("btnCancelPatient");
         if (btnCancelPatient) btnCancelPatient.textContent = t("btnCancel");
         const btnSavePatient = document.getElementById("btnSavePatient");
-        if (btnSavePatient) btnSavePatient.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> ${t("btnSave")}`;
+        if (btnSavePatient) btnSavePatient.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> <span id="btnSavePatientText">${t("btnSave")}</span>`;
+
+        // Telegram Connect Modal
+        const tgModalHeading = document.getElementById("tgModalHeading");
+        if (tgModalHeading) tgModalHeading.textContent = t("tgModalTitle");
+        const tgModalStep1 = document.getElementById("tgModalStep1");
+        if (tgModalStep1) tgModalStep1.textContent = t("tgStep1");
+        const tgModalStep1Desc = document.getElementById("tgModalStep1Desc");
+        if (tgModalStep1Desc) tgModalStep1Desc.innerHTML = t("tgStepDesc");
+        const btnCopyTgLinkText = document.getElementById("btnCopyTgLinkText");
+        if (btnCopyTgLinkText) btnCopyTgLinkText.textContent = t("btnCopyLink");
+        const btnShareTgDirectText = document.getElementById("btnShareTgDirectText");
+        if (btnShareTgDirectText) btnShareTgDirectText.textContent = t("btnShareTg");
+        const btnCloseTgBtn = document.getElementById("btnCloseTgBtn");
+        if (btnCloseTgBtn) btnCloseTgBtn.textContent = t("btnClose");
+
+        // Service Modal
+        const serviceModalHeading = document.getElementById("serviceModalHeading");
+        if (serviceModalHeading) serviceModalHeading.textContent = t("modalAddServiceTitle");
+        const serviceModalSub = document.getElementById("serviceModalSub");
+        if (serviceModalSub) serviceModalSub.textContent = t("modalAddServiceSub");
+        const lblServiceName = document.getElementById("lblServiceName");
+        if (lblServiceName) lblServiceName.innerHTML = `${t("lblServiceName")} <span class="required">*</span>`;
+        const lblServicePrice = document.getElementById("lblServicePrice");
+        if (lblServicePrice) lblServicePrice.innerHTML = `${t("lblServicePrice")} <span class="required">*</span>`;
+        const lblServiceDuration = document.getElementById("lblServiceDuration");
+        if (lblServiceDuration) lblServiceDuration.innerHTML = `${t("lblServiceDuration")} <span class="required">*</span>`;
+        const btnCancelService = document.getElementById("btnCancelService");
+        if (btnCancelService) btnCancelService.textContent = t("btnCancel");
+        const btnSaveServiceText = document.getElementById("btnSaveServiceText");
+        if (btnSaveServiceText) btnSaveServiceText.textContent = t("btnAddServiceSubmit");
+
+        // Doctor Modal
+        const doctorModalHeading = document.getElementById("doctorModalHeading");
+        if (doctorModalHeading) doctorModalHeading.textContent = t("modalAddDoctorTitle");
+        const doctorModalSub = document.getElementById("doctorModalSub");
+        if (doctorModalSub) doctorModalSub.textContent = t("modalAddDoctorSub");
+        const lblDoctorName = document.getElementById("lblDoctorName");
+        if (lblDoctorName) lblDoctorName.innerHTML = `${t("lblDoctorName")} <span class="required">*</span>`;
+        const lblDoctorSpecialty = document.getElementById("lblDoctorSpecialty");
+        if (lblDoctorSpecialty) lblDoctorSpecialty.innerHTML = `${t("lblDoctorSpecialty")} <span class="required">*</span>`;
+        const lblDoctorExp = document.getElementById("lblDoctorExp");
+        if (lblDoctorExp) lblDoctorExp.innerHTML = `${t("lblDoctorExp")} <span class="required">*</span>`;
+        const lblDoctorPhone = document.getElementById("lblDoctorPhone");
+        if (lblDoctorPhone) lblDoctorPhone.innerHTML = `${t("lblDoctorPhone")} <span class="required">*</span>`;
+        const lblDoctorAvatar = document.getElementById("lblDoctorAvatar");
+        if (lblDoctorAvatar) lblDoctorAvatar.innerHTML = `<i class="fa-solid fa-camera" style="color: var(--primary);"></i> ${t("lblDoctorAvatar")}`;
+        const btnUploadDoctorPhotoText = document.getElementById("btnUploadDoctorPhotoText");
+        if (btnUploadDoctorPhotoText) btnUploadDoctorPhotoText.textContent = t("btnUploadDoctorPhotoText");
+        const btnResetDoctorPhotoText = document.getElementById("btnResetDoctorPhotoText");
+        if (btnResetDoctorPhotoText) btnResetDoctorPhotoText.textContent = t("btnResetDoctorPhotoText");
+        const lblDoctorAvatarHelp = document.getElementById("lblDoctorAvatarHelp");
+        if (lblDoctorAvatarHelp) lblDoctorAvatarHelp.textContent = t("lblDoctorAvatarHelp");
+        const lblOrChoosePreset = document.getElementById("lblOrChoosePreset");
+        if (lblOrChoosePreset) lblOrChoosePreset.textContent = t("lblOrChoosePreset");
+        const doctorAvatarSelect = document.getElementById("doctorAvatarSelect");
+        if (doctorAvatarSelect && doctorAvatarSelect.options.length >= 5) {
+            doctorAvatarSelect.options[0].text = currentAppLang === "ru" ? "Врач-мужчина 1" : "Erkak Shifokor 1";
+            doctorAvatarSelect.options[1].text = currentAppLang === "ru" ? "Врач-мужчина 2" : "Erkak Shifokor 2";
+            doctorAvatarSelect.options[2].text = currentAppLang === "ru" ? "Врач-женщина 1" : "Ayol Shifokor 1";
+            doctorAvatarSelect.options[3].text = currentAppLang === "ru" ? "Врач-женщина 2" : "Ayol Shifokor 2";
+            doctorAvatarSelect.options[4].text = currentAppLang === "ru" ? "Медсестра / Ассистент" : "Hamshira / Assistent";
+        }
+        const btnCancelDoctor = document.getElementById("btnCancelDoctor");
+        if (btnCancelDoctor) btnCancelDoctor.textContent = t("btnCancel");
+        const btnSaveDoctorText = document.getElementById("btnSaveDoctorText");
+        const doctorEditId = document.getElementById("doctorEditId");
+        if (btnSaveDoctorText) {
+            btnSaveDoctorText.textContent = (doctorEditId && doctorEditId.value) ? t("btnSaveDoctorEdit") : t("btnAddDoctorSubmit");
+        }
+        const doctorModalHeading = document.getElementById("doctorModalHeading");
+        if (doctorModalHeading) {
+            doctorModalHeading.textContent = (doctorEditId && doctorEditId.value) ? t("modalEditDoctorTitle") : t("modalAddDoctorTitle");
+        }
 
         // Re-render
         renderStats();
@@ -330,16 +581,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const currentMonthRev = currentMonthPatients.reduce((acc, curr) => acc + (Number(curr.paidAmount) || 0), 0);
 
         const dashMonthBannerTitle = document.getElementById("dashMonthBannerTitle");
-        const dashMonthPatientsCount = document.getElementById("dashMonthPatientsCount");
-        const dashMonthRevenueSum = document.getElementById("dashMonthRevenueSum");
+        const dashMonthBannerDesc = document.getElementById("dashMonthBannerDesc");
 
         if (dashMonthBannerTitle) dashMonthBannerTitle.textContent = getMonthDisplayName(currentMonthKey);
-        if (dashMonthPatientsCount) {
-            dashMonthPatientsCount.textContent = currentAppLang === "ru" 
-                ? `${currentMonthPatients.length} пациентов` 
-                : `${currentMonthPatients.length} ta bemor`;
+        if (dashMonthBannerDesc) {
+            dashMonthBannerDesc.innerHTML = t("bannerDesc", currentMonthPatients.length, formatCurrency(currentMonthRev));
         }
-        if (dashMonthRevenueSum) dashMonthRevenueSum.textContent = formatCurrency(currentMonthRev);
     }
 
     // ==========================================================
@@ -710,7 +957,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         activeViewingPatientId = patient.id;
         viewModalPatientName.textContent = patient.fullName;
-        viewModalPatientId.textContent = `ID: ${patient.id} &bull; Ro'yxatga olingan: ${patient.createdAt || 'Noma\'lum'}`;
+        viewModalPatientId.innerHTML = `ID: ${patient.id} &bull; ${t("registeredDateLabel")} ${patient.createdAt || (currentAppLang === 'ru' ? 'Не указано' : 'Noma\'lum')}`;
 
         const statusClass = getStatusClass(patient.status);
         const payClass = getPaymentClass(patient.paymentStatus);
@@ -1328,6 +1575,74 @@ ${patient.prescription || "На данный момент лекарств не 
         });
     }
 
+    function formatDuration(duration) {
+        if (!duration) return "";
+        if (currentAppLang === "ru") {
+            return duration
+                .replace(/(\d+)\s*soat/gi, (match, p1) => {
+                    const n = parseInt(p1, 10);
+                    if (n % 10 === 1 && n % 100 !== 11) return `${n} час`;
+                    if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)) return `${n} часа`;
+                    return `${n} часов`;
+                })
+                .replace(/soat/gi, "час")
+                .replace(/(\d+)\s*daqiqa/gi, (match, p1) => {
+                    const n = parseInt(p1, 10);
+                    if (n % 10 === 1 && n % 100 !== 11) return `${n} минута`;
+                    if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)) return `${n} минуты`;
+                    return `${n} минут`;
+                })
+                .replace(/daqiqa/gi, "мин.")
+                .replace(/(\d+)\s*kun/gi, (match, p1) => {
+                    const n = parseInt(p1, 10);
+                    if (n === 1) return `${n} день`;
+                    if ([2, 3, 4].includes(n)) return `${n} дня`;
+                    return `${n} дней`;
+                })
+                .replace(/kun/gi, "дн.");
+        }
+        return duration;
+    }
+
+    function formatExperience(exp) {
+        if (!exp) return "";
+        if (currentAppLang === "ru") {
+            return exp
+                .replace(/(\d+)\s*yil/gi, (match, p1) => {
+                    const n = parseInt(p1, 10);
+                    if (n % 10 === 1 && n % 100 !== 11) return `${n} год`;
+                    if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)) return `${n} года`;
+                    return `${n} лет`;
+                })
+                .replace(/yil/gi, "лет")
+                .replace(/(\d+)\s*oy/gi, (match, p1) => {
+                    const n = parseInt(p1, 10);
+                    if (n % 10 === 1 && n % 100 !== 11) return `${n} месяц`;
+                    if ([2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100)) return `${n} месяца`;
+                    return `${n} месяцев`;
+                })
+                .replace(/oy/gi, "мес.");
+        }
+        return exp;
+    }
+
+    function formatSpecialty(spec) {
+        if (!spec) return "";
+        if (currentAppLang === "ru") {
+            return spec
+                .replace(/Bosh shifokor/gi, "Главный врач")
+                .replace(/Terapevt/gi, "Терапевт")
+                .replace(/Ortodont/gi, "Ортодонт")
+                .replace(/Estetik stomatolog/gi, "Эстетический стоматолог")
+                .replace(/Jarroh-Implantolog/gi, "Хирург-имплантолог")
+                .replace(/Jarroh/gi, "Хирург")
+                .replace(/Bolalar stomatologi/gi, "Детский стоматолог")
+                .replace(/Hamshira/gi, "Медсестра")
+                .replace(/Assistent/gi, "Ассистент");
+        }
+        return spec;
+    }
+
     function renderServicesTab() {
         const servicesGrid = document.getElementById("servicesGrid");
         if (!servicesGrid) return;
@@ -1335,7 +1650,7 @@ ${patient.prescription || "На данный момент лекарств не 
         if (navServicesCount) navServicesCount.textContent = services.length;
 
         if (services.length === 0) {
-            servicesGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #94a3b8;">Xizmatlar mavjud emas</div>`;
+            servicesGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #94a3b8;">${t("noServices")}</div>`;
             return;
         }
 
@@ -1348,15 +1663,15 @@ ${patient.prescription || "На данный момент лекарств не 
                     <div style="flex: 1;">
                         <h4>${escapeHtml(srv.name)}</h4>
                         <span class="service-duration">
-                            <i class="fa-regular fa-clock"></i> Davomiyligi: ${escapeHtml(srv.duration)}
+                            <i class="fa-regular fa-clock"></i> ${t("serviceDurationPrefix")} ${escapeHtml(formatDuration(srv.duration))}
                         </span>
                     </div>
-                    <button class="btn-icon delete btn-del-service" title="Xizmatni o'chirish" data-id="${srv.id}">
+                    <button class="btn-icon delete btn-del-service" title="${t("serviceDeleteTooltip")}" data-id="${srv.id}">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
                 </div>
                 <div class="service-card-bottom">
-                    <span style="font-size: 13px; color: var(--text-secondary);">Standart narx:</span>
+                    <span style="font-size: 13px; color: var(--text-secondary);">${t("servicePricePrefix")}</span>
                     <span class="service-price">${formatCurrency(srv.price)}</span>
                 </div>
             </div>
@@ -1380,15 +1695,170 @@ ${patient.prescription || "На данный момент лекарств не 
     }
 
     // ==========================================================
-    // YANGI ISHCHI / SHIFOKOR QO'SHISH & BOSHQARISH
+    // YANGI ISHCHI / SHIFOKOR QO'SHISH & BOSHQARISH (O'Z RASMINI YUKLASH BILAN)
     // ==========================================================
+    const DEFAULT_DOCTOR_AVATAR = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80";
+
+    const doctorEditId = document.getElementById("doctorEditId");
+    const doctorModalHeading = document.getElementById("doctorModalHeading");
+    const btnSaveDoctorText = document.getElementById("btnSaveDoctorText");
+
+    const doctorPhotoFileInput = document.getElementById("doctorPhotoFileInput");
+    const btnUploadDoctorPhoto = document.getElementById("btnUploadDoctorPhoto");
+    const btnResetDoctorPhoto = document.getElementById("btnResetDoctorPhoto");
+    const doctorAvatarPreview = document.getElementById("doctorAvatarPreview");
+    const doctorAvatarData = document.getElementById("doctorAvatarData");
+    const doctorAvatarSelect = document.getElementById("doctorAvatarSelect");
+
+    // Rasmni avtomatik qirqish va kichraytirish (260x260 kvadrat avatar)
+    function resizeImageToDataUrl(file, maxWidth = 260, maxHeight = 260, quality = 0.88) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const width = img.width;
+                    const height = img.height;
+
+                    // Kvadrat markaziy qirqish (Centered square crop)
+                    const size = Math.min(width, height);
+                    const startX = (width - size) / 2;
+                    const startY = (height - size) / 2;
+
+                    canvas.width = maxWidth;
+                    canvas.height = maxHeight;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, startX, startY, size, size, 0, 0, maxWidth, maxHeight);
+                    resolve(canvas.toDataURL("image/jpeg", quality));
+                };
+                img.onerror = () => reject(new Error("Image load error"));
+                img.src = e.target.result;
+            };
+            reader.onerror = () => reject(new Error("File read error"));
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // O'z rasmini yuklash tugmasi
+    if (btnUploadDoctorPhoto && doctorPhotoFileInput) {
+        btnUploadDoctorPhoto.addEventListener("click", () => {
+            doctorPhotoFileInput.click();
+        });
+    }
+
+    // Foydalanuvchi fayl tanlaganda
+    if (doctorPhotoFileInput) {
+        doctorPhotoFileInput.addEventListener("change", async (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith("image/")) {
+                showToast(currentAppLang === "ru" ? "Пожалуйста, выберите файл изображения!" : "Iltimos, faqat rasm faylini tanlang!", "warning");
+                return;
+            }
+
+            try {
+                const resized = await resizeImageToDataUrl(file, 260, 260, 0.88);
+                if (doctorAvatarPreview) doctorAvatarPreview.src = resized;
+                if (doctorAvatarData) doctorAvatarData.value = resized;
+                if (btnResetDoctorPhoto) btnResetDoctorPhoto.style.display = "inline-flex";
+                showToast(t("toastPhotoUploaded"), "success");
+            } catch (err) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    if (doctorAvatarPreview) doctorAvatarPreview.src = ev.target.result;
+                    if (doctorAvatarData) doctorAvatarData.value = ev.target.result;
+                    if (btnResetDoctorPhoto) btnResetDoctorPhoto.style.display = "inline-flex";
+                    showToast(t("toastPhotoUploaded"), "success");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Tayyor shablon rasmlardan tanlanganda
+    if (doctorAvatarSelect) {
+        doctorAvatarSelect.addEventListener("change", (e) => {
+            const val = e.target.value;
+            if (doctorAvatarPreview) doctorAvatarPreview.src = val;
+            if (doctorAvatarData) doctorAvatarData.value = val;
+            if (doctorPhotoFileInput) doctorPhotoFileInput.value = "";
+            if (btnResetDoctorPhoto) btnResetDoctorPhoto.style.display = "none";
+        });
+    }
+
+    // Yuklangan rasmni tozalash (reset)
+    if (btnResetDoctorPhoto) {
+        btnResetDoctorPhoto.addEventListener("click", () => {
+            const val = (doctorAvatarSelect && doctorAvatarSelect.value) ? doctorAvatarSelect.value : DEFAULT_DOCTOR_AVATAR;
+            if (doctorAvatarPreview) doctorAvatarPreview.src = val;
+            if (doctorAvatarData) doctorAvatarData.value = val;
+            if (doctorPhotoFileInput) doctorPhotoFileInput.value = "";
+            btnResetDoctorPhoto.style.display = "none";
+        });
+    }
+
+    // Modalni ochish (Yangi xodim qo'shish)
     if (btnOpenAddDoctorModal) {
         btnOpenAddDoctorModal.addEventListener("click", () => {
             if (doctorModal) {
                 doctorForm.reset();
+                if (doctorEditId) doctorEditId.value = "";
+                if (doctorModalHeading) doctorModalHeading.textContent = t("modalAddDoctorTitle");
+                if (btnSaveDoctorText) btnSaveDoctorText.textContent = t("btnAddDoctorSubmit");
+                const initialAvatar = (doctorAvatarSelect && doctorAvatarSelect.value) ? doctorAvatarSelect.value : DEFAULT_DOCTOR_AVATAR;
+                if (doctorAvatarPreview) doctorAvatarPreview.src = initialAvatar;
+                if (doctorAvatarData) doctorAvatarData.value = initialAvatar;
+                if (doctorPhotoFileInput) doctorPhotoFileInput.value = "";
+                if (btnResetDoctorPhoto) btnResetDoctorPhoto.style.display = "none";
                 doctorModal.classList.remove("d-none");
             }
         });
+    }
+
+    // Mavjud shifokorni tahrirlash (rasmini o'zgartirish bilan birga)
+    function openEditDoctorModal(id) {
+        const doc = doctors.find(d => d.id === id);
+        if (!doc || !doctorModal) return;
+
+        doctorForm.reset();
+        if (doctorEditId) doctorEditId.value = doc.id;
+        if (doctorModalHeading) doctorModalHeading.textContent = t("modalEditDoctorTitle");
+        if (btnSaveDoctorText) btnSaveDoctorText.textContent = t("btnSaveDoctorEdit");
+
+        const nameInput = document.getElementById("doctorNameInput");
+        const specInput = document.getElementById("doctorSpecialtyInput");
+        const expInput = document.getElementById("doctorExpInput");
+        const phoneInput = document.getElementById("doctorPhoneInput");
+
+        if (nameInput) nameInput.value = doc.name;
+        if (specInput) specInput.value = doc.specialty;
+        if (expInput) expInput.value = doc.experience;
+        if (phoneInput) phoneInput.value = doc.phone;
+
+        const docAvatar = doc.avatar || DEFAULT_DOCTOR_AVATAR;
+        if (doctorAvatarPreview) doctorAvatarPreview.src = docAvatar;
+        if (doctorAvatarData) doctorAvatarData.value = docAvatar;
+        if (doctorPhotoFileInput) doctorPhotoFileInput.value = "";
+
+        if (doctorAvatarSelect) {
+            let matched = false;
+            for (let i = 0; i < doctorAvatarSelect.options.length; i++) {
+                if (doctorAvatarSelect.options[i].value === docAvatar) {
+                    doctorAvatarSelect.selectedIndex = i;
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                if (btnResetDoctorPhoto) btnResetDoctorPhoto.style.display = "inline-flex";
+            } else {
+                if (btnResetDoctorPhoto) btnResetDoctorPhoto.style.display = "none";
+            }
+        }
+
+        doctorModal.classList.remove("d-none");
     }
 
     function closeDoctorModal() {
@@ -1398,6 +1868,7 @@ ${patient.prescription || "На данный момент лекарств не 
     if (btnCloseDoctorModal) btnCloseDoctorModal.addEventListener("click", closeDoctorModal);
     if (btnCancelDoctor) btnCancelDoctor.addEventListener("click", closeDoctorModal);
 
+    // Form topshirilganda (Qo'shish yoki Tahrirlash)
     if (doctorForm) {
         doctorForm.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -1406,25 +1877,54 @@ ${patient.prescription || "На данный момент лекарств не 
             const specialty = document.getElementById("doctorSpecialtyInput").value.trim();
             const experience = document.getElementById("doctorExpInput").value.trim();
             const phone = document.getElementById("doctorPhoneInput").value.trim();
-            const avatar = document.getElementById("doctorAvatarSelect").value;
+            const avatar = (doctorAvatarData && doctorAvatarData.value) 
+                ? doctorAvatarData.value 
+                : ((doctorAvatarSelect && doctorAvatarSelect.value) ? doctorAvatarSelect.value : DEFAULT_DOCTOR_AVATAR);
 
             if (!name) return;
 
-            const newDoctor = {
-                id: "DOC-" + (doctors.length + 1) + "_" + Date.now().toString().slice(-4),
-                name: name,
-                specialty: specialty,
-                experience: experience,
-                phone: phone,
-                avatar: avatar
-            };
+            const editId = doctorEditId ? doctorEditId.value : "";
 
-            doctors.push(newDoctor);
+            if (editId) {
+                // Tahrirlash
+                const docIndex = doctors.findIndex(d => d.id === editId);
+                if (docIndex !== -1) {
+                    const oldName = doctors[docIndex].name;
+                    doctors[docIndex].name = name;
+                    doctors[docIndex].specialty = specialty;
+                    doctors[docIndex].experience = experience;
+                    doctors[docIndex].phone = phone;
+                    doctors[docIndex].avatar = avatar;
+
+                    if (oldName !== name) {
+                        patients.forEach(p => {
+                            if (p.doctor === oldName) p.doctor = name;
+                        });
+                        savePatientsToStorage(patients);
+                        renderPatientsTable();
+                    }
+
+                    showToast(t("toastDoctorUpdated", name), "success");
+                }
+            } else {
+                // Yangi shifokor qo'shish
+                const newDoctor = {
+                    id: "DOC-" + (doctors.length + 1) + "_" + Date.now().toString().slice(-4),
+                    name: name,
+                    specialty: specialty,
+                    experience: experience,
+                    phone: phone,
+                    avatar: avatar
+                };
+                doctors.push(newDoctor);
+                showToast(`Yangi xodim ("${name}") muvaffaqiyatli qo'shildi!`, "success");
+            }
+
             saveDoctorsToStorage(doctors);
             populateFormSelects();
             renderDoctorsTab();
+            renderMonthlyReports();
             closeDoctorModal();
-            showToast(`Yangi xodim ("${name}") muvaffaqiyatli qo'shildi!`, "success");
         });
     }
 
@@ -1435,26 +1935,40 @@ ${patient.prescription || "На данный момент лекарств не 
         if (navDoctorsCount) navDoctorsCount.textContent = doctors.length;
 
         if (doctors.length === 0) {
-            doctorsGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #94a3b8;">Xodimlar mavjud emas</div>`;
+            doctorsGrid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #94a3b8;">${t("doctorEmpty")}</div>`;
             return;
         }
 
         doctorsGrid.innerHTML = doctors.map(doc => `
             <div class="doctor-card">
-                <img src="${doc.avatar || 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80'}" alt="${doc.name}">
+                <img src="${doc.avatar || DEFAULT_DOCTOR_AVATAR}" alt="${doc.name}">
                 <div class="doctor-card-info" style="flex: 1;">
                     <h4>${escapeHtml(doc.name)}</h4>
-                    <p class="doctor-spec">${escapeHtml(doc.specialty)}</p>
-                    <p class="doctor-exp"><i class="fa-solid fa-award"></i> Tajriba: ${escapeHtml(doc.experience)}</p>
+                    <p class="doctor-spec">${escapeHtml(formatSpecialty(doc.specialty))}</p>
+                    <p class="doctor-exp"><i class="fa-solid fa-award"></i> ${t("doctorExpPrefix")} ${escapeHtml(formatExperience(doc.experience))}</p>
                     <p class="doctor-exp" style="margin-top: 4px;">
                         <a href="tel:${doc.phone}" style="color: var(--primary);"><i class="fa-solid fa-phone"></i> ${escapeHtml(doc.phone)}</a>
                     </p>
                 </div>
-                <button class="btn-icon delete btn-del-doctor" title="Ishchini o'chirish" data-id="${doc.id}">
-                    <i class="fa-regular fa-trash-can"></i>
-                </button>
+                <div style="display: flex; gap: 6px; align-items: center;">
+                    <button class="btn-icon edit btn-edit-doctor" title="${t("tooltipEdit")}" data-id="${doc.id}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn-icon delete btn-del-doctor" title="${t("doctorDeleteTooltip")}" data-id="${doc.id}">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </div>
             </div>
         `).join("");
+
+        // Ishchini tahrirlash (shu jumladan rasmini o'zgartirish)
+        document.querySelectorAll(".btn-edit-doctor").forEach(btn => {
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute("data-id");
+                openEditDoctorModal(id);
+            };
+        });
 
         // Ishchini o'chirish
         document.querySelectorAll(".btn-del-doctor").forEach(btn => {
@@ -1467,6 +1981,7 @@ ${patient.prescription || "На данный момент лекарств не 
                     saveDoctorsToStorage(doctors);
                     populateFormSelects();
                     renderDoctorsTab();
+                    renderMonthlyReports();
                     showToast("Xodim ro'yxatdan o'chirildi", "danger");
                 }
             };
@@ -1496,7 +2011,7 @@ ${patient.prescription || "На данный момент лекарств не 
                     searchQuery = toothNum;
                     if (btnClearSearch) btnClearSearch.classList.remove("d-none");
                     renderPatientsTable();
-                    showToast(`${toothNum}-raqamli tish bo'yicha bemorlar qidirildi`, "info");
+                    showToast(t("toothSearchToast", toothNum), "info");
                 }
             };
         });
@@ -1506,7 +2021,7 @@ ${patient.prescription || "На данный момент лекарств не 
         const related = patients.filter(p => p.toothNumber && p.toothNumber.includes(toothNum.toString()));
 
         let toothState = "healthy";
-        let stateTag = "Sog'lom";
+        let stateTag = t("toothHealthy");
 
         if (related.length > 0) {
             const hasTreatment = related.some(p => p.status === "Davolanmoqda");
@@ -1515,18 +2030,20 @@ ${patient.prescription || "На данный момент лекарств не 
 
             if (hasCrown) {
                 toothState = "crown";
-                stateTag = "Implant/Toj";
+                stateTag = t("toothCrown");
             } else if (hasTreatment) {
                 toothState = "treatment";
-                stateTag = "Muolajada";
+                stateTag = t("toothTreatment");
             } else if (hasCompleted) {
                 toothState = "done";
-                stateTag = "Davolangan";
+                stateTag = t("toothDone");
             }
         }
 
+        const toothTitle = t("toothTitleFmt", toothNum, stateTag);
+
         return `
-            <div class="tooth-item ${toothState}" data-tooth="${toothNum}" title="${toothNum}-tish: ${stateTag}">
+            <div class="tooth-item ${toothState}" data-tooth="${toothNum}" title="${toothTitle}">
                 <i class="fa-solid fa-tooth"></i>
                 <div class="tooth-num">#${toothNum}</div>
                 <div class="tooth-state-tag">${stateTag}</div>
@@ -1847,22 +2364,22 @@ ${patient.prescription || "На данный момент лекарств не 
         }
 
         let optionsHtml = sortedMonths.map(m => {
-            const isCurrent = (m === "2026-09") ? " (Joriy oy)" : "";
+            const isCurrent = (m === "2026-09") ? t("reportCurrentMonthSuffix") : "";
             const isSelected = (m === reportSelectedMonth) ? "selected" : "";
             return `<option value="${m}" ${isSelected}>${getMonthDisplayName(m)}${isCurrent}</option>`;
         }).join("");
 
-        optionsHtml += `<option value="all" ${reportSelectedMonth === "all" ? "selected" : ""}>Barcha Oylar (Umumiy Arxiv)</option>`;
+        optionsHtml += `<option value="all" ${reportSelectedMonth === "all" ? "selected" : ""}>${t("reportAllMonthsOpt")}</option>`;
         reportMonthSelect.innerHTML = optionsHtml;
 
         // Shifokorlar selectini ham to'ldirish
         const reportDoctorSelect = document.getElementById("reportDoctorSelect");
         if (reportDoctorSelect) {
             const currentDocVal = reportSelectedDoctor;
-            let docOptionsHtml = `<option value="all" ${currentDocVal === "all" ? "selected" : ""}>Barcha Xodimlar (Umumiy hisobot)</option>`;
+            let docOptionsHtml = `<option value="all" ${currentDocVal === "all" ? "selected" : ""}>${t("reportAllDoctorsOpt")}</option>`;
             doctors.forEach(doc => {
                 const isDocSelected = (doc.name === currentDocVal) ? "selected" : "";
-                docOptionsHtml += `<option value="${doc.name}" ${isDocSelected}>${doc.name} (${doc.specialty})</option>`;
+                docOptionsHtml += `<option value="${doc.name}" ${isDocSelected}>${doc.name} (${formatSpecialty(doc.specialty)})</option>`;
             });
             reportDoctorSelect.innerHTML = docOptionsHtml;
         }
@@ -1896,21 +2413,22 @@ ${patient.prescription || "На данный момент лекарств не 
         const kpiMonthCompleted = document.getElementById("kpiMonthCompleted");
         const kpiMonthAvg = document.getElementById("kpiMonthAvg");
 
-        if (kpiMonthPatients) kpiMonthPatients.textContent = totalPatients + " ta";
+        if (kpiMonthPatients) kpiMonthPatients.textContent = t("kpiPatientsValFmt", totalPatients);
         if (kpiMonthRevenue) kpiMonthRevenue.textContent = formatCurrency(totalRevenue);
         if (kpiMonthTotal) kpiMonthTotal.textContent = formatCurrency(totalServiceValue);
         if (kpiMonthDebt) kpiMonthDebt.textContent = formatCurrency(totalDebt);
-        if (kpiMonthCompleted) kpiMonthCompleted.textContent = completedCount + " ta";
+        if (kpiMonthCompleted) kpiMonthCompleted.textContent = t("kpiCompletedValFmt", completedCount);
         if (kpiMonthAvg) kpiMonthAvg.textContent = formatCurrency(avgCheck);
 
         // Sarlavhalarni yangilash
         const reportMainHeading = document.getElementById("reportMainHeading");
         const monthTitleStr = getMonthDisplayName(reportSelectedMonth);
         const doctorTitleStr = reportSelectedDoctor !== "all" ? ` — ${reportSelectedDoctor}` : "";
-        if (reportMainHeading) reportMainHeading.textContent = `${monthTitleStr}${doctorTitleStr} Hisoboti`;
+        const formattedReportHeading = t("reportMainTitleFmt", monthTitleStr, doctorTitleStr);
+        if (reportMainHeading) reportMainHeading.textContent = formattedReportHeading;
 
         const printReportTitle = document.getElementById("printReportTitle");
-        if (printReportTitle) printReportTitle.textContent = `${monthTitleStr}${doctorTitleStr} Hisoboti`;
+        if (printReportTitle) printReportTitle.textContent = formattedReportHeading;
 
         const doctorTableMonthLabel = document.getElementById("doctorTableMonthLabel");
         if (doctorTableMonthLabel) doctorTableMonthLabel.textContent = monthTitleStr;
@@ -1920,12 +2438,12 @@ ${patient.prescription || "На данный момент лекарств не 
         const currentMonthPatients = patients.filter(p => getPatientMonthKey(p) === currentMonthKey);
         const currentMonthRev = currentMonthPatients.reduce((sum, p) => sum + (Number(p.paidAmount) || 0), 0);
         const dashMonthBannerTitle = document.getElementById("dashMonthBannerTitle");
-        const dashMonthPatientsCount = document.getElementById("dashMonthPatientsCount");
-        const dashMonthRevenueSum = document.getElementById("dashMonthRevenueSum");
+        const dashMonthBannerDesc = document.getElementById("dashMonthBannerDesc");
 
-        if (dashMonthBannerTitle) dashMonthBannerTitle.textContent = getMonthDisplayName(currentMonthKey) + " Oyi";
-        if (dashMonthPatientsCount) dashMonthPatientsCount.textContent = currentMonthPatients.length + " ta bemor";
-        if (dashMonthRevenueSum) dashMonthRevenueSum.textContent = formatCurrency(currentMonthRev);
+        if (dashMonthBannerTitle) dashMonthBannerTitle.textContent = getMonthDisplayName(currentMonthKey);
+        if (dashMonthBannerDesc) {
+            dashMonthBannerDesc.innerHTML = t("bannerDesc", currentMonthPatients.length, formatCurrency(currentMonthRev));
+        }
 
         // 3. Shifokorlar va Ishchilar kesimidagi oylik hisobot jadvali
         renderDoctorMonthlyReportTable();
@@ -1952,7 +2470,7 @@ ${patient.prescription || "На данный момент лекарств не 
         });
 
         if (doctors.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 24px; color: #94a3b8;">Ishchilar ro'yxati bo'sh</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; padding: 24px; color: #94a3b8;">${t("docTableEmpty")}</td></tr>`;
             return;
         }
 
@@ -1977,10 +2495,10 @@ ${patient.prescription || "На данный момент лекарств не 
                             </div>
                         </div>
                     </td>
-                    <td><span style="font-weight: 500; color: #475569;">${escapeHtml(doc.specialty)}</span></td>
+                    <td><span style="font-weight: 500; color: #475569;">${escapeHtml(formatSpecialty(doc.specialty))}</span></td>
                     <td>
                         <span style="font-weight: 700; font-size: 14px; color: var(--primary);">
-                            <i class="fa-solid fa-user-check" style="font-size: 11px; margin-right: 4px;"></i>${count} ta bemor
+                            <i class="fa-solid fa-user-check" style="font-size: 11px; margin-right: 4px;"></i>${t("docBadgePatientsFmt", count)}
                         </span>
                     </td>
                     <td><strong>${formatCurrency(totalVal)}</strong></td>
@@ -1989,7 +2507,7 @@ ${patient.prescription || "На данный момент лекарств не 
                     <td>
                         <div class="rate-wrapper">
                             <div style="display: flex; justify-content: space-between; font-size: 11px;">
-                                <span>Undirish:</span>
+                                <span>${t("docColLabel")}</span>
                                 <strong>${percentage}%</strong>
                             </div>
                             <div class="rate-bar-bg">
@@ -1998,8 +2516,8 @@ ${patient.prescription || "На данный момент лекарств не 
                         </div>
                     </td>
                     <td class="text-center">
-                        <button class="btn-action-outline btn-filter-doc" data-doc="${escapeHtml(doc.name)}" style="padding: 5px 12px; font-size: 12px;" title="Faqat ushbu xodim hisobotini ko'rish">
-                            <i class="fa-solid fa-filter"></i> ${isSelectedDoc ? "Tanlangan" : "Filtrlash"}
+                        <button class="btn-action-outline btn-filter-doc" data-doc="${escapeHtml(doc.name)}" style="padding: 5px 12px; font-size: 12px;" title="${t("btnFilterDocTitle")}">
+                            <i class="fa-solid fa-filter"></i> ${isSelectedDoc ? t("btnFilterDocSelected") : t("btnFilterDoc")}
                         </button>
                     </td>
                 </tr>
@@ -2058,17 +2576,17 @@ ${patient.prescription || "На данный момент лекарств не 
                         <strong style="color: var(--primary); font-size: 14px;">
                             <i class="fa-solid fa-calendar-check" style="margin-right: 6px;"></i>${getMonthDisplayName(mKey)}
                         </strong>
-                        ${mKey === "2026-09" ? '<span class="badge-pill-soft" style="margin-left: 6px; font-size: 11px;">Joriy oy</span>' : ''}
+                        ${mKey === "2026-09" ? `<span class="badge-pill-soft" style="margin-left: 6px; font-size: 11px;">${t("histBadgeCurrentMonth")}</span>` : ''}
                     </td>
-                    <td><strong>${pCount} ta</strong></td>
-                    <td><span class="pay-badge pay-paid" style="font-size: 11.5px;">${completed} ta yakunlangan</span></td>
+                    <td><strong>${t("kpiPatientsValFmt", pCount)}</strong></td>
+                    <td><span class="pay-badge pay-paid" style="font-size: 11.5px;">${t("histCompletedFmt", completed)}</span></td>
                     <td>${formatCurrency(totalVal)}</td>
                     <td><strong style="color: #16a34a; font-size: 14px;">${formatCurrency(paidVal)}</strong></td>
                     <td><span style="color: ${debtVal > 0 ? '#dc2626' : '#64748b'}; font-weight: 600;">${formatCurrency(debtVal)}</span></td>
                     <td><span style="color: #475569;">${formatCurrency(avg)}</span></td>
                     <td class="text-center">
                         <button class="btn-action-primary btn-select-month" data-month="${mKey}" style="padding: 6px 14px; font-size: 12px;">
-                            ${isSelected ? '<i class="fa-solid fa-check"></i> Ko\'rilmoqda' : '<i class="fa-regular fa-folder-open"></i> Hisobotni Ochish'}
+                            ${isSelected ? `<i class="fa-solid fa-check"></i> ${t("btnViewingMonthReport")}` : `<i class="fa-regular fa-folder-open"></i> ${t("btnOpenMonthReport")}`}
                         </button>
                     </td>
                 </tr>
@@ -2082,7 +2600,7 @@ ${patient.prescription || "На данный момент лекарств не 
                 const sel = document.getElementById("reportMonthSelect");
                 if (sel) sel.value = targetM;
                 renderMonthlyReports();
-                showToast(`${getMonthDisplayName(targetM)} oyi hisoboti tanlandi`, "info");
+                showToast(t("toastMonthSelected", getMonthDisplayName(targetM)), "info");
             };
         });
     }
@@ -2105,7 +2623,7 @@ ${patient.prescription || "На данный момент лекарств не 
         const sortedServices = Object.entries(srvCounts).sort((a, b) => b[1].revenue - a[1].revenue);
 
         if (sortedServices.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 24px; color: #94a3b8;">Ushbu davrda xizmatlar mavjud emas</div>`;
+            grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 24px; color: #94a3b8;">${t("servicesReportEmpty")}</div>`;
             return;
         }
 
@@ -2113,10 +2631,10 @@ ${patient.prescription || "На данный момент лекарств не 
             <div class="service-report-item">
                 <div class="service-report-top">
                     <h4>${escapeHtml(sName)}</h4>
-                    <span class="srv-count-pill">${data.count} ta bemor</span>
+                    <span class="srv-count-pill">${t("serviceReportCountFmt", data.count)}</span>
                 </div>
                 <div class="service-report-bottom">
-                    <span>Oylik Tushum:</span>
+                    <span>${t("serviceReportRevenueLabel")}</span>
                     <strong style="color: #16a34a;">${formatCurrency(data.revenue)}</strong>
                 </div>
             </div>
@@ -2129,7 +2647,7 @@ ${patient.prescription || "На данный момент лекарств не 
         const countInfo = document.getElementById("reportPatientsCountInfo");
 
         if (countInfo) {
-            countInfo.textContent = `Ko'rsatilmoqda: ${filteredPatients.length} ta bemor`;
+            countInfo.textContent = t("reportListCountFmt", filteredPatients.length);
         }
 
         if (!tbody) return;
@@ -2139,7 +2657,7 @@ ${patient.prescription || "На данный момент лекарств не 
                 <tr>
                     <td colspan="10" style="text-align: center; padding: 30px; color: #94a3b8;">
                         <i class="fa-regular fa-folder-open" style="font-size: 32px; margin-bottom: 8px; display: block; color: #cbd5e1;"></i>
-                        Ushbu oy va tanlangan shartlar bo'yicha bemorlar topilmadi
+                        ${t("reportPatientsEmpty")}
                     </td>
                 </tr>
             `;
@@ -2152,15 +2670,15 @@ ${patient.prescription || "На данный момент лекарств не 
             return `
                 <tr>
                     <td><span class="id-badge">${p.id}</span></td>
-                    <td style="white-space: nowrap;"><i class="fa-regular fa-calendar" style="font-size: 11px; margin-right: 4px; color: #94a3b8;"></i>${p.appointmentDate || p.createdAt || 'Noma\'lum'}</td>
+                    <td style="white-space: nowrap;"><i class="fa-regular fa-calendar" style="font-size: 11px; margin-right: 4px; color: #94a3b8;"></i>${p.appointmentDate || p.createdAt || (currentAppLang === 'ru' ? 'Не указано' : 'Noma\'lum')}</td>
                     <td><strong>${escapeHtml(p.fullName)}</strong></td>
                     <td><a href="tel:${p.phone}" style="color: var(--primary);">${escapeHtml(p.phone)}</a></td>
                     <td><span style="font-weight: 500; color: #334155;">${escapeHtml(p.doctor)}</span></td>
-                    <td>${escapeHtml(p.serviceName || 'Stomatologiya')}</td>
+                    <td>${escapeHtml(p.serviceName || (currentAppLang === 'ru' ? 'Стоматология' : 'Stomatologiya'))}</td>
                     <td>${formatCurrency(p.totalAmount)}</td>
                     <td><strong style="color: #16a34a;">${formatCurrency(p.paidAmount)}</strong></td>
-                    <td><span class="pay-badge ${payClass}">${p.paymentStatus || 'To\'langan'}</span></td>
-                    <td><span class="status-pill ${statusClass}">${p.status}</span></td>
+                    <td><span class="pay-badge ${payClass}">${getPaymentStatusDisplayName(p.paymentStatus || 'To\'langan')}</span></td>
+                    <td><span class="status-pill ${statusClass}">${getStatusDisplayName(p.status)}</span></td>
                 </tr>
             `;
         }).join("");

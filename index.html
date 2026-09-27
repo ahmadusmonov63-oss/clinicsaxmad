@@ -40,7 +40,7 @@
                     alt="Doctor" class="profile-avatar">
                 <div class="profile-info">
                     <h4 id="sidebarDoctorName">Dr. Ahmadbek</h4>
-                    <span class="role-badge">Bosh shifokor</span>
+                    <span class="role-badge" id="sidebarRoleBadge">Bosh shifokor</span>
                 </div>
             </div>
 
@@ -326,12 +326,10 @@
                             </div>
 
                             <div class="tooth-legend">
-                                <div class="legend-item"><span class="legend-color healthy"></span> Sog'lom</div>
-                                <div class="legend-item"><span class="legend-color treatment"></span> Davolanmoqda</div>
-                                <div class="legend-item"><span class="legend-color done"></span> Plombalangan /
-                                    Tugatilgan</div>
-                                <div class="legend-item"><span class="legend-color crown"></span> Tojburchak / Implant
-                                </div>
+                                <div class="legend-item" id="legendHealthy"><span class="legend-color healthy"></span> Sog'lom</div>
+                                <div class="legend-item" id="legendTreatment"><span class="legend-color treatment"></span> Davolanmoqda</div>
+                                <div class="legend-item" id="legendDone"><span class="legend-color done"></span> Plombalangan / Tugatilgan</div>
+                                <div class="legend-item" id="legendCrown"><span class="legend-color crown"></span> Tojburchak / Implant</div>
                             </div>
                         </div>
                     </div>
@@ -369,8 +367,7 @@
                                 (kunduzgi) va 2-smena (tungi tezkor stomatologik yordam) asosida bemorlarni qabul
                                 qilishadi.</p>
                         </div>
-                        <span class="badge-active-status"><span class="pulse-indicator-dot"></span> Rejim: 24/7
-                            Faol</span>
+                        <span class="badge-active-status" id="badgeActiveShift"><span class="pulse-indicator-dot"></span> Rejim: 24/7 Faol</span>
                     </div>
 
                     <div class="section-card">
@@ -431,16 +428,14 @@
                         <!-- Report Filter Toolbar -->
                         <div class="report-filters-bar">
                             <div class="report-filter-item">
-                                <label for="reportMonthSelect"><i class="fa-regular fa-calendar"></i> Hisobot
-                                    Oyi:</label>
+                                <label for="reportMonthSelect" id="lblReportMonth"><i class="fa-regular fa-calendar"></i> Hisobot Oyi:</label>
                                 <select id="reportMonthSelect" class="form-select-styled">
                                     <!-- Populated via JS -->
                                 </select>
                             </div>
 
                             <div class="report-filter-item">
-                                <label for="reportDoctorSelect"><i class="fa-solid fa-user-doctor"></i> Shifokor /
-                                    Ishchi:</label>
+                                <label for="reportDoctorSelect" id="lblReportDoctor"><i class="fa-solid fa-user-doctor"></i> Shifokor / Ishchi:</label>
                                 <select id="reportDoctorSelect" class="form-select-styled">
                                     <option value="all">Barcha Xodimlar (Umumiy hisobot)</option>
                                     <!-- Populated via JS -->
@@ -448,8 +443,7 @@
                             </div>
 
                             <div class="report-filter-item">
-                                <label for="reportStatusSelect"><i class="fa-solid fa-filter"></i> Muolaja
-                                    Holati:</label>
+                                <label for="reportStatusSelect" id="lblReportStatus"><i class="fa-solid fa-filter"></i> Muolaja Holati:</label>
                                 <select id="reportStatusSelect" class="form-select-styled">
                                     <option value="all">Barcha Holatlar</option>
                                     <option value="Tugatildi">Faqat Tugatilganlar</option>
@@ -473,58 +467,54 @@
                         <div class="report-kpi-card card-kpi-blue">
                             <div class="kpi-icon-box"><i class="fa-solid fa-users"></i></div>
                             <div class="kpi-info-box">
-                                <span class="kpi-label">Shu Oydagi Bemorlar</span>
+                                <span class="kpi-label" id="lblKpiPatients">Shu Oydagi Bemorlar</span>
                                 <h3 id="kpiMonthPatients">0 ta</h3>
-                                <p class="kpi-sub" id="kpiMonthPatientsSub"><i class="fa-solid fa-arrow-trend-up"></i>
-                                    Qabul qilingan mijozlar</p>
+                                <p class="kpi-sub" id="kpiMonthPatientsSub"><i class="fa-solid fa-arrow-trend-up"></i> Qabul qilingan mijozlar</p>
                             </div>
                         </div>
 
                         <div class="report-kpi-card card-kpi-green">
                             <div class="kpi-icon-box"><i class="fa-solid fa-sack-dollar"></i></div>
                             <div class="kpi-info-box">
-                                <span class="kpi-label">Kassaga Tushgan Summa</span>
+                                <span class="kpi-label" id="lblKpiRevenue">Kassaga Tushgan Summa</span>
                                 <h3 id="kpiMonthRevenue">0 so'm</h3>
-                                <p class="kpi-sub text-success"><i class="fa-solid fa-circle-check"></i> Undirilgan
-                                    haqiqiy tushum</p>
+                                <p class="kpi-sub text-success" id="kpiMonthRevenueSub"><i class="fa-solid fa-circle-check"></i> Undirilgan haqiqiy tushum</p>
                             </div>
                         </div>
 
                         <div class="report-kpi-card card-kpi-indigo">
                             <div class="kpi-icon-box"><i class="fa-solid fa-file-invoice"></i></div>
                             <div class="kpi-info-box">
-                                <span class="kpi-label">Umumiy Xizmat Qiymati</span>
+                                <span class="kpi-label" id="lblKpiTotal">Umumiy Xizmat Qiymati</span>
                                 <h3 id="kpiMonthTotal">0 so'm</h3>
-                                <p class="kpi-sub"><i class="fa-solid fa-calculator"></i> Barcha muolajalar summasi</p>
+                                <p class="kpi-sub" id="kpiMonthTotalSub"><i class="fa-solid fa-calculator"></i> Barcha muolajalar summasi</p>
                             </div>
                         </div>
 
                         <div class="report-kpi-card card-kpi-amber">
                             <div class="kpi-icon-box"><i class="fa-solid fa-clock-rotate-left"></i></div>
                             <div class="kpi-info-box">
-                                <span class="kpi-label">Qoldiq / Qarz Summasi</span>
+                                <span class="kpi-label" id="lblKpiDebt">Qoldiq / Qarz Summasi</span>
                                 <h3 id="kpiMonthDebt">0 so'm</h3>
-                                <p class="kpi-sub text-warning"><i class="fa-solid fa-triangle-exclamation"></i>
-                                    Kutilayotgan to'lovlar</p>
+                                <p class="kpi-sub text-warning" id="kpiMonthDebtSub"><i class="fa-solid fa-triangle-exclamation"></i> Kutilayotgan to'lovlar</p>
                             </div>
                         </div>
 
                         <div class="report-kpi-card card-kpi-teal">
                             <div class="kpi-icon-box"><i class="fa-solid fa-tooth"></i></div>
                             <div class="kpi-info-box">
-                                <span class="kpi-label">Tugatilgan Muolajalar</span>
+                                <span class="kpi-label" id="lblKpiCompleted">Tugatilgan Muolajalar</span>
                                 <h3 id="kpiMonthCompleted">0 ta</h3>
-                                <p class="kpi-sub"><i class="fa-solid fa-check-double"></i> Muvaffaqiyatli yakunlandi
-                                </p>
+                                <p class="kpi-sub" id="kpiMonthCompletedSub"><i class="fa-solid fa-check-double"></i> Muvaffaqiyatli yakunlandi</p>
                             </div>
                         </div>
 
                         <div class="report-kpi-card card-kpi-purple">
                             <div class="kpi-icon-box"><i class="fa-solid fa-chart-pie"></i></div>
                             <div class="kpi-info-box">
-                                <span class="kpi-label">O'rtacha Chek (Tushum)</span>
+                                <span class="kpi-label" id="lblKpiAvg">O'rtacha Chek (Tushum)</span>
                                 <h3 id="kpiMonthAvg">0 so'm</h3>
-                                <p class="kpi-sub"><i class="fa-solid fa-user-tag"></i> Bitta bemor hisobiga</p>
+                                <p class="kpi-sub" id="kpiMonthAvgSub"><i class="fa-solid fa-user-tag"></i> Bitta bemor hisobiga</p>
                             </div>
                         </div>
                     </div>
@@ -533,10 +523,8 @@
                     <div class="section-card">
                         <div class="section-card-header">
                             <div class="header-titles">
-                                <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary);"></i> Ishchilar &
-                                    Shifokorlar Kesimidagi Oylik Natijalar</h3>
-                                <p>Xodimlar oy oxirida o'z hisobotlarini ko'rishlari, topshirishlari va maosh/ulush
-                                    hisoblashlari uchun qulay jadval</p>
+                                <h3 id="doctorTableTitle"><i class="fa-solid fa-user-doctor" style="color: var(--primary);"></i> Ishchilar & Shifokorlar Kesimidagi Oylik Natijalar</h3>
+                                <p id="doctorTableSub">Xodimlar oy oxirida o'z hisobotlarini ko'rishlari, topshirishlari va maosh/ulush hisoblashlari uchun qulay jadval</p>
                             </div>
                             <div class="badge-pill-soft" id="doctorTableMonthLabel">2026-yil Sentabr</div>
                         </div>
@@ -565,14 +553,11 @@
                     <div class="section-card">
                         <div class="section-card-header">
                             <div class="header-titles">
-                                <h3><i class="fa-solid fa-chart-column" style="color: var(--secondary);"></i> Oylar
-                                    Bo'yicha Tushumlar va Bemorlar Dinamikasi</h3>
-                                <p>Har oyda tushgan summalar va bemorlar soni tarixi (har bir oydagi umumiy tushum
-                                    avtomatik yangilanadi)</p>
+                                <h3 id="historyTableTitle"><i class="fa-solid fa-chart-column" style="color: var(--secondary);"></i> Oylar Bo'yicha Tushumlar va Bemorlar Dinamikasi</h3>
+                                <p id="historyTableSub">Har oyda tushgan summalar va bemorlar soni tarixi (har bir oydagi umumiy tushum avtomatik yangilanadi)</p>
                             </div>
                             <div>
-                                <span class="badge-history"><i class="fa-solid fa-clock-rotate-left"></i> Oylik
-                                    Dinamika</span>
+                                <span class="badge-history" id="badgeHistory"><i class="fa-solid fa-clock-rotate-left"></i> Oylik Dinamika</span>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -600,9 +585,8 @@
                     <div class="section-card">
                         <div class="section-card-header">
                             <div class="header-titles">
-                                <h3><i class="fa-solid fa-stethoscope" style="color: var(--primary);"></i> Xizmat
-                                    Turlari Bo'yicha Oylik Tushum Taqsimoti</h3>
-                                <p>Tanlangan oyda eng ko'p talab qilingan stomatologik amaliyotlar va tushumlar</p>
+                                <h3 id="servicesReportTitle"><i class="fa-solid fa-stethoscope" style="color: var(--primary);"></i> Xizmat Turlari Bo'yicha Oylik Tushum Taqsimoti</h3>
+                                <p id="servicesReportSub">Tanlangan oyda eng ko'p talab qilingan stomatologik amaliyotlar va tushumlar</p>
                             </div>
                         </div>
                         <div class="services-report-grid" id="servicesReportGrid">
@@ -614,8 +598,7 @@
                     <div class="section-card">
                         <div class="section-card-header">
                             <div class="header-titles">
-                                <h3><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Tanlangan
-                                    Davrdagi Bemorlar Ro'yxati (Reestr)</h3>
+                                <h3 id="reportListTitle"><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Tanlangan Davrdagi Bemorlar Ro'yxati (Reestr)</h3>
                                 <p id="reportListDesc">Ushbu oyda xizmat ko'rsatilgan bemorlarning to'liq reestri</p>
                             </div>
                             <div class="table-info" id="reportPatientsCountInfo">Ko'rsatilmoqda: 0 ta bemor</div>
@@ -681,7 +664,7 @@
                     </div>
                     <div>
                         <h3 id="patientModalTitle">Yangi Bemor Qo'shish</h3>
-                        <p>Bemor ma'lumotlarini to'ldiring (Object sifatida saqlanadi)</p>
+                        <p id="patientModalSub">Bemor ma'lumotlarini to'ldiring (Object sifatida saqlanadi)</p>
                     </div>
                 </div>
                 <button class="btn-modal-close" id="btnClosePatientModal">
@@ -694,22 +677,22 @@
 
                 <div class="form-row">
                     <div class="form-group col-8">
-                        <label for="pFullName">F.I.Sh (To'liq ism) <span class="required">*</span></label>
+                        <label for="pFullName" id="lblPFullName">F.I.Sh (To'liq ism) <span class="required">*</span></label>
                         <input type="text" id="pFullName" placeholder="Masalan: Sardor Aliyev" required>
                     </div>
                     <div class="form-group col-4">
-                        <label for="pAge">Yoshi <span class="required">*</span></label>
+                        <label for="pAge" id="lblPAge">Yoshi <span class="required">*</span></label>
                         <input type="number" id="pAge" min="1" max="120" placeholder="28" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-6">
-                        <label for="pPhone">Telefon raqam <span class="required">*</span></label>
+                        <label for="pPhone" id="lblPPhone">Telefon raqam <span class="required">*</span></label>
                         <input type="text" id="pPhone" placeholder="+998 90 123 45 67" required>
                     </div>
                     <div class="form-group col-6">
-                        <label for="pGender">Jinsi</label>
+                        <label for="pGender" id="lblPGender">Jinsi</label>
                         <select id="pGender">
                             <option value="Erkak">Erkak</option>
                             <option value="Ayol">Ayol</option>
@@ -719,13 +702,13 @@
 
                 <div class="form-row">
                     <div class="form-group col-6">
-                        <label for="pDoctor">Mas'ul Shifokor / Ishchi <span class="required">*</span></label>
+                        <label for="pDoctor" id="lblPDoctor">Mas'ul Shifokor / Ishchi <span class="required">*</span></label>
                         <select id="pDoctor" required>
                             <!-- Populated dynamically -->
                         </select>
                     </div>
                     <div class="form-group col-6">
-                        <label for="pService">Xizmat turi <span class="required">*</span></label>
+                        <label for="pService" id="lblPService">Xizmat turi <span class="required">*</span></label>
                         <select id="pService" required>
                             <!-- Populated dynamically -->
                         </select>
@@ -734,34 +717,34 @@
 
                 <div class="form-row">
                     <div class="form-group col-6">
-                        <label for="pToothNumber">Tish raqami (FDI)</label>
+                        <label for="pToothNumber" id="lblPTooth">Tish raqami (FDI)</label>
                         <input type="text" id="pToothNumber" placeholder="Masalan: 16, 26, 47">
                     </div>
                     <div class="form-group col-6">
-                        <label for="pAppointmentDate">Qabul vaqti <span class="required">*</span></label>
+                        <label for="pAppointmentDate" id="lblPDate">Qabul vaqti <span class="required">*</span></label>
                         <input type="datetime-local" id="pAppointmentDate" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="pDiagnosis">Tashxis <span class="required">*</span></label>
+                    <label for="pDiagnosis" id="lblPDiag">Tashxis <span class="required">*</span></label>
                     <input type="text" id="pDiagnosis" placeholder="Karies, pulpit, tosh tozalash va h.k." required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-6">
-                        <label for="pTotalAmount">Umumiy xizmat narxi (so'm)</label>
+                        <label for="pTotalAmount" id="lblPTotal">Umumiy xizmat narxi (so'm)</label>
                         <input type="number" id="pTotalAmount" placeholder="450000" required>
                     </div>
                     <div class="form-group col-6">
-                        <label for="pPaidAmount">To'langan summa (so'm)</label>
+                        <label for="pPaidAmount" id="lblPPaid">To'langan summa (so'm)</label>
                         <input type="number" id="pPaidAmount" placeholder="450000" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-6">
-                        <label for="pStatus">Muolaja Holati</label>
+                        <label for="pStatus" id="lblPStatus">Muolaja Holati</label>
                         <select id="pStatus">
                             <option value="Davolanmoqda">Davolanmoqda</option>
                             <option value="Tugatildi">Tugatildi</option>
@@ -770,7 +753,7 @@
                         </select>
                     </div>
                     <div class="form-group col-6">
-                        <label for="pPaymentStatus">To'lov holati</label>
+                        <label for="pPaymentStatus" id="lblPPayStatus">To'lov holati</label>
                         <select id="pPaymentStatus">
                             <option value="To'langan">To'langan</option>
                             <option value="Qisman to'langan">Qisman to'langan</option>
@@ -780,13 +763,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="pPrescription"><i class="fa-solid fa-pills" style="color: #0284c7;"></i> Belgilangan Dorilar & Retsept (Doza va ichish tartibi)</label>
+                    <label for="pPrescription" id="lblPPrescription"><i class="fa-solid fa-pills" style="color: #0284c7;"></i> Belgilangan Dorilar & Retsept (Doza va ichish tartibi)</label>
                     <textarea id="pPrescription" rows="3"
                         placeholder="Masalan:&#10;1. Amoksitsillin 500mg — 1 kunda 3 mahal ovqatdan so'ng (5 kun)&#10;2. Nimesil — qattiq og'riq bo'lsa 1 paket&#10;3. Xlorgeksidin 0.05% — ovqatdan keyin chayish"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="pNotes">Qo'shimcha izoh va eslatmalar</label>
+                    <label for="pNotes" id="lblPNotes">Qo'shimcha izoh va eslatmalar</label>
                     <textarea id="pNotes" rows="2"
                         placeholder="Anesteziya turi yoki keyingi tashrif..."></textarea>
                 </div>
@@ -794,7 +777,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" id="btnCancelPatient">Bekor qilish</button>
                     <button type="submit" class="btn-primary" id="btnSavePatient">
-                        <i class="fa-solid fa-floppy-disk"></i> Saqlash
+                        <i class="fa-solid fa-floppy-disk"></i> <span id="btnSavePatientText">Saqlash</span>
                     </button>
                 </div>
             </form>
@@ -841,7 +824,7 @@
                         <i class="fa-brands fa-telegram"></i>
                     </div>
                     <div>
-                        <h3>Bemorni Telegram Botga Ulash</h3>
+                        <h3 id="tgModalHeading">Bemorni Telegram Botga Ulash</h3>
                         <p id="tgModalPatientTitle">Bemor retseptlarni Telegramda olishi uchun</p>
                     </div>
                 </div>
@@ -855,10 +838,10 @@
                     <img id="tgQrCodeImg" src="" alt="Telegram Bot QR Code" style="width: 200px; height: 200px; display: block; border-radius: 8px;">
                 </div>
 
-                <h4 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                <h4 id="tgModalStep1" style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
                     1. Bemor telefon kamerasi bilan ushbu QR-kodni skaner qilsin
                 </h4>
-                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                <p id="tgModalStep1Desc" style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
                     Bot ochilgach, pastdagi <b>"Start"</b> tugmasini bosishi kifoya. Tizim uni avtomatik taniydi!
                 </p>
 
@@ -868,10 +851,10 @@
 
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <button type="button" class="btn-primary" id="btnCopyTgLink" style="background: #0284c7;">
-                        <i class="fa-solid fa-copy"></i> Linkdan nusxa olish
+                        <i class="fa-solid fa-copy"></i> <span id="btnCopyTgLinkText">Linkdan nusxa olish</span>
                     </button>
                     <a href="#" target="_blank" class="btn-primary" id="btnShareTgDirect" style="background: #22c55e; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
-                        <i class="fa-brands fa-telegram"></i> Telegramda yuborish
+                        <i class="fa-brands fa-telegram"></i> <span id="btnShareTgDirectText">Telegramda yuborish</span>
                     </a>
                 </div>
             </div>
@@ -894,8 +877,8 @@
                         <i class="fa-solid fa-notes-medical"></i>
                     </div>
                     <div>
-                        <h3>Yangi Xizmat Turini Qo'shish</h3>
-                        <p>Stomatologiya xizmatini ro'yxatga kiritish</p>
+                        <h3 id="serviceModalHeading">Yangi Xizmat Turini Qo'shish</h3>
+                        <p id="serviceModalSub">Stomatologiya xizmatini ro'yxatga kiritish</p>
                     </div>
                 </div>
                 <button class="btn-modal-close" id="btnCloseServiceModal">
@@ -905,18 +888,18 @@
 
             <form id="serviceForm" class="modal-form">
                 <div class="form-group">
-                    <label for="serviceNameInput">Xizmat nomi <span class="required">*</span></label>
+                    <label for="serviceNameInput" id="lblServiceName">Xizmat nomi <span class="required">*</span></label>
                     <input type="text" id="serviceNameInput" placeholder="Masalan: Tishlarni lazer bilan oqartirish"
                         required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-6">
-                        <label for="servicePriceInput">Narxi (so'm) <span class="required">*</span></label>
+                        <label for="servicePriceInput" id="lblServicePrice">Narxi (so'm) <span class="required">*</span></label>
                         <input type="number" id="servicePriceInput" placeholder="500000" min="0" required>
                     </div>
                     <div class="form-group col-6">
-                        <label for="serviceDurationInput">Davomiyligi <span class="required">*</span></label>
+                        <label for="serviceDurationInput" id="lblServiceDuration">Davomiyligi <span class="required">*</span></label>
                         <input type="text" id="serviceDurationInput" placeholder="45 daqiqa" required>
                     </div>
                 </div>
@@ -924,7 +907,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" id="btnCancelService">Bekor qilish</button>
                     <button type="submit" class="btn-primary" id="btnSaveService">
-                        <i class="fa-solid fa-plus"></i> Xizmatni Qo'shish
+                        <i class="fa-solid fa-plus"></i> <span id="btnSaveServiceText">Xizmatni Qo'shish</span>
                     </button>
                 </div>
             </form>
@@ -940,8 +923,8 @@
                         <i class="fa-solid fa-user-doctor"></i>
                     </div>
                     <div>
-                        <h3>Yangi Ishchi / Shifokor Qo'shish</h3>
-                        <p>Klinika xodimini ro'yxatga kiritish</p>
+                        <h3 id="doctorModalHeading">Yangi Ishchi / Shifokor Qo'shish</h3>
+                        <p id="doctorModalSub">Klinika xodimini ro'yxatga kiritish</p>
                     </div>
                 </div>
                 <button class="btn-modal-close" id="btnCloseDoctorModal">
@@ -950,47 +933,73 @@
             </div>
 
             <form id="doctorForm" class="modal-form">
+                <input type="hidden" id="doctorEditId">
+
                 <div class="form-group">
-                    <label for="doctorNameInput">F.I.Sh (To'liq ism) <span class="required">*</span></label>
+                    <label for="doctorNameInput" id="lblDoctorName">F.I.Sh (To'liq ism) <span class="required">*</span></label>
                     <input type="text" id="doctorNameInput" placeholder="Masalan: Dr. Jasur Mansurov" required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-6">
-                        <label for="doctorSpecialtyInput">Lavozimi / Mutaxassisligi <span
+                        <label for="doctorSpecialtyInput" id="lblDoctorSpecialty">Lavozimi / Mutaxassisligi <span
                                 class="required">*</span></label>
                         <input type="text" id="doctorSpecialtyInput" placeholder="Masalan: Terapevt, Jarroh, Hamshira"
                             required>
                     </div>
                     <div class="form-group col-6">
-                        <label for="doctorExpInput">Ish tajribasi <span class="required">*</span></label>
+                        <label for="doctorExpInput" id="lblDoctorExp">Ish tajribasi <span class="required">*</span></label>
                         <input type="text" id="doctorExpInput" placeholder="Masalan: 5 yil" required>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-6">
-                        <label for="doctorPhoneInput">Telefon raqami <span class="required">*</span></label>
-                        <input type="text" id="doctorPhoneInput" placeholder="+998 90 123 45 67" required>
+                <div class="form-group">
+                    <label for="doctorPhoneInput" id="lblDoctorPhone">Telefon raqami <span class="required">*</span></label>
+                    <input type="text" id="doctorPhoneInput" placeholder="+998 90 123 45 67" required>
+                </div>
+
+                <!-- Shifokor rasmini yuklash bo'limi -->
+                <div class="form-group avatar-upload-group" style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: var(--radius-md); padding: 16px; margin-top: 6px;">
+                    <label id="lblDoctorAvatar" style="font-weight: 700; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-camera" style="color: var(--primary);"></i> Shifokor / Xodim rasmi
+                    </label>
+
+                    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                        <!-- Rasm Preview -->
+                        <div style="position: relative; width: 78px; height: 78px; border-radius: 50%; overflow: hidden; border: 3px solid var(--primary); flex-shrink: 0; background: #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
+                            <img id="doctorAvatarPreview" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80" alt="Avatar Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+
+                        <!-- Yuklash tugmasi va boshqaruv -->
+                        <div style="flex: 1; min-width: 200px;">
+                            <input type="file" id="doctorPhotoFileInput" accept="image/*" style="display: none;">
+                            <input type="hidden" id="doctorAvatarData" value="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80">
+                            
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+                                <button type="button" class="btn-primary" id="btnUploadDoctorPhoto" style="padding: 7px 14px; font-size: 13px;">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> <span id="btnUploadDoctorPhotoText">O'z rasmingizni yuklash</span>
+                                </button>
+                                <button type="button" class="btn-secondary" id="btnResetDoctorPhoto" style="padding: 7px 12px; font-size: 13px; display: none;">
+                                    <i class="fa-solid fa-rotate-left"></i> <span id="btnResetDoctorPhotoText">Tozalash</span>
+                                </button>
+                            </div>
+                            <small id="lblDoctorAvatarHelp" style="color: #64748b; font-size: 12px; display: block; line-height: 1.4;">
+                                Kompyuter yoki telefoningizdagi istalgan rasmni tanlang (avtomatik moslashtiriladi)
+                            </small>
+                        </div>
                     </div>
-                    <div class="form-group col-6">
-                        <label for="doctorAvatarSelect">Avatar rasmi</label>
-                        <select id="doctorAvatarSelect">
-                            <option
-                                value="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80">
-                                Erkak Shifokor 1</option>
-                            <option
-                                value="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&auto=format&fit=crop&q=80">
-                                Erkak Shifokor 2</option>
-                            <option
-                                value="https://images.unsplash.com/photo-1594824813589-9d54a2618991?w=150&auto=format&fit=crop&q=80">
-                                Ayol Shifokor 1</option>
-                            <option
-                                value="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&auto=format&fit=crop&q=80">
-                                Ayol Shifokor 2</option>
-                            <option
-                                value="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=150&auto=format&fit=crop&q=80">
-                                Hamshira / Assistent</option>
+
+                    <!-- Yoki tayyor rasmlardan tanlash -->
+                    <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed #e2e8f0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <span id="lblOrChoosePreset" style="font-size: 12px; color: #64748b; font-weight: 500;">
+                            Yoki tayyor shablon rasmlardan birini tanlang:
+                        </span>
+                        <select id="doctorAvatarSelect" style="font-size: 12.5px; padding: 5px 12px; border: 1px solid #cbd5e1; border-radius: 6px; background: #ffffff; color: var(--text-primary); cursor: pointer;">
+                            <option value="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80">Erkak Shifokor 1</option>
+                            <option value="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&auto=format&fit=crop&q=80">Erkak Shifokor 2</option>
+                            <option value="https://images.unsplash.com/photo-1594824813589-9d54a2618991?w=150&auto=format&fit=crop&q=80">Ayol Shifokor 1</option>
+                            <option value="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&auto=format&fit=crop&q=80">Ayol Shifokor 2</option>
+                            <option value="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=150&auto=format&fit=crop&q=80">Hamshira / Assistent</option>
                         </select>
                     </div>
                 </div>
@@ -998,7 +1007,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" id="btnCancelDoctor">Bekor qilish</button>
                     <button type="submit" class="btn-primary" id="btnSaveDoctor">
-                        <i class="fa-solid fa-user-plus"></i> Ishchini Qo'shish
+                        <i class="fa-solid fa-user-plus"></i> <span id="btnSaveDoctorText">Ishchini Qo'shish</span>
                     </button>
                 </div>
             </form>
