@@ -463,7 +463,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Doctor Modal
         const doctorModalHeading = document.getElementById("doctorModalHeading");
-        if (doctorModalHeading) doctorModalHeading.textContent = t("modalAddDoctorTitle");
         const doctorModalSub = document.getElementById("doctorModalSub");
         if (doctorModalSub) doctorModalSub.textContent = t("modalAddDoctorSub");
         const lblDoctorName = document.getElementById("lblDoctorName");
@@ -499,7 +498,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btnSaveDoctorText) {
             btnSaveDoctorText.textContent = (doctorEditId && doctorEditId.value) ? t("btnSaveDoctorEdit") : t("btnAddDoctorSubmit");
         }
-        const doctorModalHeading = document.getElementById("doctorModalHeading");
         if (doctorModalHeading) {
             doctorModalHeading.textContent = (doctorEditId && doctorEditId.value) ? t("modalEditDoctorTitle") : t("modalAddDoctorTitle");
         }

@@ -1058,10 +1058,10 @@
   // 2. Real-time eshituvchi: Boshqa qurilmadan o'zgarish bo'lsa, darhol yangilaydi
   let isInitialLoad = true;
   onSnapshot(docPatients, (snap) => {
-    if (snap.exists()) {
+    if (snap.exists() && snap.data() && Array.isArray(snap.data().list)) {
       const cloudList = snap.data().list;
       const localStr = localStorage.getItem("dentacare_patients_data");
-      if (JSON.stringify(cloudList) !== localStr) {
+      if (cloudList.length > 0 && JSON.stringify(cloudList) !== localStr) {
         localStorage.setItem("dentacare_patients_data", JSON.stringify(cloudList));
         if (!isInitialLoad) window.location.reload();
       }
@@ -1071,25 +1071,31 @@
       window.savePatientsToFirebase(current);
     }
     isInitialLoad = false;
-  });
+  }, (err) => console.warn("Firebase patients sync error:", err));
 
   onSnapshot(docServices, (snap) => {
-    if (snap.exists()) {
-      localStorage.setItem("dentacare_services_data", JSON.stringify(snap.data().list));
+    if (snap.exists() && snap.data() && Array.isArray(snap.data().list)) {
+      const cloudList = snap.data().list;
+      if (cloudList.length > 0) {
+        localStorage.setItem("dentacare_services_data", JSON.stringify(cloudList));
+      }
     } else {
       const current = typeof getServicesFromStorage === "function" ? getServicesFromStorage() : [];
       window.saveServicesToFirebase(current);
     }
-  });
+  }, (err) => console.warn("Firebase services sync error:", err));
 
   onSnapshot(docDoctors, (snap) => {
-    if (snap.exists()) {
-      localStorage.setItem("dentacare_doctors_data", JSON.stringify(snap.data().list));
+    if (snap.exists() && snap.data() && Array.isArray(snap.data().list)) {
+      const cloudList = snap.data().list;
+      if (cloudList.length > 0) {
+        localStorage.setItem("dentacare_doctors_data", JSON.stringify(cloudList));
+      }
     } else {
       const current = typeof getDoctorsFromStorage === "function" ? getDoctorsFromStorage() : [];
       window.saveDoctorsToFirebase(current);
     }
-  });
+  }, (err) => console.warn("Firebase doctors sync error:", err));
 
   console.log("DentaCare Firebase Realtime sinxronizatsiyasi ishga tushdi!");
 </script>
