@@ -6,6 +6,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const alertBox = document.getElementById("loginAlert");
     const loginBtn = document.getElementById("loginBtn");
 
+    // Tilni boshqarish
+    let currentLang = localStorage.getItem("dentacare_app_lang") || "uz";
+    const btnUz = document.getElementById("btnLoginLangUz");
+    const btnRu = document.getElementById("btnLoginLangRu");
+
+    const texts = {
+        uz: {
+            title: "Stomatologiya | Kirish",
+            loginPlaceholder: "Login",
+            passPlaceholder: "Parol",
+            btnSubmit: "Kirish",
+            submitting: "Kirilmoqda...",
+            emptyAlert: "Iltimos, login va parolni kiriting!",
+            wrongAlert: "Login yoki parol noto'g'ri!"
+        },
+        ru: {
+            title: "Стоматология | Вход",
+            loginPlaceholder: "Логин",
+            passPlaceholder: "Пароль",
+            btnSubmit: "Войти",
+            submitting: "Вход в систему...",
+            emptyAlert: "Пожалуйста, введите логин и пароль!",
+            wrongAlert: "Неверный логин или пароль!"
+        }
+    };
+
+    function applyLoginLang(lang) {
+        currentLang = lang;
+        localStorage.setItem("dentacare_app_lang", lang);
+        document.title = texts[lang].title;
+
+        if (btnUz && btnRu) {
+            btnUz.classList.toggle("active", lang === "uz");
+            btnRu.classList.toggle("active", lang === "ru");
+        }
+
+        if (usernameInput) usernameInput.placeholder = texts[lang].loginPlaceholder;
+        if (passwordInput) passwordInput.placeholder = texts[lang].passPlaceholder;
+        if (loginBtn) loginBtn.textContent = texts[lang].btnSubmit;
+    }
+
+    if (btnUz) btnUz.addEventListener("click", () => applyLoginLang("uz"));
+    if (btnRu) btnRu.addEventListener("click", () => applyLoginLang("ru"));
+    applyLoginLang(currentLang);
+
     // Foydalanuvchi tizimga kirgan bo'lsa dashboardga yo'naltirish
     const currentUser = localStorage.getItem("dentacare_current_user");
     if (currentUser) {
@@ -21,14 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const password = passwordInput.value.trim();
 
             if (!username || !password) {
-                showAlert("Iltimos, login va parolni kiriting!");
+                showAlert(texts[currentLang].emptyAlert);
                 return;
             }
 
             // Tizimga kirish: ahmad / 1234
             if (username === "ahmad" && password === "1234") {
                 loginBtn.disabled = true;
-                loginBtn.textContent = "Kirilmoqda...";
+                loginBtn.textContent = texts[currentLang].submitting;
 
                 const userData = {
                     username: "ahmad",
@@ -45,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = "index.html";
                 }, 500);
             } else {
-                showAlert("Login yoki parol noto'g'ri!");
+                showAlert(texts[currentLang].wrongAlert);
                 passwordInput.value = "";
                 passwordInput.focus();
             }

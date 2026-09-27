@@ -1,0 +1,442 @@
+// DentaCare - O'zbek va Rus tillari tarjimalari (i18n)
+const translations = {
+    uz: {
+        // Asosiy menyu
+        menuTitle: "ASOSIY MENYU",
+        navDashboard: "Boshqaruv Paneli",
+        navPatients: "Bemorlar (Mijozlar)",
+        navToothChart: "Tishlar Xaritasi",
+        navServices: "Xizmatlar & Narxlar",
+        navDoctors: "Ishchilar & Shifokorlar",
+        navReports: "Oylik Hisobotlar",
+        navShift: "Ish tartibi (Rejim):",
+        navShiftVal: "24/7 (Kechayu-kunduz ochiq)",
+        navLogout: "Chiqish",
+        logoutConfirm: "Haqiqatan ham tizimdan chiqmoqchimisiz?",
+        
+        // Header
+        headerTitle: "Stomatologiya Boshqaruv Markazi",
+        headerBadge247: "Tun-u kun ochiq",
+        btnAddPatient: "Yangi Bemor Qo'shish",
+        roleAdmin: "Boshqaruvchi",
+        roleHeadDoctor: "Bosh shifokor",
+
+        // Dashboard Stats
+        statTotalPatients: "Jami Ro'yxatdagi Bemorlar",
+        statTotalPatientsMeta: "Bazadagi barcha mijozlar",
+        statTodayVisits: "Bugungi Qabullar",
+        statTodayVisitsMeta: "Bugungi belgilangan vaqtlar",
+        statInTreatment: "Davolanishdagi Bemorlar",
+        statInTreatmentMeta: "Faol muolaja jarayonida",
+        statTotalRevenue: "Jami Xizmat Tushumi",
+        statTotalRevenueMeta: "Bemorlar to'lagan mablag'",
+
+        // Month banner
+        bannerTag: "OYLIK HISOBOT KO'RSATKICHI",
+        bannerLink: "Oylik To'liq Hisobotni Ko'rish",
+        bannerDesc: (patientsCount, revenueSum) => `Shu oyda jami: <strong>${patientsCount} ta bemor</strong> qabul qilindi &bull; Tushgan tushum: <strong>${revenueSum}</strong>`,
+
+        // Patients Section
+        patientsTitle: "Bemorlar va Mijozlar Ro'yxati",
+        patientsSubtitle: "JavaScript Object (JSON) ko'rinishida saqlanuvchi stomatologiya mijozlari",
+        searchPlaceholder: "Ism, telefon yoki tashxis bo'yicha qidiruv...",
+        filterAll: "Barcha holatlar",
+        filterTreating: "Davolanmoqda",
+        filterDone: "Tugatildi",
+        filterWaiting: "Kutilmoqda",
+        filterCancelled: "Bekor qilindi",
+
+        // Patients Table
+        thId: "ID",
+        thPatient: "Bemor F.I.Sh",
+        thPhone: "Bog'lanish",
+        thDiagnosis: "Tashxis & Tish",
+        thService: "Xizmat turi",
+        thDoctor: "Mas'ul Shifokor",
+        thTime: "Qabul vaqti",
+        thPayment: "To'lov",
+        thStatus: "Holat",
+        thActions: "Amallar",
+        noPatientsFound: "Hech qanday bemor ma'lumoti topilmadi",
+        noPatientsSub: "Qidiruv shartlarini o'zgartiring yoki yangi bemor qo'shing",
+        showingPatients: (shown, total) => `Ko'rsatilmoqda: ${shown} ta bemor (Jami: ${total} ta)`,
+        ageSuffix: "yosh",
+        toothLabel: "Tish",
+
+        // Table Action tooltips
+        tooltipView: "Bemor kartasini ko'rish",
+        tooltipEdit: "Tahrirlash",
+        tooltipDelete: "O'chirish",
+
+        // Tooth Chart
+        chartTitle: "Interaktiv Tishlar Xaritasi (FDI Dental Chart)",
+        chartSubtitle: "Tish raqamlari xalqaro FDI standarti (11-48) bo'yicha. Tishni bosib unga tegishli bemorlarni ko'rishingiz mumkin.",
+        upperJaw: "Yuqori Jag' (Maxilla)",
+        lowerJaw: "Pastki Jag' (Mandible)",
+        centerLine: "MARKAZIY CHIZIQ",
+        legendHealthy: "Sog'lom",
+        legendTreatment: "Davolanmoqda",
+        legendDone: "Plombalangan / Tugatilgan",
+        legendCrown: "Tojburchak / Implant",
+
+        // Services Tab
+        servicesTitle: "Klinika Xizmat Turlari va Narxnomasi",
+        servicesSubtitle: "Mavjud xizmatlar ro'yxati va yangi xizmat turlarini qo'shish paneli",
+        btnAddService: "Yangi Xizmat Qo'shish",
+        noServices: "Xizmatlar mavjud emas",
+        durationLabel: "Davomiyligi",
+
+        // Doctors Tab
+        shiftBannerTitle: "24/7 Tun-u Kun Uzluksiz Navbatchilik Tizimi",
+        shiftBannerText: "Klinikamiz uzluksiz 24/7 rejimida faoliyat yuritadi. Shifokorlar va assistentlar 1-smena (kunduzgi) va 2-smena (tungi tezkor stomatologik yordam) asosida bemorlarni qabul qilishadi.",
+        shiftBannerBadge: "Rejim: 24/7 Faol",
+        doctorsTitle: "Ishchilar va Shifokorlar Jamoasi",
+        doctorsSubtitle: "Klinikamiz mutaxassislari, shifokorlar va yangi xodimlarni ro'yxatga olish",
+        btnAddDoctor: "Yangi Ishchi Qo'shish",
+        expLabel: "Tajriba",
+
+        // Reports Tab
+        reportTopBadge: "OYLIK MOLIYAVIY VA QABULLAR HISOBOTI",
+        reportDesc: "Oy oxirida ishchilar hisobotlar bilan qiynalmasligi uchun avtomatlashtirilgan oylik tushumlar va bemorlar tahlili",
+        btnExportCSV: "Excel (CSV) Yuklab Olish",
+        btnPrint: "Chop Etish (PDF)",
+        lblReportMonth: "Hisobot Oyi:",
+        lblReportDoctor: "Shifokor / Ishchi:",
+        lblReportStatus: "Muolaja Holati:",
+        allDoctorsOption: "Barcha Xodimlar (Umumiy hisobot)",
+        allStatusesOption: "Barcha Holatlar",
+        btnRefresh: "Yangilash",
+        kpiPatients: "Shu Oydagi Bemorlar",
+        kpiPatientsSub: "Qabul qilingan mijozlar",
+        kpiRevenue: "Kassaga Tushgan Summa",
+        kpiRevenueSub: "Faqat to'langan naqd/karta",
+        kpiPending: "Kutilayotgan Qoldiq Qarz",
+        kpiPendingSub: "Bemorlar to'lashi kerak bo'lgan",
+        kpiAvg: "O'rtacha Bemor Cheki",
+        kpiAvgSub: "1 bemorga to'g'ri kelgan tushum",
+        tabTitleDoctors: "Shifokorlar / Ishchilar Oylik Ish Rejalari va Natijalari",
+        tabTitleHistory: "Oylar Bo'yicha Bemorlar va Moliyaviy Dinamika",
+        tabTitleServices: "Xizmat Turlari Bo'yicha Oylik Tushumlar",
+        tabTitleList: "Shu Oydagi Bemorlar va To'lovlar Ro'yxati",
+
+        // Modals - Patient Modal
+        modalAddPatientTitle: "Yangi Bemor Qo'shish",
+        modalEditPatientTitle: "Bemor Ma'lumotlarini Tahrirlash",
+        lblFullName: "F.I.Sh (Ism Familiya)",
+        lblPhone: "Telefon raqami",
+        lblAge: "Yoshi",
+        lblGender: "Jinsi",
+        genderMale: "Erkak",
+        genderFemale: "Ayol",
+        lblDoctor: "Mas'ul Shifokor",
+        lblService: "Xizmat turi",
+        lblToothNumber: "Tish raqami (FDI)",
+        lblAppointmentDate: "Qabul sanasi va vaqti",
+        lblDiagnosis: "Tashxis (Diagnoz)",
+        lblTotalAmount: "Xizmatning to'liq narxi (so'm)",
+        lblPaidAmount: "To'langan summa (so'm)",
+        lblStatus: "Muolaja Holati",
+        lblPaymentStatus: "To'lov holati",
+        lblPrescription: "Belgilangan Dorilar & Retsept (Doza va ichish tartibi)",
+        lblNotes: "Qo'shimcha izoh va eslatmalar",
+        btnCancel: "Bekor qilish",
+        btnSave: "Saqlash",
+
+        // View Modal
+        viewCardTitle: "Bemor Kartochkasi",
+        viewPersonalInfo: "Shaxsiy ma'lumotlar",
+        viewPhone: "Telefon raqami",
+        viewDoctor: "Mas'ul shifokor",
+        viewAppDate: "Qabul vaqti",
+        viewDiagnosis: "Tashxis",
+        viewTooth: "Muolaja qilinayotgan tish raqami",
+        viewStatus: "Muolaja holati",
+        viewPayment: "To'lov holati",
+        viewBalanceTitle: "Moliyaviy Balans",
+        viewTotalSum: "Umumiy xizmat narxi:",
+        viewPaidSum: "To'langan summa:",
+        viewDebtSum: "Qarz / Qoldiq summa:",
+        viewPrescriptionTitle: "Belgilangan Dorilar & Retsept",
+        viewTgConnected: "Telegram Ulangan",
+        viewTgNotConnected: "Telegram Ulanmagan",
+        viewNoPrescription: "Ushbu bemorga hali dorilar yoki retsept yozilmagan. 'Tahrirlash' tugmasini bosib dorilarni kiritishingiz mumkin.",
+        btnSendTgPrescription: "Retseptni bemorning Telegramiga yuborish",
+        btnConnectTg: "Bemorni botga ulash (QR-kod)",
+        viewDoctorNotes: "Shifokor Eslatmasi va Muolaja Tavsifi:",
+        btnClose: "Yopish",
+        btnEdit: "Tahrirlash",
+
+        // Telegram Modal
+        tgModalTitle: "Bemorni Telegram Botga Ulash",
+        tgModalSubtitle: "Bemor retseptlarni Telegramda olishi uchun",
+        tgStep1: "1. Bemor telefon kamerasi bilan ushbu QR-kodni skaner qilsin",
+        tgStepDesc: "Bot ochilgach, pastdagi \"Start\" tugmasini bosishi kifoya. Tizim uni avtomatik taniydi!",
+        btnCopyLink: "Linkdan nusxa olish",
+        btnShareTg: "Telegramda yuborish",
+        tgWaitingStatus: "Bemor ulanishi kutilmoqda...",
+        tgConnectedStatus: "Bemor muvaffaqiyatli ulandi!",
+
+        // Service Modal
+        modalAddServiceTitle: "Yangi Xizmat Turini Qo'shish",
+        modalAddServiceSub: "Stomatologiya xizmatini ro'yxatga kiritish",
+        lblServiceName: "Xizmat nomi",
+        lblServicePrice: "Narxi (so'm)",
+        lblServiceDuration: "Davomiyligi",
+        btnAddServiceSubmit: "Xizmatni Qo'shish",
+
+        // Doctor Modal
+        modalAddDoctorTitle: "Yangi Ishchi / Shifokor Qo'shish",
+        modalAddDoctorSub: "Klinika xodimini ro'yxatga kiritish",
+        lblDoctorName: "F.I.Sh (To'liq ism)",
+        lblDoctorSpecialty: "Lavozimi / Mutaxassisligi",
+        lblDoctorExp: "Ish tajribasi",
+        lblDoctorPhone: "Telefon raqami",
+        lblDoctorAvatar: "Avatar rasmi",
+        btnAddDoctorSubmit: "Ishchini Qo'shish",
+
+        // Toasts & Alerts
+        toastSaved: "Bemor ma'lumotlari saqlandi!",
+        toastDeleted: "Bemor o'chirildi",
+        toastCopied: "Telegram bot linki nusxalandi!",
+        toastTgSent: (name) => `Retsept ${name}ning Telegramiga muvaffaqiyatli yuborildi! 🚀`,
+        toastTgError: "Telegramga yuborishda xatolik yuz berdi",
+        toastNoPrescription: "Avval bemorga dorilar yoki retsept yozing!",
+        toastTgNotConnected: "Bemor hali Telegram botga ulanmagan!",
+        toastServiceAdded: (name) => `Yangi xizmat turi ("${name}") qo'shildi!`,
+        toastDoctorAdded: (name) => `Yangi xodim ("${name}") muvaffaqiyatli ro'yxatga olindi!`,
+        toastFillRequired: "Iltimos, barcha majburiy maydonlarni to'ldiring!",
+        statusTreating: "Davolanmoqda",
+        statusDone: "Tugatildi",
+        statusWaiting: "Kutilmoqda",
+        statusCancelled: "Bekor qilindi",
+        payPaid: "To'langan",
+        payPartial: "Qisman to'langan",
+        payUnpaid: "To'lanmagan"
+    },
+
+    ru: {
+        // Главное меню
+        menuTitle: "ГЛАВНОЕ МЕНЮ",
+        navDashboard: "Панель управления",
+        navPatients: "Пациенты (Клиенты)",
+        navToothChart: "Зубная карта",
+        navServices: "Услуги и цены",
+        navDoctors: "Персонал и врачи",
+        navReports: "Ежемесячные отчёты",
+        navShift: "Режим работы:",
+        navShiftVal: "24/7 (Круглосуточно)",
+        navLogout: "Выход",
+        logoutConfirm: "Вы действительно хотите выйти из системы?",
+
+        // Header
+        headerTitle: "Центр управления стоматологией",
+        headerBadge247: "Круглосуточно",
+        btnAddPatient: "Добавить пациента",
+        roleAdmin: "Администратор",
+        roleHeadDoctor: "Главный врач",
+
+        // Dashboard Stats
+        statTotalPatients: "Всего пациентов в базе",
+        statTotalPatientsMeta: "Все зарегистрированные клиенты",
+        statTodayVisits: "Приёмы на сегодня",
+        statTodayVisitsMeta: "Записи на сегодняшнюю дату",
+        statInTreatment: "Пациенты на лечении",
+        statInTreatmentMeta: "В процессе активного лечения",
+        statTotalRevenue: "Общий доход от услуг",
+        statTotalRevenueMeta: "Сумма, оплаченная клиентами",
+
+        // Month banner
+        bannerTag: "ПОКАЗАТЕЛИ ЗА МЕСЯЦ",
+        bannerLink: "Посмотреть полный отчёт за месяц",
+        bannerDesc: (patientsCount, revenueSum) => `В этом месяце принято: <strong>${patientsCount} пациентов</strong> &bull; Доход: <strong>${revenueSum}</strong>`,
+
+        // Patients Section
+        patientsTitle: "Список пациентов и клиентов",
+        patientsSubtitle: "База данных стоматологических клиентов (JSON)",
+        searchPlaceholder: "Поиск по имени, телефону или диагнозу...",
+        filterAll: "Все статусы",
+        filterTreating: "На лечении",
+        filterDone: "Завершено",
+        filterWaiting: "Ожидает",
+        filterCancelled: "Отменено",
+
+        // Patients Table
+        thId: "ID",
+        thPatient: "Ф.И.О Пациента",
+        thPhone: "Контакты",
+        thDiagnosis: "Диагноз и зуб",
+        thService: "Вид услуги",
+        thDoctor: "Лечащий врач",
+        thTime: "Время приёма",
+        thPayment: "Оплата",
+        thStatus: "Статус",
+        thActions: "Действия",
+        noPatientsFound: "Данные пациентов не найдены",
+        noPatientsSub: "Измените параметры поиска или добавьте нового пациента",
+        showingPatients: (shown, total) => `Показано: ${shown} пациентов (Всего: ${total})`,
+        ageSuffix: "лет",
+        toothLabel: "Зуб",
+
+        // Table Action tooltips
+        tooltipView: "Просмотреть карту пациента",
+        tooltipEdit: "Редактировать",
+        tooltipDelete: "Удалить",
+
+        // Tooth Chart
+        chartTitle: "Интерактивная карта зубов (FDI Dental Chart)",
+        chartSubtitle: "Номера зубов соответствуют международному стандарту FDI (11-48). Нажмите на зуб, чтобы увидеть пациентов.",
+        upperJaw: "Верхняя челюсть (Maxilla)",
+        lowerJaw: "Нижняя челюсть (Mandible)",
+        centerLine: "ЦЕНТРАЛЬНАЯ ЛИНИЯ",
+        legendHealthy: "Здоровый",
+        legendTreatment: "На лечении",
+        legendDone: "Пломбирован / Завершён",
+        legendCrown: "Коронка / Имплант",
+
+        // Services Tab
+        servicesTitle: "Услуги и прейскурант клиники",
+        servicesSubtitle: "Список оказываемых услуг и панель добавления новых",
+        btnAddService: "Добавить услугу",
+        noServices: "Услуги отсутствуют",
+        durationLabel: "Длительность",
+
+        // Doctors Tab
+        shiftBannerTitle: "24/7 Круглосуточная система дежурств",
+        shiftBannerText: "Наша клиника работает в непрерывном режиме 24/7. Врачи и ассистенты принимают пациентов в 1-ю смену (дневную) и 2-ю смену (ночная неотложная помощь).",
+        shiftBannerBadge: "Режим: 24/7 Активен",
+        doctorsTitle: "Команда врачей и персонала",
+        doctorsSubtitle: "Специалисты клиники, лечащие врачи и регистрация новых сотрудников",
+        btnAddDoctor: "Добавить сотрудника",
+        expLabel: "Опыт работы",
+
+        // Reports Tab
+        reportTopBadge: "ЕЖЕМЕСЯЧНЫЙ ФИНАНСОВЫЙ И ПРИЁМНЫЙ ОТЧЁТ",
+        reportDesc: "Автоматизированный анализ ежемесячных поступлений и пациентов для удобной отчётности",
+        btnExportCSV: "Скачать Excel (CSV)",
+        btnPrint: "Распечатать (PDF)",
+        lblReportMonth: "Месяц отчёта:",
+        lblReportDoctor: "Врач / Сотрудник:",
+        lblReportStatus: "Статус лечения:",
+        allDoctorsOption: "Все сотрудники (Общий отчёт)",
+        allStatusesOption: "Все статусы",
+        btnRefresh: "Обновить",
+        kpiPatients: "Пациентов за месяц",
+        kpiPatientsSub: "Принятые клиенты",
+        kpiRevenue: "Поступило в кассу",
+        kpiRevenueSub: "Только оплаченные средства",
+        kpiPending: "Ожидаемый остаток долга",
+        kpiPendingSub: "Подлежит оплате пациентами",
+        kpiAvg: "Средний чек пациента",
+        kpiAvgSub: "Доход на 1 пациента",
+        tabTitleDoctors: "Планы и результаты работы врачей за месяц",
+        tabTitleHistory: "Динамика пациентов и финансов по месяцам",
+        tabTitleServices: "Доходы по видам стоматологических услуг",
+        tabTitleList: "Список пациентов и платежей за выбранный месяц",
+
+        // Modals - Patient Modal
+        modalAddPatientTitle: "Добавить нового пациента",
+        modalEditPatientTitle: "Редактировать данные пациента",
+        lblFullName: "Ф.И.О (Полное имя)",
+        lblPhone: "Номер телефона",
+        lblAge: "Возраст",
+        lblGender: "Пол",
+        genderMale: "Мужской",
+        genderFemale: "Женский",
+        lblDoctor: "Лечащий врач",
+        lblService: "Вид услуги",
+        lblToothNumber: "Номер зуба (FDI)",
+        lblAppointmentDate: "Дата и время приёма",
+        lblDiagnosis: "Диагноз",
+        lblTotalAmount: "Общая стоимость лечения (сум)",
+        lblPaidAmount: "Оплаченная сумма (сум)",
+        lblStatus: "Статус лечения",
+        lblPaymentStatus: "Статус оплаты",
+        lblPrescription: "Назначенные лекарства и рецепт (дозировка и порядок приёма)",
+        lblNotes: "Дополнительные примечания и заметки",
+        btnCancel: "Отмена",
+        btnSave: "Сохранить",
+
+        // View Modal
+        viewCardTitle: "Карточка пациента",
+        viewPersonalInfo: "Личные данные",
+        viewPhone: "Номер телефона",
+        viewDoctor: "Лечащий врач",
+        viewAppDate: "Время приёма",
+        viewDiagnosis: "Диагноз",
+        viewTooth: "Номер зуба",
+        viewStatus: "Статус лечения",
+        viewPayment: "Статус оплаты",
+        viewBalanceTitle: "Финансовый баланс",
+        viewTotalSum: "Общая стоимость:",
+        viewPaidSum: "Оплаченная сумма:",
+        viewDebtSum: "Остаток долга:",
+        viewPrescriptionTitle: "Назначенные лекарства и рецепт",
+        viewTgConnected: "Telegram подключён",
+        viewTgNotConnected: "Telegram не подключён",
+        viewNoPrescription: "Этому пациенту пока не назначены лекарства. Нажмите 'Редактировать', чтобы внести рецепт.",
+        btnSendTgPrescription: "Отправить рецепт в Telegram пациента",
+        btnConnectTg: "Подключить к Telegram боту (QR-код)",
+        viewDoctorNotes: "Заметки врача и описание лечения:",
+        btnClose: "Закрыть",
+        btnEdit: "Редактировать",
+
+        // Telegram Modal
+        tgModalTitle: "Подключение пациента к Telegram боту",
+        tgModalSubtitle: "Для получения пациентом рецептов в Telegram",
+        tgStep1: "1. Отсканируйте этот QR-код камерой телефона",
+        tgStepDesc: "После открытия бота достаточно нажать кнопку \"Start\". Система определит пациента автоматически!",
+        btnCopyLink: "Скопировать ссылку",
+        btnShareTg: "Отправить в Telegram",
+        tgWaitingStatus: "Ожидание подключения пациента...",
+        tgConnectedStatus: "Пациент успешно подключён!",
+
+        // Service Modal
+        modalAddServiceTitle: "Добавить новую услугу",
+        modalAddServiceSub: "Регистрация стоматологической услуги в базе",
+        lblServiceName: "Название услуги",
+        lblServicePrice: "Стоимость (сум)",
+        lblServiceDuration: "Длительность",
+        btnAddServiceSubmit: "Добавить услугу",
+
+        // Doctor Modal
+        modalAddDoctorTitle: "Добавить нового сотрудника / врача",
+        modalAddDoctorSub: "Регистрация сотрудника клиники",
+        lblDoctorName: "Ф.И.О (Полное имя)",
+        lblDoctorSpecialty: "Должность / Специальность",
+        lblDoctorExp: "Опыт работы",
+        lblDoctorPhone: "Номер телефона",
+        lblDoctorAvatar: "Фотография аватара",
+        btnAddDoctorSubmit: "Добавить сотрудника",
+
+        // Toasts & Alerts
+        toastSaved: "Данные пациента сохранены!",
+        toastDeleted: "Пациент удален",
+        toastCopied: "Ссылка на Telegram бот скопирована!",
+        toastTgSent: (name) => `Рецепт успешно отправлен в Telegram пациента ${name}! 🚀`,
+        toastTgError: "Ошибка при отправке в Telegram",
+        toastNoPrescription: "Сначала укажите лекарства или рецепт пациенту!",
+        toastTgNotConnected: "Пациент ещё не подключён к Telegram боту!",
+        toastServiceAdded: (name) => `Добавлена новая услуга ("${name}")!`,
+        toastDoctorAdded: (name) => `Новый сотрудник ("${name}") успешно добавлен!`,
+        toastFillRequired: "Пожалуйста, заполните все обязательные поля!",
+        statusTreating: "На лечении",
+        statusDone: "Завершено",
+        statusWaiting: "Ожидает",
+        statusCancelled: "Отменено",
+        payPaid: "Оплачено",
+        payPartial: "Частично",
+        payUnpaid: "Не оплачено"
+    }
+};
+
+// Yordamchi tarjima funksiyasi
+let currentAppLang = localStorage.getItem("dentacare_app_lang") || "uz";
+
+function t(key, ...args) {
+    const dict = translations[currentAppLang] || translations.uz;
+    const val = dict[key] || translations.uz[key] || key;
+    if (typeof val === "function") {
+        return val(...args);
+    }
+    return val;
+}

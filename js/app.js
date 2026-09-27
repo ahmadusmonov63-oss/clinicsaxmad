@@ -77,6 +77,195 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // ==========================================================
+    // SAYT TILINI BOSHQARISH (MULTI-LANGUAGE: UZ / RU)
+    // ==========================================================
+    const btnLangUz = document.getElementById("btnLangUz");
+    const btnLangRu = document.getElementById("btnLangRu");
+
+    function applyAppLanguage(lang) {
+        currentAppLang = lang;
+        localStorage.setItem("dentacare_app_lang", lang);
+
+        if (btnLangUz && btnLangRu) {
+            btnLangUz.classList.toggle("active", lang === "uz");
+            btnLangRu.classList.toggle("active", lang === "ru");
+        }
+
+        // Sidebar
+        const navSectionTitle = document.querySelector(".nav-section-title");
+        if (navSectionTitle) navSectionTitle.textContent = t("menuTitle");
+
+        const navDash = document.querySelector('.nav-link[data-tab="dashboard"] span');
+        if (navDash) navDash.textContent = t("navDashboard");
+        const navPat = document.querySelector('.nav-link[data-tab="patients"] span');
+        if (navPat) navPat.textContent = t("navPatients");
+        const navTooth = document.querySelector('.nav-link[data-tab="tooth-chart"] span');
+        if (navTooth) navTooth.textContent = t("navToothChart");
+        const navServ = document.querySelector('.nav-link[data-tab="services"] span');
+        if (navServ) navServ.textContent = t("navServices");
+        const navDoc = document.querySelector('.nav-link[data-tab="doctors"] span');
+        if (navDoc) navDoc.textContent = t("navDoctors");
+        const navRep = document.querySelector('.nav-link[data-tab="reports"] span');
+        if (navRep) navRep.textContent = t("navReports");
+
+        const shiftSmall = document.querySelector(".clinic-shift small");
+        if (shiftSmall) shiftSmall.innerHTML = `<i class="fa-solid fa-clock"></i> ${t("navShift")}`;
+        const shiftP = document.querySelector(".clinic-shift p");
+        if (shiftP) shiftP.textContent = t("navShiftVal");
+
+        const btnLogoutSpan = document.querySelector("#btnLogout span");
+        if (btnLogoutSpan) btnLogoutSpan.textContent = t("navLogout");
+
+        // Header
+        const badgeShiftText = document.getElementById("badgeShiftText");
+        if (badgeShiftText) badgeShiftText.textContent = t("headerBadge247");
+        const btnAddPatientText = document.getElementById("btnAddPatientText");
+        if (btnAddPatientText) btnAddPatientText.textContent = t("btnAddPatient");
+        const topHeaderRole = document.getElementById("topHeaderRole");
+        if (topHeaderRole) topHeaderRole.textContent = t("roleAdmin");
+
+        // Stats Cards labels
+        const statCards = document.querySelectorAll(".stat-card");
+        if (statCards.length >= 4) {
+            const sc0Title = statCards[0].querySelector(".stat-content span");
+            const sc0Meta = statCards[0].querySelector(".stat-meta");
+            if (sc0Title) sc0Title.textContent = t("statTotalPatients");
+            if (sc0Meta) sc0Meta.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${t("statTotalPatientsMeta")}`;
+
+            const sc1Title = statCards[1].querySelector(".stat-content span");
+            const sc1Meta = statCards[1].querySelector(".stat-meta");
+            if (sc1Title) sc1Title.textContent = t("statTodayVisits");
+            if (sc1Meta) sc1Meta.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${t("statTodayVisitsMeta")}`;
+
+            const sc2Title = statCards[2].querySelector(".stat-content span");
+            const sc2Meta = statCards[2].querySelector(".stat-meta");
+            if (sc2Title) sc2Title.textContent = t("statInTreatment");
+            if (sc2Meta) sc2Meta.innerHTML = `<i class="fa-solid fa-teeth"></i> ${t("statInTreatmentMeta")}`;
+
+            const sc3Title = statCards[3].querySelector(".stat-content span");
+            const sc3Meta = statCards[3].querySelector(".stat-meta");
+            if (sc3Title) sc3Title.textContent = t("statTotalRevenue");
+            if (sc3Meta) sc3Meta.innerHTML = `<i class="fa-solid fa-coins"></i> ${t("statTotalRevenueMeta")}`;
+        }
+
+        // Dashboard banner
+        const bannerTag = document.querySelector(".banner-pill-tag");
+        if (bannerTag) bannerTag.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${t("bannerTag")}`;
+        const btnDashToReportsSpan = document.querySelector("#btnDashToReports span");
+        if (btnDashToReportsSpan) btnDashToReportsSpan.textContent = t("bannerLink");
+
+        // Patients Section Header
+        const patHeader = document.querySelector(".patients-section .header-titles");
+        if (patHeader) {
+            const h3 = patHeader.querySelector("h3");
+            const p = patHeader.querySelector("p");
+            if (h3) h3.textContent = t("patientsTitle");
+            if (p) p.textContent = t("patientsSubtitle");
+        }
+
+        if (patientSearchInput) patientSearchInput.placeholder = t("searchPlaceholder");
+        if (statusFilter && statusFilter.options.length >= 5) {
+            statusFilter.options[0].text = t("filterAll");
+            statusFilter.options[1].text = t("filterTreating");
+            statusFilter.options[2].text = t("filterDone");
+            statusFilter.options[3].text = t("filterWaiting");
+            statusFilter.options[4].text = t("filterCancelled");
+        }
+
+        // Table headers
+        const thList = document.querySelectorAll("#patientsTable thead th");
+        if (thList.length >= 10) {
+            thList[0].textContent = t("thId");
+            thList[1].textContent = t("thPatient");
+            thList[2].textContent = t("thPhone");
+            thList[3].textContent = t("thDiagnosis");
+            thList[4].textContent = t("thService");
+            thList[5].textContent = t("thDoctor");
+            thList[6].textContent = t("thTime");
+            thList[7].textContent = t("thPayment");
+            thList[8].textContent = t("thStatus");
+            thList[9].textContent = t("thActions");
+        }
+
+        // Tooth chart
+        const tcHeader = document.querySelector("#tab-tooth-chart .section-card-header");
+        if (tcHeader) {
+            const h3 = tcHeader.querySelector("h3");
+            const p = tcHeader.querySelector("p");
+            if (h3) h3.textContent = t("chartTitle");
+            if (p) p.textContent = t("chartSubtitle");
+        }
+        const jawTitles = document.querySelectorAll(".jaw-title");
+        if (jawTitles.length >= 2) {
+            jawTitles[0].innerHTML = `<i class="fa-solid fa-arrow-up"></i> ${t("upperJaw")}`;
+            jawTitles[1].innerHTML = `<i class="fa-solid fa-arrow-down"></i> ${t("lowerJaw")}`;
+        }
+        const cLine = document.querySelector(".chart-divider span");
+        if (cLine) cLine.textContent = t("centerLine");
+
+        // Services Tab
+        const srvTitles = document.querySelector("#tab-services .section-card-header .header-titles");
+        if (srvTitles) {
+            const h3 = srvTitles.querySelector("h3");
+            const p = srvTitles.querySelector("p");
+            if (h3) h3.textContent = t("servicesTitle");
+            if (p) p.textContent = t("servicesSubtitle");
+        }
+        const btnAddServSpan = document.querySelector("#btnOpenAddServiceModal span");
+        if (btnAddServSpan) btnAddServSpan.textContent = t("btnAddService");
+
+        // Doctors Tab
+        const docNotice = document.querySelector(".shift-banner-notice .notice-text");
+        if (docNotice) {
+            const h4 = docNotice.querySelector("h4");
+            const p = docNotice.querySelector("p");
+            if (h4) h4.textContent = t("shiftBannerTitle");
+            if (p) p.textContent = t("shiftBannerText");
+        }
+        const docTitles = document.querySelector("#tab-doctors .section-card-header .header-titles");
+        if (docTitles) {
+            const h3 = docTitles.querySelector("h3");
+            const p = docTitles.querySelector("p");
+            if (h3) h3.textContent = t("doctorsTitle");
+            if (p) p.textContent = t("doctorsSubtitle");
+        }
+        const btnAddDocSpan = document.querySelector("#btnOpenAddDoctorModal span");
+        if (btnAddDocSpan) btnAddDocSpan.textContent = t("btnAddDoctor");
+
+        // Reports Tab
+        const repBadge = document.querySelector(".report-top-badge");
+        if (repBadge) repBadge.innerHTML = `<i class="fa-solid fa-file-invoice-dollar"></i> ${t("reportTopBadge")}`;
+        const repDesc = document.querySelector(".report-header-top .header-titles p");
+        if (repDesc) repDesc.textContent = t("reportDesc");
+        const btnCsvSpan = document.querySelector("#btnExportReportCSV span");
+        if (btnCsvSpan) btnCsvSpan.textContent = t("btnExportCSV");
+        const btnPrintSpan = document.querySelector("#btnPrintReport span");
+        if (btnPrintSpan) btnPrintSpan.textContent = t("btnPrint");
+        const btnRefreshSpan = document.querySelector("#btnRefreshReport span");
+        if (btnRefreshSpan) btnRefreshSpan.textContent = t("btnRefresh");
+
+        // Patient Modal
+        const pModalTitle = document.getElementById("patientModalTitle");
+        if (pModalTitle) pModalTitle.textContent = (patientEditId && patientEditId.value) ? t("modalEditPatientTitle") : t("modalAddPatientTitle");
+        const btnCancelPatient = document.getElementById("btnCancelPatient");
+        if (btnCancelPatient) btnCancelPatient.textContent = t("btnCancel");
+        const btnSavePatient = document.getElementById("btnSavePatient");
+        if (btnSavePatient) btnSavePatient.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> ${t("btnSave")}`;
+
+        // Re-render
+        renderStats();
+        renderPatientsTable();
+        renderToothChart();
+        renderServicesTab();
+        renderDoctorsTab();
+        renderMonthlyReports();
+        initDateTime();
+    }
+
+    if (btnLangUz) btnLangUz.addEventListener("click", () => applyAppLanguage("uz"));
+    if (btnLangRu) btnLangRu.addEventListener("click", () => applyAppLanguage("ru"));
+
     // Initsializatsiya
     initNavigation();
     initDateTime();
@@ -90,6 +279,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDoctorsTab();
     initReportControls();
     renderMonthlyReports();
+
+    // Tanlangan tilni yuklash
+    applyAppLanguage(currentAppLang);
 
     // ==========================================================
     // FOYDALANUVCHI PROFILI
@@ -141,8 +333,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const dashMonthPatientsCount = document.getElementById("dashMonthPatientsCount");
         const dashMonthRevenueSum = document.getElementById("dashMonthRevenueSum");
 
-        if (dashMonthBannerTitle) dashMonthBannerTitle.textContent = "2026-yil Sentabr Oyi";
-        if (dashMonthPatientsCount) dashMonthPatientsCount.textContent = `${currentMonthPatients.length} ta bemor`;
+        if (dashMonthBannerTitle) dashMonthBannerTitle.textContent = getMonthDisplayName(currentMonthKey);
+        if (dashMonthPatientsCount) {
+            dashMonthPatientsCount.textContent = currentAppLang === "ru" 
+                ? `${currentMonthPatients.length} пациентов` 
+                : `${currentMonthPatients.length} ta bemor`;
+        }
         if (dashMonthRevenueSum) dashMonthRevenueSum.textContent = formatCurrency(currentMonthRev);
     }
 
@@ -171,12 +367,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <tr>
                     <td colspan="10" style="text-align: center; padding: 40px; color: #94a3b8;">
                         <i class="fa-regular fa-folder-open" style="font-size: 38px; margin-bottom: 12px; display: block; color: #cbd5e1;"></i>
-                        <p style="font-size: 15px; font-weight: 600; color: #64748b;">Hech qanday bemor ma'lumoti topilmadi</p>
-                        <small>Qidiruv shartlarini o'zgartiring yoki yangi bemor qo'shing</small>
+                        <p style="font-size: 15px; font-weight: 600; color: #64748b;">${t("noPatientsFound")}</p>
+                        <small>${t("noPatientsSub")}</small>
                     </td>
                 </tr>
             `;
-            if (tableRecordInfo) tableRecordInfo.textContent = `Ko'rsatilmoqda: 0 ta bemor`;
+            if (tableRecordInfo) tableRecordInfo.textContent = t("showingPatients", 0, patients.length);
             return;
         }
 
@@ -184,6 +380,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const statusClass = getStatusClass(patient.status);
             const payClass = getPaymentClass(patient.paymentStatus);
             const formattedDate = formatDateTime(patient.appointmentDate);
+            const genderLabel = patient.gender === "Ayol" 
+                ? (currentAppLang === "ru" ? "Женский" : "Ayol") 
+                : (currentAppLang === "ru" ? "Мужской" : "Erkak");
 
             return `
                 <tr>
@@ -191,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td>
                         <div class="patient-cell">
                             <span class="patient-name">${escapeHtml(patient.fullName)}</span>
-                            <span class="patient-sub">${patient.age} yosh &bull; ${patient.gender}</span>
+                            <span class="patient-sub">${patient.age} ${t("ageSuffix")} &bull; ${genderLabel}</span>
                         </div>
                     </td>
                     <td>
@@ -201,31 +400,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
                     <td>
                         <span style="font-weight: 500;">${escapeHtml(patient.diagnosis)}</span>
-                        ${patient.toothNumber ? `<span class="tooth-badge">Tish: ${escapeHtml(patient.toothNumber)}</span>` : ''}
+                        ${patient.toothNumber ? `<span class="tooth-badge">${t("toothLabel")}: ${escapeHtml(patient.toothNumber)}</span>` : ''}
                     </td>
                     <td><span style="color: #475569;">${escapeHtml(patient.serviceName || patient.serviceId || 'Konsultatsiya')}</span></td>
                     <td><span style="font-weight: 500; color: #334155;">${escapeHtml(patient.doctor)}</span></td>
                     <td style="white-space: nowrap;"><i class="fa-regular fa-clock" style="font-size: 12px; color: #94a3b8; margin-right: 4px;"></i>${formattedDate}</td>
                     <td>
                         <div>
-                            <span class="pay-badge ${payClass}">${patient.paymentStatus || 'To\'langan'}</span>
+                            <span class="pay-badge ${payClass}">${getPaymentStatusDisplayName(patient.paymentStatus || 'To\'langan')}</span>
                             <div style="font-size: 11.5px; color: #64748b; margin-top: 3px;">
                                 ${formatCurrency(patient.paidAmount)} / ${formatCurrency(patient.totalAmount)}
                             </div>
                         </div>
                     </td>
                     <td>
-                        <span class="status-pill ${statusClass}">${patient.status}</span>
+                        <span class="status-pill ${statusClass}">${getStatusDisplayName(patient.status)}</span>
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-icon view" title="Bemor kartasini ko'rish" data-id="${patient.id}">
+                            <button class="btn-icon view" title="${t("tooltipView")}" data-id="${patient.id}">
                                 <i class="fa-regular fa-eye"></i>
                             </button>
-                            <button class="btn-icon edit" title="Tahrirlash" data-id="${patient.id}">
+                            <button class="btn-icon edit" title="${t("tooltipEdit")}" data-id="${patient.id}">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </button>
-                            <button class="btn-icon delete" title="O'chirish" data-id="${patient.id}">
+                            <button class="btn-icon delete" title="${t("tooltipDelete")}" data-id="${patient.id}">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>
                         </div>
@@ -235,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }).join("");
 
         if (tableRecordInfo) {
-            tableRecordInfo.textContent = `Ko'rsatilmoqda: ${filtered.length} ta bemor (Jami: ${patients.length} ta)`;
+            tableRecordInfo.textContent = t("showingPatients", filtered.length, patients.length);
         }
 
         attachTableActionListeners();
@@ -517,69 +716,73 @@ document.addEventListener("DOMContentLoaded", () => {
         const payClass = getPaymentClass(patient.paymentStatus);
         const qoldiq = Math.max(0, patient.totalAmount - patient.paidAmount);
 
+        const genderLabel = patient.gender === "Ayol" 
+            ? (currentAppLang === "ru" ? "Женский" : "Ayol") 
+            : (currentAppLang === "ru" ? "Мужской" : "Erkak");
+
         viewPatientContent.innerHTML = `
             <div class="view-card-grid">
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-solid fa-user"></i> Shaxsiy ma'lumotlar</div>
-                    <div class="view-item-value">${patient.fullName} (${patient.age} yosh, ${patient.gender})</div>
+                    <div class="view-item-label"><i class="fa-solid fa-user"></i> ${t("viewPersonalInfo")}</div>
+                    <div class="view-item-value">${escapeHtml(patient.fullName)} (${patient.age} ${t("ageSuffix")}, ${genderLabel})</div>
                 </div>
 
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-solid fa-phone"></i> Telefon raqami</div>
+                    <div class="view-item-label"><i class="fa-solid fa-phone"></i> ${t("viewPhone")}</div>
                     <div class="view-item-value">
-                        <a href="tel:${patient.phone}" style="color: var(--primary);">${patient.phone}</a>
+                        <a href="tel:${patient.phone}" style="color: var(--primary);">${escapeHtml(patient.phone)}</a>
                     </div>
                 </div>
 
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-solid fa-user-doctor"></i> Mas'ul shifokor</div>
-                    <div class="view-item-value">${patient.doctor}</div>
+                    <div class="view-item-label"><i class="fa-solid fa-user-doctor"></i> ${t("viewDoctor")}</div>
+                    <div class="view-item-value">${escapeHtml(patient.doctor)}</div>
                 </div>
 
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-regular fa-calendar-days"></i> Qabul vaqti</div>
+                    <div class="view-item-label"><i class="fa-regular fa-calendar-days"></i> ${t("viewAppDate")}</div>
                     <div class="view-item-value">${formatDateTime(patient.appointmentDate)}</div>
                 </div>
 
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-solid fa-stethoscope"></i> Tashxis</div>
+                    <div class="view-item-label"><i class="fa-solid fa-stethoscope"></i> ${t("viewDiagnosis")}</div>
                     <div class="view-item-value">${escapeHtml(patient.diagnosis)}</div>
                 </div>
 
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-solid fa-tooth"></i> Muolaja qilinayotgan tish raqami</div>
-                    <div class="view-item-value">${patient.toothNumber || "Umumiy ko'rik"}</div>
+                    <div class="view-item-label"><i class="fa-solid fa-tooth"></i> ${t("viewTooth")}</div>
+                    <div class="view-item-value">${patient.toothNumber || (currentAppLang === "ru" ? "Общий осмотр" : "Umumiy ko'rik")}</div>
                 </div>
 
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-solid fa-shield-halved"></i> Muolaja holati</div>
+                    <div class="view-item-label"><i class="fa-solid fa-shield-halved"></i> ${t("viewStatus")}</div>
                     <div class="view-item-value">
-                        <span class="status-pill ${statusClass}">${patient.status}</span>
+                        <span class="status-pill ${statusClass}">${getStatusDisplayName(patient.status)}</span>
                     </div>
                 </div>
 
                 <div class="view-item">
-                    <div class="view-item-label"><i class="fa-solid fa-receipt"></i> To'lov holati</div>
+                    <div class="view-item-label"><i class="fa-solid fa-receipt"></i> ${t("viewPayment")}</div>
                     <div class="view-item-value">
-                        <span class="pay-badge ${payClass}">${patient.paymentStatus}</span>
+                        <span class="pay-badge ${payClass}">${getPaymentStatusDisplayName(patient.paymentStatus)}</span>
                     </div>
                 </div>
             </div>
 
             <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; margin-bottom: 16px;">
                 <h4 style="font-size: 13.5px; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">
-                    <i class="fa-solid fa-wallet" style="color: var(--primary);"></i> Moliyaviy Balans
+                    <i class="fa-solid fa-wallet" style="color: var(--primary);"></i> ${t("viewBalanceTitle")}
                 </h4>
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px;">
-                    <span>Umumiy xizmat narxi:</span>
+                    <span>${t("viewTotalSum")}</span>
                     <strong>${formatCurrency(patient.totalAmount)}</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; color: #16a34a;">
-                    <span>To'langan summa:</span>
+                    <span>${t("viewPaidSum")}</span>
                     <strong>${formatCurrency(patient.paidAmount)}</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-size: 13px; color: #dc2626; border-top: 1px dashed #cbd5e1; padding-top: 6px;">
-                    <span>Qarz / Qoldiq summa:</span>
+                    <span>${t("viewDebtSum")}</span>
                     <strong>${formatCurrency(qoldiq)}</strong>
                 </div>
             </div>
@@ -588,31 +791,34 @@ document.addEventListener("DOMContentLoaded", () => {
             <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-md); padding: 18px; margin-bottom: 16px;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
                     <h4 style="font-size: 14px; font-weight: 700; color: #166534; margin: 0; display: flex; align-items: center; gap: 8px;">
-                        <i class="fa-solid fa-pills" style="font-size: 16px; color: #15803d;"></i> Belgilangan Dorilar & Retsept
+                        <i class="fa-solid fa-pills" style="font-size: 16px; color: #15803d;"></i> ${t("viewPrescriptionTitle")}
                     </h4>
-                    <div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
                         ${patient.telegramChatId ? `
                             <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 4px 10px; background: #dcfce7; color: #15803d; border-radius: 999px; border: 1px solid #86efac;">
-                                <i class="fa-brands fa-telegram"></i> Telegram Ulangan (${patient.telegramUsername || 'ID: ' + patient.telegramChatId})
+                                <i class="fa-brands fa-telegram"></i> ${t("viewTgConnected")} (${patient.telegramLang === 'ru' ? '🇷🇺 Ruscha' : '🇺🇿 O\'zbekcha'})
                             </span>
+                            <button type="button" id="btnToggleTgLang" title="Telegram tilini o'zgartirish" style="font-size: 11px; padding: 3px 8px; border-radius: 4px; border: 1px solid #cbd5e1; background: #ffffff; cursor: pointer;">
+                                🌐 ${patient.telegramLang === 'ru' ? '🇷🇺 RU &rarr; 🇺🇿 UZ' : '🇺🇿 UZ &rarr; 🇷🇺 RU'}
+                            </button>
                         ` : `
                             <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; padding: 4px 10px; background: #fef3c7; color: #b45309; border-radius: 999px; border: 1px solid #fde68a;">
-                                <i class="fa-brands fa-telegram"></i> Telegram Ulanmagan
+                                <i class="fa-brands fa-telegram"></i> ${t("viewTgNotConnected")}
                             </span>
                         `}
                     </div>
                 </div>
 
-                <div style="background: #ffffff; border: 1px solid #dcfce7; border-radius: 8px; padding: 14px; font-size: 13.5px; color: #1e293b; white-space: pre-wrap; line-height: 1.6; margin-bottom: 14px;">${escapeHtml(patient.prescription || "Ushbu bemorga hali dorilar yoki retsept yozilmagan. 'Tahrirlash' tugmasini bosib dorilarni kiritishingiz mumkin.")}</div>
+                <div style="background: #ffffff; border: 1px solid #dcfce7; border-radius: 8px; padding: 14px; font-size: 13.5px; color: #1e293b; white-space: pre-wrap; line-height: 1.6; margin-bottom: 14px;">${escapeHtml(patient.prescription || t("viewNoPrescription"))}</div>
 
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     ${patient.telegramChatId ? `
                         <button type="button" class="btn-primary" id="btnSendPrescriptionTg" style="background: #0284c7; font-size: 13px; padding: 9px 16px;">
-                            <i class="fa-brands fa-telegram"></i> Retseptni bemorning Telegramiga yuborish
+                            <i class="fa-brands fa-telegram"></i> ${t("btnSendTgPrescription")}
                         </button>
                     ` : `
                         <button type="button" class="btn-primary" id="btnConnectPatientTg" style="background: #0284c7; font-size: 13px; padding: 9px 16px;">
-                            <i class="fa-solid fa-qrcode"></i> Bemorni botga ulash (QR-kod)
+                            <i class="fa-solid fa-qrcode"></i> ${t("btnConnectTg")}
                         </button>
                     `}
                 </div>
@@ -620,11 +826,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             ${patient.notes ? `
                 <div class="view-notes-box">
-                    <h4><i class="fa-regular fa-comment-dots"></i> Shifokor Eslatmasi va Muolaja Tavsifi:</h4>
+                    <h4><i class="fa-regular fa-comment-dots"></i> ${t("viewDoctorNotes")}</h4>
                     <p>${escapeHtml(patient.notes)}</p>
                 </div>
             ` : ''}
         `;
+
+        const btnToggleTgLang = document.getElementById("btnToggleTgLang");
+        if (btnToggleTgLang) {
+            btnToggleTgLang.onclick = () => {
+                patient.telegramLang = patient.telegramLang === "ru" ? "uz" : "ru";
+                savePatientsToStorage(patients);
+                openPatientViewModal(patient.id);
+                showToast(`Telegram tili o'zgartirildi: ${patient.telegramLang === 'ru' ? '🇷🇺 Русский' : '🇺🇿 O\'zbekcha'}`, "info");
+            };
+        }
 
         const btnSendPrescriptionTg = document.getElementById("btnSendPrescriptionTg");
         if (btnSendPrescriptionTg) {
@@ -639,6 +855,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 openTelegramConnectModal(patient);
             };
         }
+
+        const btnCloseViewBtn = document.getElementById("btnCloseViewBtn");
+        if (btnCloseViewBtn) btnCloseViewBtn.textContent = t("btnClose");
+        const btnEditFromView = document.getElementById("btnEditFromView");
+        if (btnEditFromView) btnEditFromView.innerHTML = `<i class="fa-solid fa-pen-to-square"></i> ${t("btnEdit")}`;
 
         viewPatientModal.classList.remove("d-none");
     }
@@ -668,17 +889,72 @@ document.addEventListener("DOMContentLoaded", () => {
     const TELEGRAM_BOT_USERNAME = "ahmad_dentacare_bot";
     let tgLastUpdateId = 0;
 
-    // Telegramga xabar yuborish
-    async function sendTelegramMessage(chatId, htmlText) {
+    // Telegram chat tillarini saqlash va olish
+    function getTgChatLang(chatId) {
         try {
+            const map = JSON.parse(localStorage.getItem("dentacare_tg_chat_langs") || "{}");
+            return map[chatId] || "uz";
+        } catch (e) {
+            return "uz";
+        }
+    }
+
+    function setTgChatLang(chatId, lang) {
+        try {
+            const map = JSON.parse(localStorage.getItem("dentacare_tg_chat_langs") || "{}");
+            map[chatId] = lang;
+            localStorage.setItem("dentacare_tg_chat_langs", JSON.stringify(map));
+        } catch (e) {}
+    }
+
+    // Inline tugmalar: Tilni tanlash
+    function getTgLangInlineKeyboard(patientId = "") {
+        const suffix = patientId ? `:${patientId}` : "";
+        return {
+            inline_keyboard: [
+                [
+                    { text: "🇺🇿 O'zbekcha", callback_data: `lang_uz${suffix}` },
+                    { text: "🇷🇺 Русский", callback_data: `lang_ru${suffix}` }
+                ]
+            ]
+        };
+    }
+
+    // Qulay pastki menyu (Reply Keyboard)
+    function getTgReplyKeyboard(lang = "uz") {
+        if (lang === "ru") {
+            return {
+                keyboard: [
+                    [{ text: "📋 Мой рецепт" }, { text: "🌐 Сменить язык" }],
+                    [{ text: "ℹ️ О клинике" }, { text: "📞 Контакты" }]
+                ],
+                resize_keyboard: true
+            };
+        }
+        return {
+            keyboard: [
+                [{ text: "📋 Mening retseptim" }, { text: "🌐 Tilni o'zgartirish" }],
+                [{ text: "ℹ️ Klinika haqida" }, { text: "📞 Kontaktlar" }]
+            ],
+            resize_keyboard: true
+        };
+    }
+
+    // Telegramga xabar yuborish
+    async function sendTelegramMessage(chatId, htmlText, replyMarkup = null) {
+        try {
+            const body = {
+                chat_id: chatId,
+                text: htmlText,
+                parse_mode: "HTML"
+            };
+            if (replyMarkup) {
+                body.reply_markup = replyMarkup;
+            }
             const res = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    chat_id: chatId,
-                    text: htmlText,
-                    parse_mode: "HTML"
-                })
+                body: JSON.stringify(body)
             });
             return await res.json();
         } catch (e) {
@@ -687,45 +963,101 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Bemorga retseptni bot orqali yuborish
+    // Callback query tasdiqlash
+    async function answerTelegramCallbackQuery(queryId, text = "") {
+        try {
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ callback_query_id: queryId, text: text })
+            });
+        } catch (e) {}
+    }
+
+    // Bot matnlari: Xush kelibsiz (Uzbek)
+    function getTgWelcomeMessageUz(patient) {
+        let msg = `🏥 <b>DentaCare Stomatologiya Klinikasi</b>\n\nAssalomu alaykum, hurmatli <b>${escapeHtml(patient.fullName)}</b>!\nSiz klinikamizning rasmiy botiga muvaffaqiyatli ulandingiz. ✅\nTanlangan til: 🇺🇿 <b>O'zbekcha</b>\n\n👨‍⚕️ Mas'ul shifokoringiz: <b>${escapeHtml(patient.doctor || 'Dr. Ahmadbek')}</b>\n🦷 Tashxis: <b>${escapeHtml(patient.diagnosis || "Umumiy ko'rik")}</b>\n🩺 Shifokoringiz belgilagan barcha dorilar, retseptlar va qabul eslatmalari to'g'ridan-to'g'ri shu yerga yuboriladi.`;
+        if (patient.prescription) {
+            msg += `\n\n📋 <b>SIZGA BELGILANGAN RETSEPT VA DORILAR:</b>\n━━━━━━━━━━━━━━━━━━━━━━\n${patient.prescription}\n━━━━━━━━━━━━━━━━━━━━━━\n⚠️ <i>Iltimos, barcha dori vositalarini shifokor ko'rsatmasi bo'yicha o'z vaqtida qabul qiling!</i>`;
+        }
+        msg += `\n\n📞 Klinika: +998 90 777 01 01\n✨ <i>DentaCare — Sog'lom va chiroyli tabassum garovi!</i>`;
+        return msg;
+    }
+
+    // Bot matnlari: Xush kelibsiz (Russian)
+    function getTgWelcomeMessageRu(patient) {
+        let msg = `🏥 <b>Стоматологическая Клиника DentaCare</b>\n\nЗдравствуйте, уважаемый(ая) <b>${escapeHtml(patient.fullName)}</b>!\nВы успешно подключились к официальному боту клиники. ✅\nВыбранный язык: 🇷🇺 <b>Русский</b>\n\n👨‍⚕️ Ваш лечащий врач: <b>${escapeHtml(patient.doctor || 'Dr. Ahmadbek')}</b>\n🦷 Диагноз: <b>${escapeHtml(patient.diagnosis || "Общий осмотр")}</b>\n🩺 Все назначенные врачом рецепты, лекарства и напоминания о визитах будут отправляться сюда.`;
+        if (patient.prescription) {
+            msg += `\n\n📋 <b>ВАШ НАЗНАЧЕННЫЙ РЕЦЕПТ И ЛЕКАРСТВА:</b>\n━━━━━━━━━━━━━━━━━━━━━━\n${patient.prescription}\n━━━━━━━━━━━━━━━━━━━━━━\n⚠️ <i>Пожалуйста, принимайте лекарства строго по назначению врача!</i>`;
+        }
+        msg += `\n\n📞 Клиника: +998 90 777 01 01\n✨ <i>DentaCare — Залог здоровой и красивой улыбки!</i>`;
+        return msg;
+    }
+
+    // Bemorga retseptni bot orqali yuborish (Bemor tiliga qarab yuboriladi)
     async function sendPrescriptionToPatient(patient) {
         if (!patient.telegramChatId) {
-            showToast("Bemor hali Telegram botga ulanmagan!", "warning");
+            showToast(t("toastTgNotConnected"), "warning");
             openTelegramConnectModal(patient);
             return;
         }
 
         if (!patient.prescription) {
-            showToast("Avval bemorga dorilar yoki retsept yozing!", "warning");
+            showToast(t("toastNoPrescription"), "warning");
             return;
         }
 
-        const message = `🏥 <b>DentaCare Stomatologiya Klinikasi</b>
+        const pLang = patient.telegramLang || getTgChatLang(patient.telegramChatId) || "uz";
+        const message = pLang === "ru" ? formatTgPrescriptionRu(patient) : formatTgPrescriptionUz(patient);
+
+        showToast(currentAppLang === "ru" ? "Отправка рецепта в Telegram..." : "Retsept Telegramga yuborilmoqda...", "info");
+        const res = await sendTelegramMessage(patient.telegramChatId, message, getTgReplyKeyboard(pLang));
+
+        if (res.ok) {
+            showToast(t("toastTgSent", patient.fullName), "success");
+        } else {
+            showToast(`${t("toastTgError")}: ${res.description || 'Xatolik'}`, "danger");
+        }
+    }
+
+    function formatTgPrescriptionUz(patient) {
+        return `🏥 <b>DentaCare Stomatologiya Klinikasi</b>
 📋 <b>BEMORGA BELGILANGAN RETSEPT VA DORILAR</b>
 
-👤 <b>Bemor:</b> ${patient.fullName} (${patient.age} yosh)
-👨‍⚕️ <b>Mas'ul shifokor:</b> ${patient.doctor}
-🦷 <b>Tashxis:</b> ${patient.diagnosis || "Ko'rik"} ${patient.toothNumber ? `(Tish #${patient.toothNumber})` : ''}
+👤 <b>Bemor:</b> ${escapeHtml(patient.fullName)} (${patient.age} yosh)
+👨‍⚕️ <b>Mas'ul shifokor:</b> ${escapeHtml(patient.doctor)}
+🦷 <b>Tashxis:</b> ${escapeHtml(patient.diagnosis || "Ko'rik")} ${patient.toothNumber ? `(Tish #${escapeHtml(patient.toothNumber)})` : ''}
 📅 <b>Qabul vaqti:</b> ${formatDateTime(patient.appointmentDate)}
 
 💊 <b>DORILAR VA QABUL QILISH TARTIBI:</b>
 ━━━━━━━━━━━━━━━━━━━━━━
-${patient.prescription}
+${patient.prescription || "Hozircha dorilar yozilmagan."}
 ━━━━━━━━━━━━━━━━━━━━━━
 
 ⚠️ <i>Eslatma: Iltimos, barcha dori vositalarini shifokor ko'rsatmasi bo'yicha o'z vaqtida va belgilangan dozada qabul qiling!</i>
 
 📞 Savollar bo'lsa: +998 90 777 01 01
 ✨ <i>DentaCare — Sog'lom va chiroyli tabassum garovi!</i>`;
+    }
 
-        showToast("Retsept Telegramga yuborilmoqda...", "info");
-        const res = await sendTelegramMessage(patient.telegramChatId, message);
+    function formatTgPrescriptionRu(patient) {
+        return `🏥 <b>Стоматологическая Клиника DentaCare</b>
+📋 <b>РЕЦЕПТ И НАЗНАЧЕННЫЕ ЛЕКАРСТВА ПАЦИЕНТА</b>
 
-        if (res.ok) {
-            showToast(`Retsept ${patient.fullName}ning Telegramiga muvaffaqiyatli yuborildi! 🚀`, "success");
-        } else {
-            showToast(`Yuborishda xatolik: ${res.description || 'Xatolik yuz berdi'}`, "danger");
-        }
+👤 <b>Пациент:</b> ${escapeHtml(patient.fullName)} (${patient.age} лет)
+👨‍⚕️ <b>Лечащий врач:</b> ${escapeHtml(patient.doctor)}
+🦷 <b>Диагноз:</b> ${escapeHtml(patient.diagnosis || "Осмотр")} ${patient.toothNumber ? `(Зуб #${escapeHtml(patient.toothNumber)})` : ''}
+📅 <b>Время приёма:</b> ${formatDateTime(patient.appointmentDate)}
+
+💊 <b>ЛЕКАРСТВА И ПОРЯДОК ПРИЁМА:</b>
+━━━━━━━━━━━━━━━━━━━━━━
+${patient.prescription || "На данный момент лекарств не назначено."}
+━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ <i>Внимание: Пожалуйста, принимайте все лекарственные препараты строго по назначению врача, вовремя и в указанной дозировке!</i>
+
+📞 Вопросы по телефону: +998 90 777 01 01
+✨ <i>DentaCare — Залог здоровой и красивой улыбки!</i>`;
     }
 
     // Bemorni botga ulash modali (QR-kod va link)
@@ -750,21 +1082,23 @@ ${patient.prescription}
         if (tgModalPatientTitle) tgModalPatientTitle.textContent = `${patient.fullName} (ID: ${patient.id})`;
 
         if (btnShareTgDirect) {
-            const shareText = `Assalomu alaykum, ${patient.fullName}! DentaCare klinikasidan retseptlaringizni olish uchun botimizni oching va Start tugmasini bosing:`;
+            const shareText = currentAppLang === "ru"
+                ? `Здравствуйте, ${patient.fullName}! Откройте официальный бот стоматологии DentaCare для получения рецептов и нажмите "Start":`
+                : `Assalomu alaykum, ${patient.fullName}! DentaCare klinikasidan retseptlaringizni olish uchun botimizni oching va Start tugmasini bosing:`;
             btnShareTgDirect.href = `https://t.me/share/url?url=${encodeURIComponent(deepLink)}&text=${encodeURIComponent(shareText)}`;
         }
 
         if (btnCopyTgLink) {
             btnCopyTgLink.onclick = () => {
                 navigator.clipboard.writeText(deepLink);
-                showToast("Telegram bot linki nusxalandi!", "info");
+                showToast(t("toastCopied"), "info");
             };
         }
 
         if (tgConnectionStatusText) {
             tgConnectionStatusText.innerHTML = patient.telegramChatId 
-                ? `<span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Bemor ulangan!</span>`
-                : `<i class="fa-solid fa-spinner fa-spin"></i> Bemor "Start" bosishi kutilmoqda...`;
+                ? `<span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> ${t("tgConnectedStatus")} (${patient.telegramLang === 'ru' ? '🇷🇺 RU' : '🇺🇿 UZ'})</span>`
+                : `<i class="fa-solid fa-spinner fa-spin"></i> ${t("tgWaitingStatus")}`;
         }
 
         telegramConnectModal.classList.remove("d-none");
@@ -786,17 +1120,114 @@ ${patient.prescription}
                 let hasChanges = false;
                 for (const upd of data.result) {
                     tgLastUpdateId = upd.update_id;
+
+                    // 1. TUGMA BOSILGANDA (INLINE CALLBACK QUERY - TIL TANLANGANDA)
+                    if (upd.callback_query) {
+                        const cq = upd.callback_query;
+                        const cqId = cq.id;
+                        const chatId = cq.message.chat.id;
+                        const uName = cq.from.username ? `@${cq.from.username}` : (cq.from.first_name || '');
+                        const cqData = (cq.data || '').trim();
+
+                        if (cqData.startsWith("lang_uz") || cqData.startsWith("lang_ru")) {
+                            const chosenLang = cqData.startsWith("lang_ru") ? "ru" : "uz";
+                            setTgChatLang(chatId, chosenLang);
+                            await answerTelegramCallbackQuery(cqId, chosenLang === "ru" ? "🇷🇺 Язык: Русский" : "🇺🇿 Til: O'zbekcha");
+
+                            // Agar bemor ID biriktirilgan bo'lsa (masalan: lang_uz:DENT-101)
+                            const parts = cqData.split(":");
+                            const attachedId = parts.length > 1 ? parts[1].trim().toUpperCase() : null;
+
+                            let patient = attachedId 
+                                ? patients.find(p => p.id.toUpperCase() === attachedId)
+                                : patients.find(p => p.telegramChatId === chatId);
+
+                            if (patient) {
+                                patient.telegramChatId = chatId;
+                                patient.telegramUsername = uName;
+                                patient.telegramLang = chosenLang;
+                                hasChanges = true;
+
+                                const welcomeMsg = chosenLang === "ru" ? getTgWelcomeMessageRu(patient) : getTgWelcomeMessageUz(patient);
+                                await sendTelegramMessage(chatId, welcomeMsg, getTgReplyKeyboard(chosenLang));
+                                showToast(`${patient.fullName} Telegram botga ulandi (${chosenLang.toUpperCase()})!`, "success");
+                            } else {
+                                const unlinkedMsg = chosenLang === "ru" 
+                                    ? `🇷🇺 <b>Язык успешно выбран: Русский.</b>\n\n🏥 <b>Официальный бот стоматологии DentaCare</b>\n\nЧтобы получить свои рецепты, отправьте свой <b>ID пациента</b> (например: <code>DENT-101</code>) или отсканируйте QR-код, предоставленный лечащим врачом.`
+                                    : `🇺🇿 <b>Til muvaffaqiyatli tanlandi: O'zbekcha.</b>\n\n🏥 <b>DentaCare Stomatologiya rasmiy boti</b>\n\nRetseptlaringizni olish uchun, shifokor bergan <b>Bemor ID</b> raqamingizni yuboring (Masalan: <code>DENT-101</code>) yoki shifokoringiz taqdim etgan QR-kodni skaner qiling.`;
+                                await sendTelegramMessage(chatId, unlinkedMsg, getTgReplyKeyboard(chosenLang));
+                            }
+                        }
+                        continue;
+                    }
+
+                    // 2. MATNLI XABARLARNI QAYTA ISHLASH (MESSAGE)
                     const msg = upd.message;
                     if (!msg) continue;
 
                     const text = (msg.text || '').trim();
                     const chatId = msg.from.id;
                     const uName = msg.from.username ? `@${msg.from.username}` : `${msg.from.first_name || ''}`;
+                    let userLang = getTgChatLang(chatId);
 
-                    let matchedId = null;
+                    // Tilni o'zgartirish yoki /start komandasi
+                    if (text === "/start" || text === "/til" || text === "/lang" || text.includes("Tilni o'zgartirish") || text.includes("Сменить язык")) {
+                        const promptMsg = `🏥 <b>DentaCare Stomatologiya Klinikasi | Стоматологическая Клиника</b>\n\n🇺🇿 <b>Assalomu alaykum!</b> Iltimos, muloqot tilini tanlang:\n🇷🇺 <b>Здравствуйте!</b> Пожалуйста, выберите язык общения:`;
+                        await sendTelegramMessage(chatId, promptMsg, getTgLangInlineKeyboard());
+                        continue;
+                    }
+
+                    // /start DENT-101 (QR-kod yoki link orqali kirganda)
                     if (text.startsWith("/start ")) {
-                        matchedId = text.replace("/start ", "").trim().toUpperCase();
-                    } else if (text.toUpperCase().startsWith("DENT-")) {
+                        const targetId = text.replace("/start ", "").trim().toUpperCase();
+                        const p = patients.find(pat => pat.id.toUpperCase() === targetId);
+                        if (p) {
+                            const greetingPrompt = `🏥 <b>DentaCare Stomatologiya Klinikasi | Стоматология</b>\n\nAssalomu alaykum, <b>${escapeHtml(p.fullName)}</b>!\n\n🇺🇿 Iltimos, muloqot tilini tanlang:\n🇷🇺 Пожалуйста, выберите язык общения:`;
+                            await sendTelegramMessage(chatId, greetingPrompt, getTgLangInlineKeyboard(p.id));
+                        } else {
+                            const promptMsg = `🏥 <b>DentaCare Stomatologiya Klinikasi</b>\n\nIltimos, tilni tanlang / Выберите язык:`;
+                            await sendTelegramMessage(chatId, promptMsg, getTgLangInlineKeyboard(targetId));
+                        }
+                        continue;
+                    }
+
+                    // Menyu: Retseptni so'rash
+                    if (text === "📋 Mening retseptim" || text === "📋 Мой рецепт" || text.toLowerCase() === "retsept" || text.toLowerCase() === "рецепт") {
+                        const p = patients.find(pat => pat.telegramChatId === chatId);
+                        if (p) {
+                            const pLang = p.telegramLang || userLang;
+                            const rMsg = pLang === "ru" ? formatTgPrescriptionRu(p) : formatTgPrescriptionUz(p);
+                            await sendTelegramMessage(chatId, rMsg, getTgReplyKeyboard(pLang));
+                        } else {
+                            const notLinked = userLang === "ru"
+                                ? `⚠️ Вы пока не подключены к карте пациента.\nПожалуйста, отправьте ваш <b>ID пациента</b> (например: <code>DENT-101</code>).`
+                                : `⚠️ Siz hali bemor kartasiga ulanmagansiz.\nIltimos, shifokor bergan <b>Bemor ID</b> raqamingizni yuboring (Masalan: <code>DENT-101</code>).`;
+                            await sendTelegramMessage(chatId, notLinked, getTgReplyKeyboard(userLang));
+                        }
+                        continue;
+                    }
+
+                    // Menyu: Klinika haqida
+                    if (text === "ℹ️ Klinika haqida" || text === "ℹ️ О клинике") {
+                        const clinicInfo = userLang === "ru"
+                            ? `🏥 <b>Стоматологическая клиника DentaCare</b>\n\n🌟 Высококвалифицированные врачи, новейшее оборудование и безболезненное лечение!\n⏰ <b>Режим работы:</b> 24/7 (Круглосуточно без выходных)\n📍 <b>Адрес:</b> г. Ташкент, ул. Чиланзар, 15\n📞 <b>Телефон:</b> +998 90 777 01 01`
+                            : `🏥 <b>DentaCare Stomatologiya Klinikasi</b>\n\n🌟 Malakali shifokorlar, zamonaviy uskunalar va og'riqsiz muolajalar kafolati!\n⏰ <b>Ish tartibi:</b> 24/7 (Kechayu-kunduz dam olishsiz)\n📍 <b>Manzil:</b> Toshkent sh., Chilonzor tumani, 15-mavze\n📞 <b>Telefon:</b> +998 90 777 01 01`;
+                        await sendTelegramMessage(chatId, clinicInfo, getTgReplyKeyboard(userLang));
+                        continue;
+                    }
+
+                    // Menyu: Kontaktlar
+                    if (text === "📞 Kontaktlar" || text === "📞 Контакты") {
+                        const contactInfo = userLang === "ru"
+                            ? `📞 <b>Контакты клиники DentaCare:</b>\n\n☎️ Администрация: +998 90 777 01 01\n📱 Неотложная помощь: +998 90 123 45 67\n🌐 Сайт: DentaCare CRM Онлайн`
+                            : `📞 <b>DentaCare Klinikasi Aloqa Ma'lumotlari:</b>\n\n☎️ Registratura: +998 90 777 01 01\n📱 Tezkor navbatchi: +998 90 123 45 67\n🌐 Sayt: DentaCare CRM Onlayn`;
+                        await sendTelegramMessage(chatId, contactInfo, getTgReplyKeyboard(userLang));
+                        continue;
+                    }
+
+                    // Bemor ID si yuborilganda (Masalan: DENT-101)
+                    let matchedId = null;
+                    if (text.toUpperCase().startsWith("DENT-")) {
                         matchedId = text.trim().toUpperCase();
                     }
 
@@ -809,17 +1240,26 @@ ${patient.prescription}
                     }
 
                     if (patient) {
-                        if (patient.telegramChatId !== chatId) {
+                        if (patient.telegramChatId !== chatId || patient.telegramLang !== userLang) {
                             patient.telegramChatId = chatId;
                             patient.telegramUsername = uName;
+                            patient.telegramLang = userLang;
                             hasChanges = true;
 
-                            const welcome = `🏥 <b>DentaCare Stomatologiya Klinikasi</b>\n\nAssalomu alaykum, hurmatli <b>${patient.fullName}</b>!\nSiz klinikamizning rasmiy botiga muvaffaqiyatli ulandingiz. ✅\n\n👨‍⚕️ Mas'ul shifokoringiz: <b>${patient.doctor || 'Dr. Ahmadbek'}</b>\n\n🩺 Shifokoringiz belgilagan barcha dorilar, retseptlar va qabul eslatmalari to'g'ridan-to'g'ri shu yerga yuboriladi.\n\n📞 Klinika: +998 90 777 01 01\n<i>Sog'ligingiz biz uchun muhim!</i> ✨`;
-                            sendTelegramMessage(chatId, welcome);
+                            const welcome = userLang === "ru" ? getTgWelcomeMessageRu(patient) : getTgWelcomeMessageUz(patient);
+                            await sendTelegramMessage(chatId, welcome, getTgReplyKeyboard(userLang));
                             showToast(`${patient.fullName} Telegram botga ulandi!`, "success");
+                        } else {
+                            const alreadyMsg = userLang === "ru"
+                                ? `✅ Вы уже подключены к профилю: <b>${escapeHtml(patient.fullName)}</b>.`
+                                : `✅ Siz allaqachon ulanib bo'lgansiz: <b>${escapeHtml(patient.fullName)}</b>.`;
+                            await sendTelegramMessage(chatId, alreadyMsg, getTgReplyKeyboard(userLang));
                         }
-                    } else if (text === "/start") {
-                        sendTelegramMessage(chatId, `Assalomu alaykum! 🏥 <b>DentaCare Stomatologiya</b> rasmiy botiga xush kelibsiz.\n\nRetseptlaringizni olish uchun, shifokor bergan <b>Bemor ID</b> raqamingizni yuboring (Masalan: <code>DENT-101</code>) yoki shifokoringiz taqdim etgan QR-kodni skaner qiling.`);
+                    } else if (matchedId) {
+                        const notFound = userLang === "ru"
+                            ? `⚠️ Пациент с ID <code>${matchedId}</code> не найден в базе данных. Пожалуйста, проверьте номер.`
+                            : `⚠️ <code>${matchedId}</code> ID raqamli bemor bazada topilmadi. Iltimos, raqamni to'g'ri kiritganingizga ishonch hosil qiling.`;
+                        await sendTelegramMessage(chatId, notFound, getTgReplyKeyboard(userLang));
                     }
                 }
 
@@ -830,7 +1270,7 @@ ${patient.prescription}
                         openPatientViewModal(activeViewingPatientId);
                     }
                     if (tgConnectionStatusText) {
-                        tgConnectionStatusText.innerHTML = `<span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> Bemor muvaffaqiyatli ulandi!</span>`;
+                        tgConnectionStatusText.innerHTML = `<span style="color: #16a34a;"><i class="fa-solid fa-circle-check"></i> ${t("tgConnectedStatus")}</span>`;
                     }
                 }
             }
@@ -1166,14 +1606,14 @@ ${patient.prescription}
         const headerPageTitle = document.getElementById("headerPageTitle");
         if (headerPageTitle) {
             const titles = {
-                dashboard: "Stomatologiya Boshqaruv Markazi",
-                patients: "Bemorlar va Mijozlar Ro'yxati",
-                "tooth-chart": "Interaktiv Tishlar Xaritasi (Dental Chart)",
-                services: "Klinika Xizmat Turlari va Narxnomasi",
-                doctors: "Ishchilar va Shifokorlar Jamoasi",
-                reports: "Oylik Moliyaviy va Qabullar Hisoboti"
+                dashboard: currentAppLang === "ru" ? "Центр управления стоматологией" : "Stomatologiya Boshqaruv Markazi",
+                patients: currentAppLang === "ru" ? "Список пациентов и клиентов" : "Bemorlar va Mijozlar Ro'yxati",
+                "tooth-chart": currentAppLang === "ru" ? "Интерактивная карта зубов (Dental Chart)" : "Interaktiv Tishlar Xaritasi (Dental Chart)",
+                services: currentAppLang === "ru" ? "Услуги и прейскурант клиники" : "Klinika Xizmat Turlari va Narxnomasi",
+                doctors: currentAppLang === "ru" ? "Команда врачей и персонала" : "Ishchilar va Shifokorlar Jamoasi",
+                reports: currentAppLang === "ru" ? "Ежемесячный финансовый отчёт" : "Oylik Moliyaviy va Qabullar Hisoboti"
             };
-            headerPageTitle.textContent = titles[tabId] || "Boshqaruv Markazi";
+            headerPageTitle.textContent = titles[tabId] || (currentAppLang === "ru" ? "Панель управления" : "Boshqaruv Markazi");
         }
 
         const mainContent = document.querySelector(".main-content");
@@ -1194,7 +1634,7 @@ ${patient.prescription}
             if (!headerCurrentDate) return;
             const now = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            headerCurrentDate.textContent = now.toLocaleDateString('uz-UZ', options);
+            headerCurrentDate.textContent = now.toLocaleDateString(currentAppLang === 'ru' ? 'ru-RU' : 'uz-UZ', options);
         }
         updateDate();
         setInterval(updateDate, 30000);
@@ -1205,12 +1645,38 @@ ${patient.prescription}
     // ==========================================================
     function formatCurrency(amount) {
         const num = Number(amount) || 0;
-        return num.toLocaleString("uz-UZ") + " so'm";
+        const suffix = currentAppLang === "ru" ? " сум" : " so'm";
+        return num.toLocaleString(currentAppLang === "ru" ? "ru-RU" : "uz-UZ") + suffix;
     }
 
     function formatDateTime(dtStr) {
-        if (!dtStr) return "Belgilanmagan";
+        if (!dtStr) return currentAppLang === "ru" ? "Не указано" : "Belgilanmagan";
         return dtStr;
+    }
+
+    function getStatusDisplayName(status) {
+        if (currentAppLang === "ru") {
+            switch (status) {
+                case "Davolanmoqda": return "На лечении";
+                case "Tugatildi": return "Завершено";
+                case "Kutilmoqda": return "Ожидает";
+                case "Bekor qilindi": return "Отменено";
+                default: return status;
+            }
+        }
+        return status;
+    }
+
+    function getPaymentStatusDisplayName(status) {
+        if (currentAppLang === "ru") {
+            switch (status) {
+                case "To'langan": return "Оплачено";
+                case "Qisman to'langan": return "Частично";
+                case "To'lanmagan": return "Не оплачено";
+                default: return status;
+            }
+        }
+        return status;
     }
 
     function getStatusClass(status) {
@@ -1293,20 +1759,25 @@ ${patient.prescription}
         return "2026-09";
     }
 
-    // Helper: oy nomini o'zbekcha chiroyli formatlash
+    // Helper: oy nomini chiroyli formatlash (UZ / RU)
     function getMonthDisplayName(monthKey) {
-        if (!monthKey || monthKey === "all") return "Barcha davrlar (Umumiy)";
+        if (!monthKey || monthKey === "all") return currentAppLang === "ru" ? "Все периоды (Общий)" : "Barcha davrlar (Umumiy)";
         const parts = monthKey.split("-");
         if (parts.length < 2) return monthKey;
         const year = parts[0];
         const monthStr = parts[1];
-        const monthsMap = {
+        const monthsMapUz = {
             "01": "Yanvar", "02": "Fevral", "03": "Mart", "04": "Aprel",
             "05": "May", "06": "Iyun", "07": "Iyul", "08": "Avgust",
             "09": "Sentabr", "10": "Oktabr", "11": "Noyabr", "12": "Dekabr"
         };
-        const mName = monthsMap[monthStr] || monthStr;
-        return `${year}-yil ${mName}`;
+        const monthsMapRu = {
+            "01": "Январь", "02": "Февраль", "03": "Март", "04": "Апрель",
+            "05": "Май", "06": "Июнь", "07": "Июль", "08": "Август",
+            "09": "Сентябрь", "10": "Октябрь", "11": "Ноябрь", "12": "Декабрь"
+        };
+        const mName = (currentAppLang === "ru" ? monthsMapRu[monthStr] : monthsMapUz[monthStr]) || monthStr;
+        return currentAppLang === "ru" ? `${mName} ${year} года` : `${year}-yil ${mName}`;
     }
 
     function initReportControls() {

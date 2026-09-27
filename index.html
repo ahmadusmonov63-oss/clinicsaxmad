@@ -130,18 +130,24 @@
                 </div>
 
                 <div class="header-right">
+                    <!-- Tilni tanlash (UZ / RU) -->
+                    <div class="lang-switch-group" id="langSwitchGroup">
+                        <button type="button" class="btn-lang active" data-lang="uz" id="btnLangUz">🇺🇿 O'zbekcha</button>
+                        <button type="button" class="btn-lang" data-lang="ru" id="btnLangRu">🇷🇺 Русский</button>
+                    </div>
+
                     <!-- 24/7 Rejim Belgisi -->
                     <div class="header-247-badge" title="Klinika 24/7 tun-u kun uzluksiz ishlaydi">
                         <span class="pulse-indicator-dot"></span>
                         <div class="badge-247-text">
                             <strong>24/7</strong>
-                            <small>Tun-u kun ochiq</small>
+                            <small id="badgeShiftText">Tun-u kun ochiq</small>
                         </div>
                     </div>
 
                     <button class="btn-primary" id="btnOpenAddPatientModal">
                         <i class="fa-solid fa-plus"></i>
-                        <span>Yangi Bemor Qo'shish</span>
+                        <span id="btnAddPatientText">Yangi Bemor Qo'shish</span>
                     </button>
 
                     <div class="user-pill">
@@ -149,7 +155,7 @@
                             alt="Avatar">
                         <div class="user-pill-text">
                             <span class="user-pill-name" id="topHeaderUser">ahmad</span>
-                            <span class="user-pill-role">Boshqaruvchi</span>
+                            <span class="user-pill-role" id="topHeaderRole">Boshqaruvchi</span>
                         </div>
                     </div>
                 </div>
@@ -1003,6 +1009,7 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- Scripts -->
+    <script src="js/translations.js"></script>
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
 
