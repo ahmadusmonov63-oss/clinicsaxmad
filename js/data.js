@@ -528,6 +528,10 @@ function getPatientsFromStorage() {
     }
     try {
         let list = JSON.parse(data);
+        if (!Array.isArray(list) || list.length === 0) {
+            localStorage.setItem(STORAGE_KEY_PATIENTS, JSON.stringify(initialPatients));
+            return [...initialPatients];
+        }
         // Oylik tahlil va solishtirish to'liq ishlashi uchun, agar bazada faqat 1 oy ma'lumotlari bo'lsa,
         // avvalgi oylar namunaviy arxiv ma'lumotlarini qo'shib beramiz (foydalanuvchi yangi qo'shganlari saqlanadi)
         const hasAugust = list.some(p => (p.appointmentDate || p.createdAt || "").includes("2026-08"));
@@ -561,7 +565,12 @@ function getServicesFromStorage() {
         return [...defaultServices];
     }
     try {
-        return JSON.parse(data);
+        const list = JSON.parse(data);
+        if (!Array.isArray(list) || list.length === 0) {
+            localStorage.setItem(STORAGE_KEY_SERVICES, JSON.stringify(defaultServices));
+            return [...defaultServices];
+        }
+        return list;
     } catch (e) {
         return [...defaultServices];
     }
@@ -583,7 +592,12 @@ function getDoctorsFromStorage() {
         return [...defaultDoctors];
     }
     try {
-        return JSON.parse(data);
+        const list = JSON.parse(data);
+        if (!Array.isArray(list) || list.length === 0) {
+            localStorage.setItem(STORAGE_KEY_DOCTORS, JSON.stringify(defaultDoctors));
+            return [...defaultDoctors];
+        }
+        return list;
     } catch (e) {
         return [...defaultDoctors];
     }

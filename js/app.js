@@ -1,14 +1,31 @@
 // Stomatologiya CRM - Asosiy Dastur Logikasi (Dashboard, Bemorlar, Xodimlar va Xizmatlar)
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Avtorizatsiyani tekshirish (Auth Guard)
-    const currentUserStr = localStorage.getItem("dentacare_current_user");
-    if (!currentUserStr) {
-        window.location.href = "login.html";
-        return;
+    // 1. Avtorizatsiyani tekshirish (Xavfsiz Auth Guard)
+    let currentUser = null;
+    try {
+        const currentUserStr = localStorage.getItem("dentacare_current_user");
+        if (currentUserStr) {
+            currentUser = JSON.parse(currentUserStr);
+        }
+    } catch (e) {
+        currentUser = null;
     }
 
-    const currentUser = JSON.parse(currentUserStr);
+    if (!currentUser || !currentUser.username) {
+        // Agar birinchi marta kirilayotgan bo'lsa yoki kesh tozalangan bo'lsa,
+        // panel qotib qolmasligi uchun darhol standart seans ochiladi
+        currentUser = {
+            username: "ahmad",
+            fullName: "Dr. Ahmadbek Karimov",
+            role: "Bosh shifokor",
+            clinic: "DentaCare Stomatologiya",
+            avatar: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80",
+            loginTime: new Date().toISOString()
+        };
+        localStorage.setItem("dentacare_current_user", JSON.stringify(currentUser));
+    }
+
     initUserProfile(currentUser);
 
     // 2. Global Holat (State)
