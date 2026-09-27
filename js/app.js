@@ -26,12 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("dentacare_current_user", JSON.stringify(currentUser));
     }
 
-    initUserProfile(currentUser);
+    const DEFAULT_DOCTOR_AVATAR = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80";
 
     // 2. Global Holat (State)
     let patients = getPatientsFromStorage();
     let services = getServicesFromStorage();
     let doctors = getDoctorsFromStorage();
+
+    initUserProfile(currentUser);
 
     let currentFilterStatus = "all";
     let searchQuery = "";
@@ -143,6 +145,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (topHeaderRole) topHeaderRole.textContent = t("roleAdmin");
         const sidebarRoleBadge = document.getElementById("sidebarRoleBadge");
         if (sidebarRoleBadge) sidebarRoleBadge.textContent = t("sidebarRoleHeadDoctor");
+        const sidebarProfileCard = document.getElementById("sidebarProfileCard");
+        const topHeaderUserPill = document.getElementById("topHeaderUserPill");
+        const editTip = t("chiefDoctorEditTooltip");
+        if (sidebarProfileCard) sidebarProfileCard.title = editTip;
+        if (topHeaderUserPill) topHeaderUserPill.title = editTip;
 
         // Stats Cards labels
         const statCards = document.querySelectorAll(".stat-card");
@@ -554,10 +561,28 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================================
     function initUserProfile(user) {
         const topHeaderUser = document.getElementById("topHeaderUser");
+        const topHeaderAvatar = document.getElementById("topHeaderAvatar");
         const sidebarDoctorName = document.getElementById("sidebarDoctorName");
+        const sidebarDoctorAvatar = document.getElementById("sidebarDoctorAvatar");
+        const sidebarProfileCard = document.getElementById("sidebarProfileCard");
+        const topHeaderUserPill = document.getElementById("topHeaderUserPill");
 
-        if (topHeaderUser) topHeaderUser.textContent = user.fullName || user.username;
-        if (sidebarDoctorName) sidebarDoctorName.textContent = user.fullName || "Dr. Ahmadbek";
+        // Bosh shifokorni shifokorlar ro'yxatidan qidirish (DOC-1 yoki ro'yxatdagi birinchi shifokor)
+        const chiefDoc = (typeof doctors !== "undefined" && Array.isArray(doctors) && doctors.length > 0)
+            ? (doctors.find(d => d.id === "DOC-1") || doctors[0])
+            : null;
+
+        const displayName = (chiefDoc && chiefDoc.name) ? chiefDoc.name : (user && user.fullName ? user.fullName : (user && user.username ? user.username : "Dr. Ahmadbek Karimov"));
+        const displayAvatar = (chiefDoc && chiefDoc.avatar) ? chiefDoc.avatar : (user && user.avatar ? user.avatar : DEFAULT_DOCTOR_AVATAR);
+
+        if (topHeaderUser) topHeaderUser.textContent = displayName;
+        if (topHeaderAvatar) topHeaderAvatar.src = displayAvatar;
+        if (sidebarDoctorName) sidebarDoctorName.textContent = displayName;
+        if (sidebarDoctorAvatar) sidebarDoctorAvatar.src = displayAvatar;
+
+        const editTip = (typeof t === "function") ? t("chiefDoctorEditTooltip") : "Bosh shifokor profilini tahrirlash (bosing)";
+        if (sidebarProfileCard) sidebarProfileCard.title = editTip;
+        if (topHeaderUserPill) topHeaderUserPill.title = editTip;
     }
 
     // ==========================================================
@@ -1712,8 +1737,6 @@ ${patient.prescription || "На данный момент лекарств не 
     // ==========================================================
     // YANGI ISHCHI / SHIFOKOR QO'SHISH & BOSHQARISH (O'Z RASMINI YUKLASH BILAN)
     // ==========================================================
-    const DEFAULT_DOCTOR_AVATAR = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80";
-
     const doctorEditId = document.getElementById("doctorEditId");
     const doctorModalHeading = document.getElementById("doctorModalHeading");
     const btnSaveDoctorText = document.getElementById("btnSaveDoctorText");
@@ -1883,6 +1906,28 @@ ${patient.prescription || "На данный момент лекарств не 
     if (btnCloseDoctorModal) btnCloseDoctorModal.addEventListener("click", closeDoctorModal);
     if (btnCancelDoctor) btnCancelDoctor.addEventListener("click", closeDoctorModal);
 
+    // Bosh shifokorni to'g'ridan-to'g'ri profil orqali tahrirlash (Sidebar & Top Header)
+    function openChiefDoctorEdit() {
+        const chiefDoc = (Array.isArray(doctors) && doctors.length > 0)
+            ? (doctors.find(d => d.id === "DOC-1") || doctors[0])
+            : null;
+        if (chiefDoc) {
+            openEditDoctorModal(chiefDoc.id);
+        } else {
+            if (btnOpenAddDoctorModal) btnOpenAddDoctorModal.click();
+        }
+    }
+
+    const sidebarProfileCard = document.getElementById("sidebarProfileCard");
+    const topHeaderUserPill = document.getElementById("topHeaderUserPill");
+
+    if (sidebarProfileCard) {
+        sidebarProfileCard.addEventListener("click", openChiefDoctorEdit);
+    }
+    if (topHeaderUserPill) {
+        topHeaderUserPill.addEventListener("click", openChiefDoctorEdit);
+    }
+
     // Form topshirilganda (Qo'shish yoki Tahrirlash)
     if (doctorForm) {
         doctorForm.addEventListener("submit", (e) => {
@@ -1919,7 +1964,22 @@ ${patient.prescription || "На данный момент лекарств не 
                         renderPatientsTable();
                     }
 
-                    showToast(t("toastDoctorUpdated", name), "success");
+                    // Agar tahrirlanayotgan shifokor Bosh shifokor bo'lsa (DOC-1 yoki ro'yxatning birinchisi)
+                    const isChief = (editId === "DOC-1") || (docIndex === 0) || specialty.toLowerCase().includes("bosh");
+                    if (isChief) {
+                        if (currentUser) {
+                            currentUser.fullName = name;
+                            currentUser.avatar = avatar;
+                            currentUser.role = specialty;
+                            try {
+                                localStorage.setItem("dentacare_current_user", JSON.stringify(currentUser));
+                            } catch (e) {}
+                        }
+                        initUserProfile(currentUser);
+                        showToast(t("toastChiefDoctorUpdated", name), "success");
+                    } else {
+                        showToast(t("toastDoctorUpdated", name), "success");
+                    }
                 }
             } else {
                 // Yangi shifokor qo'shish

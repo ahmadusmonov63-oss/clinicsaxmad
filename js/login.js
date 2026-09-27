@@ -75,12 +75,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 loginBtn.disabled = true;
                 loginBtn.textContent = texts[currentLang].submitting;
 
+                // Mavjud bosh shifokor ma'lumotlarini tekshirish
+                let chiefFullName = "Dr. Ahmadbek Karimov";
+                let chiefAvatar = "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80";
+                try {
+                    const doctorsData = localStorage.getItem("dentacare_doctors_data");
+                    if (doctorsData) {
+                        const parsedDocs = JSON.parse(doctorsData);
+                        if (Array.isArray(parsedDocs) && parsedDocs.length > 0) {
+                            const chief = parsedDocs.find(d => d.id === "DOC-1") || parsedDocs[0];
+                            if (chief && chief.name) chiefFullName = chief.name;
+                            if (chief && chief.avatar) chiefAvatar = chief.avatar;
+                        }
+                    }
+                } catch (e) {}
+
                 const userData = {
                     username: "ahmad",
-                    fullName: "Dr. Ahmadbek Karimov",
+                    fullName: chiefFullName,
                     role: "Bosh shifokor",
                     clinic: "DentaCare Stomatologiya",
-                    avatar: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80",
+                    avatar: chiefAvatar,
                     loginTime: new Date().toISOString()
                 };
 

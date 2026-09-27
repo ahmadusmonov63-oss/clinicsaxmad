@@ -282,6 +282,8 @@ const translations = {
         btnSaveDoctorEdit: "O'zgarishlarni Saqlash",
         toastPhotoUploaded: "Rasm muvaffaqiyatli yuklandi!",
         toastDoctorUpdated: (name) => `Xodim ("${name}") ma'lumotlari yangilandi!`,
+        toastChiefDoctorUpdated: (name) => `Bosh shifokor ("${name}") ma'lumotlari muvaffaqiyatli saqlandi!`,
+        chiefDoctorEditTooltip: "Bosh shifokor profilini tahrirlash (bosing)",
 
         // Toasts & Alerts
         toastSaved: "Bemor ma'lumotlari saqlandi!",
@@ -585,6 +587,8 @@ const translations = {
         btnSaveDoctorEdit: "Сохранить изменения",
         toastPhotoUploaded: "Фотография успешно загружена!",
         toastDoctorUpdated: (name) => `Данные сотрудника ("${name}") обновлены!`,
+        toastChiefDoctorUpdated: (name) => `Данные главного врача ("${name}") успешно сохранены!`,
+        chiefDoctorEditTooltip: "Редактировать профиль главного врача (нажмите)",
 
         // Toasts & Alerts
         toastSaved: "Данные пациента сохранены!",

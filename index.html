@@ -35,12 +35,15 @@
             </div>
 
             <!-- Doctor Profile Card in Sidebar -->
-            <div class="sidebar-profile">
+            <div class="sidebar-profile" id="sidebarProfileCard" title="Bosh shifokor profilini tahrirlash (bosing)" style="cursor: pointer;">
                 <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"
-                    alt="Doctor" class="profile-avatar">
+                    alt="Doctor" class="profile-avatar" id="sidebarDoctorAvatar">
                 <div class="profile-info">
                     <h4 id="sidebarDoctorName">Dr. Ahmadbek</h4>
                     <span class="role-badge" id="sidebarRoleBadge">Bosh shifokor</span>
+                </div>
+                <div class="sidebar-profile-edit-hint" style="margin-left: auto; color: #94a3b8; font-size: 13px; opacity: 0.7;" title="Tahrirlash">
+                    <i class="fa-solid fa-pen-to-square"></i>
                 </div>
             </div>
 
@@ -150,9 +153,9 @@
                         <span id="btnAddPatientText">Yangi Bemor Qo'shish</span>
                     </button>
 
-                    <div class="user-pill">
+                    <div class="user-pill" id="topHeaderUserPill" title="Bosh shifokor profilini tahrirlash (bosing)" style="cursor: pointer;">
                         <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"
-                            alt="Avatar">
+                            alt="Avatar" id="topHeaderAvatar">
                         <div class="user-pill-text">
                             <span class="user-pill-name" id="topHeaderUser">ahmad</span>
                             <span class="user-pill-role" id="topHeaderRole">Boshqaruvchi</span>
@@ -1017,10 +1020,10 @@
     <!-- Toast Notification Container -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Scripts (Cache-Buster v3.0) -->
-    <script src="js/translations.js?v=3.0"></script>
-    <script src="js/data.js?v=3.0"></script>
-    <script src="js/app.js?v=3.0"></script>
+    <!-- Scripts (Cache-Buster v3.1) -->
+    <script src="js/translations.js?v=3.1"></script>
+    <script src="js/data.js?v=3.1"></script>
+    <script src="js/app.js?v=3.1"></script>
 
    <!-- FIREBASE REAL-TIME BULUTLI BAZA -->
 <script type="module">
